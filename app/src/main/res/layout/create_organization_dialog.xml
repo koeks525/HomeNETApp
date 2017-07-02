@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="@string/organization_name_string">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            style="@style/TextViewStyle"
+            android:id = "@+id/CreateOrganizationNameEditText"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/organization_description_string">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id = "@+id/CreateOrganizationDescriptionEditText"
+            android:lines="1"
+            android:layout_margin="5dp"
+            style="@style/TextViewStyle"/>
+        </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select Location">
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:weightSum="100">
+            <android.support.design.widget.TextInputLayout
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_width="0dp"
+                android:hint = "@string/select_photo_string"
+                style="@style/TextViewStyle">
+                <EditText
+                    style="@style/TextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/CreateOrganizationPhotoEditText"/>
+            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="40"
+                android:layout_height="wrap_content"
+                android:id = "@+id/CreateOrganizationPhotoButton"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/select_photo_string"
+                android:background="@color/colorPrimary"
+                android:layout_margin="5dp"
+
+                android:textColor="@android:color/white"/>
+        </TableRow>
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/select_category_string"
+            android:id = "@+id/CreateOrganizationCategorySpinner"/>
+    </android.support.design.widget.TextInputLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="100">
+        <com.google.android.gms.maps.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/CreateOrganizationMapView">
+        </com.google.android.gms.maps.MapView>
+    </FrameLayout>
+
+
+</LinearLayout>

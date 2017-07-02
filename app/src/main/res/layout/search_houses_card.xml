@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:id="@+id/SearchHouseCard"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="5dp"
+    android:clickable="true"
+
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id = "@+id/SearchHouseImageView"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_alignParentStart="true"
+            app:layout_widthPercent="25%"/>
+        <TextView
+            android:id = "@+id/SearchHousesTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/SearchHouseImageView"
+            android:textSize= "16sp"
+            android:text="@string/sample_post_title_string"
+            android:maxLength="20"
+            />
+        <ImageView
+            android:id = "@+id/SearchHouseOptionImageView"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:tint="@android:color/darker_gray"/>
+
+        <TextView
+            android:id = "@+id/SearchHouseDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/SearchHouseImageView"
+            android:layout_below="@id/SearchHousesTitleTextView"/>
+
+    </android.support.percent.PercentRelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.GettingStartedFinalFragment"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:weightSum="100">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        style="@style/TextViewStyle"
+        android:text="@string/continue_to_app"
+        android:textAlignment="center"
+        android:layout_margin="5dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:src="@drawable/next"
+        android:adjustViewBounds="true"
+        android:scaleType="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@android:color/white"
+        style="@style/TextViewStyle"
+        android:text="@string/continue_to_homenet_string"
+        android:textSize="18sp"
+        android:textAlignment="center"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id = "@+id/ContinueToHomeNetButton"
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/continue_string"
+        android:fontFamily="sans-serif-light"/>
+
+
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id = "@+id/JoinHouseOption"
+    android:title="@string/join_house_string"
+    />
+    <item
+        android:id = "@+id/MoreInformationOption"
+        android:title="@string/more_information_string"/>
+</menu>

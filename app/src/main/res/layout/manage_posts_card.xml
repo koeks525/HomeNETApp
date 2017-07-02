@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/HouseManagerManagePostsCardView"
+    app:cardElevation="5dp"
+    android:maxHeight="120dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardUseCompatPadding="true">
+<android.support.percent.PercentRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id = "@+id/HouseManagerPostImageView"
+        android:layout_width="0dp"
+        android:layout_margin="5dp"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="30%"
+        />
+    <TextView
+        android:id = "@+id/HouseManagePostTitleTextView"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/HouseManagerPostImageView"
+        android:text="@string/sample_post_title_string"
+        android:layout_margin="5dp"/>
+    <ImageView
+        android:id = "@+id/HouseManagerFlaggedPostOptionImageView"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/secondaryText"
+        android:clickable="true"
+        android:layout_margin="5dp"
+        android:foreground="?android:attr/selectableItemBackground"/>
+
+    <TextView
+        android:id = "@+id/HouseManagerFlaggedPostDescriptionTextView"
+        android:text="@string/sample_flagged_post_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HouseManagePostTitleTextView"
+        android:layout_toEndOf="@id/HouseManagerPostImageView"
+        android:textAlignment="textStart"
+        android:layout_margin="5dp"
+        android:maxLines="5"/>
+</android.support.percent.PercentRelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id = "@+id/FlagPostOption"
+    android:title="@string/flag_post_string"/>
+    <item
+        android:id = "@+id/ViewUserProfileOption"
+        android:title="@string/view_profile_string"/>
+    <item
+        android:id = "@+id/ViewHouseProfileOption"
+        android:title="@string/view_house_profile_string"/>
+
+</menu>

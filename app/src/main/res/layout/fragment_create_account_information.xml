@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.CreateAccountInformationFragment"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:cardCornerRadius="5dp"
+        card_view:contentPadding="5dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="100">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/why_use_homenet"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text="@string/bullet_one_string" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text="@string/bullet_two_string" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text="@string/bullet_three_string" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text="@string/bullet_four_string" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/homenet_features"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/create_house"/>
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/add_members"
+                />
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/calls_string"
+                />
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/voice_calls"
+                />
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/social_media_signup"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/facebook_string"
+                />
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_check_circle_black_18dp"
+                android:text = "@string/twitter_string"
+                />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

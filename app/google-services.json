@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "339296823283",
+    "firebase_url": "https://homenet-1495510199808.firebaseio.com",
+    "project_id": "homenet-1495510199808",
+    "storage_bucket": "homenet-1495510199808.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339296823283:android:b9d75930d61dceea",
+        "android_client_info": {
+          "package_name": "com.koeksworld.homenet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339296823283-lgld8cb29a276uf8g0a49uu5noo1kjdh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.koeksworld.homenet",
+            "certificate_hash": "94ed1212022311d851504592b1f93553fa7968d8"
+          }
+        },
+        {
+          "client_id": "339296823283-kb4tdi7400tndoivrj6kimq89jbue0rl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBQ8F-J-mAN2CU2irCE4qMet_rUKQAxlU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339296823283-kb4tdi7400tndoivrj6kimq89jbue0rl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+<PreferenceCategory
+    android:title="@string/user_settings_string"
+    >
+    <CheckBoxPreference
+        android:title="@string/remember_Credentials_string"
+        android:text= "@string/remember_credentials_description_string"
+        android:checked="true"/>
+</PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/audio_settings">
+        <ListPreference
+            android:id = "@+id/TonePreference"
+            android:entryValues="@array/tones_string"
+            android:entries="@array/tones_string"
+            android:title="@string/select_tone_string"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/social_media_string"
+        >
+        <CheckBoxPreference
+            android:id = "@+id/FacebookPostOption"
+            android:title="@string/post_facebook_string"
+            android:checked="false"/>
+        <CheckBoxPreference
+            android:id = "@+id/TwitterPostOption"
+            android:title="@string/post_twitter_string"
+            android:checked="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/account_settings"
+        >
+        <Preference
+            android:id="@+id/DeleteAccountOption"
+            android:title="@string/delete_Account_option"/>
+        <Preference
+            android:id="@+id/DeactivateAccountOption"
+            android:title="@string/deactivate_Account_option"/>
+        <Preference
+            android:id="@+id/LogoutAccountOption"
+            android:title="@string/logout_option"/>
+</PreferenceCategory>
+</PreferenceScreen>

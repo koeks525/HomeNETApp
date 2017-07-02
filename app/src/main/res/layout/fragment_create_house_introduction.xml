@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.CreateHouseIntroductionFragment"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:weightSum="100">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/create_house_string"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:layout_margin="5dp"
+        android:textColor="@android:color/white"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:layout_margin="5dp"
+        android:scaleType="center"
+        android:src="@drawable/homenet_house"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        style="@style/TextViewStyle"
+        android:textColor="@android:color/white"
+        android:text="@string/create_house_intro_string"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:text="@string/get_started_string"
+        android:background="@color/colorPrimaryDark"
+        android:padding="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:id = "@+id/CreateHouseIntroButton"/>
+</LinearLayout>

@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.CreateOrganizationIntroductionFragment"
+    android:orientation="vertical"
+    android:weightSum="100"
+    android:background="@color/colorPrimary">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle"
+        android:textColor="@android:color/white"
+        android:textSize="60sp"
+        android:layout_margin="5dp"
+        android:text="@string/create_organization_string"
+        android:textAlignment="center"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:adjustViewBounds="true"
+        android:src="@drawable/business_network"
+        android:scaleType="fitCenter"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        style="@style/TextViewStyle"
+        android:layout_margin="5dp"
+        android:textColor="@android:color/white"
+        android:text = "@string/create_organization_intro"
+        android:textSize="26sp"/>
+
+    <Button
+        android:id = "@+id/CreateOrganizationIntroductionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:text="@string/get_started_string"
+        android:padding="15sp"/>
+
+
+</LinearLayout>

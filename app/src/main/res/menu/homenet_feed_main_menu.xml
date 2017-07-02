@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id = "@+id/ViewProfileOption"
+    android:title="@string/view_profile_string"
+    android:icon="@drawable/ic_person_black_24dp"
+    />
+    <item
+        android:id = "@+id/EditProfileOption"
+        android:title="@string/edit_profile_string"
+        android:icon="@drawable/ic_mode_edit_black_24dp"/>
+    <item
+        android:id = "@+id/SearchOption"
+        android:title="@string/search_string"
+        android:icon="@drawable/ic_search_black_24dp"/>
+
+    <item
+        android:id = "@+id/HomeManager"
+        android:title="@string/home_manager_string"
+        android:icon ="@drawable/ic_home_black_24dp"/>
+    <item
+        android:id = "@+id/AnnouncementsOption"
+        android:title="@string/announcements_string"
+        android:icon="@drawable/ic_announcement_black_24dp"/>
+
+    <item
+        android:id = "@+id/SettingsOption"
+        android:title="@string/settings_string"
+        android:icon="@drawable/screwdriver"/>
+</menu>

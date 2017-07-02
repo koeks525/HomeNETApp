@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <android.support.design.widget.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:hint="@string/search_houses_string">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id = "@+id/SearchHousesEditText"
+                style="@style/TextViewStyle"
+                android:drawableEnd="@drawable/ic_mic_black_24dp"
+                android:drawablePadding="5dp"
+                />
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content"
+            android:id = "@+id/SearchHousesButton"
+            android:fontFamily="sans-serif-light"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/search_string"
+            android:layout_margin="5dp"/>
+    </TableRow>
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="100"
+    android:id = "@+id/SearchHousesRecyclerView" >
+</android.support.v7.widget.RecyclerView>
+</LinearLayout>

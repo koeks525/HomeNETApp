@@ -1,0 +1,229 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="Fragments.HomeNetProfileFragment"
+    android:fitsSystemWindows="true">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:id = "@+id/UserProfileAppBarLayout"
+        style="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@android:color/transparent"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:id = "@+id/ProfileCollapsiingToolbarLayout">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:scaleType="fitCenter"
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:id = "@+id/ProfileImageView"/>
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:id = "@+id/ProfileToolbar"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/ProfileEditFloatingActionButton"
+        android:layout_margin="5dp"
+        android:src= "@drawable/ic_edit_white_24dp"
+        app:layout_anchor = "@id/UserProfileAppBarLayout"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat ="@android:drawable/ic_dialog_info"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/ProfileNestedScrollView"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true"
+                android:id = "@+id/ProfileCardView">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:id = "@+id/ProfileRelativeLayout">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:id = "@+id/ProfileUserInformationHeading"
+                        android:text="@string/user_information_string"
+                        android:fontFamily="sans-serif-light"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:id = "@+id/ProfileInformationLine"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/ProfileUserInformationHeading"/>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/NameTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/ProfileInformationLine">
+                        <TextView
+                            android:id = "@+id/NameLabel"
+                            android:text="@string/name_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/NameDataField"
+                            android:text="@string/name_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/SurnameTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/NameTableLayout">
+                        <TextView
+                            android:id = "@+id/SurnameLabel"
+                            android:text="@string/surname_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/SurnameDataField"
+                            android:text="@string/surname_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/EmailAddressTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/SurnameTableLayout">
+                        <TextView
+                            android:id = "@+id/EmailAddressLabel"
+                            android:text="@string/email_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/EmailAddressDataField"
+                            android:text="@string/email_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/CountryTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/EmailAddressTableLayout">
+                        <TextView
+                            android:id = "@+id/CountryLabel"
+                            android:text="@string/country_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/CountryDataField"
+                            android:text="@string/country_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/DateOfBirthTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/CountryTableLayout">
+                        <TextView
+                            android:id = "@+id/DateOfBirthLabel"
+                            android:text="@string/date_of_birth_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/DateOfBirthDataField"
+                            android:text="@string/date_of_birth_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/DateRegisteredTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/DateOfBirthTableLayout">
+                        <TextView
+                            android:id = "@+id/DateRegisteredLabel"
+                            android:text="@string/date_registered_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/DateRegisteredDataField"
+                            android:text="@string/date_registered_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+
+                    </TableRow>
+                    <TableRow
+                        android:layout_margin="5dp"
+                        android:id = "@+id/TotalHousesTableLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/DateRegisteredTableLayout">
+                        <TextView
+                            android:id = "@+id/TotalHousesLabel"
+                            android:text="@string/total_houses_string"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id = "@+id/TotalHousesDataField"
+                            android:text="0"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:id = "@+id/UserOverviewChart"
+                        android:layout_below="@id/TotalHousesTableLayout"></com.github.mikephil.charting.charts.BarChart>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

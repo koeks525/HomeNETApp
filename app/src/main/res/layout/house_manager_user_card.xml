@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/HouseManagerUserCardView"
+    app:cardUseCompatPadding="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:minHeight="50dp"
+    app:cardCornerRadius="2dp">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id = "@+id/HouseManagerUserProfilePhoto"
+            android:layout_alignParentStart="true"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            app:layout_widthPercent="30%"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            />
+        <TextView
+            android:id = "@+id/HouseManagerUserNameSurnameTextView"
+            android:fontFamily="sans-serif-light"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:text="@string/sample_name_string"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@id/HouseManagerUserProfilePhoto"
+            android:textSize="18sp"
+            android:layout_marginStart="5sp"
+            />
+        <ImageView
+            android:id = "@+id/HouseManagerOverflowButton"
+            android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+
+            android:layout_alignEnd="@id/HouseManagerUserNameSurnameTextView"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:tint="@color/secondaryText"
+            android:background="?android:attr/selectableItemBackground"
+            />
+        <TextView
+            android:id = "@+id/HouseManagerEmailTextView"
+            android:layout_below="@id/HouseManagerUserNameSurnameTextView"
+            android:text="@string/sample_email_string"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/HouseManagerUserProfilePhoto"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="5sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-light"/>
+        <TextView
+            android:id = "@+id/HouseManagerCountryTextView"
+            android:layout_below="@id/HouseManagerEmailTextView"
+            android:text="@string/sample_country_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/HouseManagerUserProfilePhoto"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="5sp"
+            android:fontFamily="sans-serif-light"/>
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.v7.widget.CardView>
