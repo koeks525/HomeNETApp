@@ -119,7 +119,7 @@ public class CreateHouseTask extends AsyncTask<Integer, Integer, Integer> {
             displayMessage("Error Creating House", "House could not be created \n" + errorInformation, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0);
+                    //System.exit(0);
                 }
             });
         }

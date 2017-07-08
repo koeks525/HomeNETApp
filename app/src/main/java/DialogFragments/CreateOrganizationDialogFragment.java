@@ -4,14 +4,12 @@ import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -24,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Communication.HomeNetService;
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.Category;
 import ResponseModels.ListResponse;
 import Utilities.DeviceUtils;
@@ -49,7 +47,7 @@ public class CreateOrganizationDialogFragment extends DialogFragment implements 
     private MapView locationMapView;
     private DeviceUtils deviceUtils;
     private MaterialSpinner categorySpinner;
-    private DatabaseHelper dbHelper;
+    private RealmHelper dbHelper;
     private List<Category> categoryList;
     private View dialogView;
 
@@ -146,7 +144,7 @@ public class CreateOrganizationDialogFragment extends DialogFragment implements 
                 if (response.code() == 200) {
                     categoryListResponse = response.body();
                     categoryList.addAll(categoryListResponse.getModel());
-                    dbHelper.insertCategories(categoryList);
+                    dbHelper.addCategories(categoryList);
                     List<String> categoryStringList = new ArrayList<String>();
                     for (Category category : categoryList) {
                         categoryStringList.add(category.getName());

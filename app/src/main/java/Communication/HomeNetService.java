@@ -5,9 +5,11 @@ import java.util.List;
 
 import Models.Category;
 import Models.Country;
+import Models.HomeData;
 import Models.House;
 import Models.HouseMember;
 import Models.HousePost;
+import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.Key;
 import Models.LoginViewModel;
@@ -15,6 +17,7 @@ import Models.Organization;
 import Models.SearchViewModel;
 import Models.Token;
 import Models.User;
+import Models.UserData;
 import ResponseModels.ListResponse;
 import ResponseModels.SingleResponse;
 import okhttp3.MultipartBody;
@@ -60,8 +63,8 @@ public interface HomeNetService {
     Call<ListResponse<HousePost>> getUserPosts(@Header("Authorization") String authCode, @Query("userID") int userID, @Query("clientCode") String clientCode);
     @GET("Organization/GetUserOrganizations")
     Call<ListResponse<Organization>> getUserOrganizations(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
-    @GET("HousePost/GetHousePosts")
-    Call<ListResponse<HousePost>> getHousePosts(@Header("Authorization") String authCode, @Query("houseId") int houseID, @Query("clientCode") String clientCode);
+    @GET("User/GetHousePosts")
+    Call<ListResponse<HousePost>> getHousePosts(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
     @POST("User/RegisterFirebaseToken")
     Call<SingleResponse<String>> registerFirebaseToken(@Header("Authorization") String authCode, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetActiveHouseMembers")
@@ -83,5 +86,18 @@ public interface HomeNetService {
     @GET("HousePostMetaData/GetPostData")
     Call<SingleResponse<HousePostMetaDataViewModel>> getHousePostMetaData(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @POST("HousePostMetaData/RegisterLike")
-    Call<SingleResponse<HousePostMetaData>> registerLike(@Header("Authorization") String authCode);
+    Call<SingleResponse<HousePostMetaData>> registerLike(@Header("Authorization") String authCode, @Body String emailAddress,@Query("clientCode") String clientCode );
+    @POST("HousePostMetaData/RegisterDislike")
+    Call<SingleResponse<HousePostMetaData>> registerDislike(@Header("Authorization") String authCode, @Body String emailAddress, @Query("clientCode") String clientCode);
+    @GET("Report/GetHouseOverviewReport")
+    Call<SingleResponse<HomeData>> getHouseOverviewReport(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @GET("Report/GetUserOverviewReport")
+    Call<SingleResponse<UserData>> getUserOverviewReport(@Header("Authorization") String authCode, @Part("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @GET("HouseMember/GetHouseMember")
+    Call<SingleResponse<HouseMember>> getHouseMember(@Header("Authorization") String authCode, @Query("houseMemberID") int houseMemberID, @Query("clientCode") String clientCode);
+    @GET("User/GetUserMemberships")
+    Call<ListResponse<HouseMember>> getUserMemberships(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @Multipart
+    @POST("HousePost/AddHousePost")
+    Call<SingleResponse<HousePost>> addHousePost(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Part("emailAddress") RequestBody emailAddress, @Part("postText") RequestBody postText, @Part("location") RequestBody location, @Query("clientCode") String clientCode, @Part MultipartBody.Part file );
 }

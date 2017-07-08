@@ -2,33 +2,27 @@ package Fragments;
 
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.koeksworld.homenet.R;
 import com.koeksworld.homenet.WelcomeActivity;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
 
 import org.json.JSONObject;
 
@@ -41,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Communication.HomeNetService;
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.Country;
 import Models.LoginViewModel;
 import Models.Token;
@@ -72,7 +66,7 @@ public class CreateAccountFragment extends Fragment implements View.OnClickListe
     private HomeNetService service;
     private int executionCount = 0;
     private SharedPreferences sharedPreferences;
-    private DatabaseHelper databaseHelper;
+    private RealmHelper databaseHelper;
     private DeviceUtils deviceUtils;
     private SharedPreferences.Editor editor;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
@@ -91,7 +85,7 @@ public class CreateAccountFragment extends Fragment implements View.OnClickListe
     }
 
     private void initializeComponents(View currentView) {
-        databaseHelper = new DatabaseHelper(this.getActivity());
+        databaseHelper = new RealmHelper();
         deviceUtils = new DeviceUtils(getActivity());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = sharedPreferences.edit();
@@ -161,7 +155,7 @@ public class CreateAccountFragment extends Fragment implements View.OnClickListe
 
                 newUser.setId(0);
                 newUser.setName(nameEditText.getText().toString().trim());
-                newUser.setSurname(nameEditText.getText().toString().trim());
+                newUser.setSurname(surnameEditText.getText().toString().trim());
                 newUser.setEmail(emailEditText.getText().toString().trim());
                 newUser.setUserName(usernameEditText.getText().toString().trim());
                 newUser.setPassword(passwordEditText.getText().toString().trim());
@@ -271,7 +265,7 @@ public class CreateAccountFragment extends Fragment implements View.OnClickListe
                     if (response.code() == 200) {
                         SingleResponse<Token> tokenResponse = response.body();
                         Token resultToken = tokenResponse.getModel();
-                            editor.putString("authorization_code", resultToken.getTokenHandler());
+                            editor.putString("authorization_token", resultToken.getTokenHandler());
                             editor.putString("token_expiry", resultToken.getDateExpires());
                             editor.commit();
 

@@ -2,12 +2,16 @@ package Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Okuhle on 2017/04/17.
  */
 
-public class Category {
+public class Category extends RealmObject{
 
+    @PrimaryKey
     @SerializedName("categoryID")
     private int categoryID;
     @SerializedName("name")

@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="HomeNETStream.NewPostFragment"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/post_title_string">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/NewPostDescriptionTextView"
+            android:lines="4"
+            android:maxLines="4"/>
+    </android.support.design.widget.TextInputLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/upload_photo_string"
+            android:layout_weight="60">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/NewPostPhotoLocationEditText"/>
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id = "@+id/NewPostSelectPhotoButton"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/select_photo_string"
+            android:layout_weight="40"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            />
+    </TableRow>
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/NewPostSelectHouseSpinner"
+        android:hint="@string/select_house"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        android:id = "@+id/NewPostPhotoImageView"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/NewPostAddLocationCheckbox"
+        android:text="@string/add_location_string"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id ="@+id/NewPostToFacebookCheckbox"
+        android:text="@string/post_to_facebook_string"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/NewPostToTwitterCheckbox"
+        android:text="@string/post_to_twitter_string"/>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id = "@+id/NewPostCreatePostButton"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_all_white_24dp"
+        android:layout_gravity="bottom|end"
+        />
+
+
+</LinearLayout>

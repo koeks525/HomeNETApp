@@ -7,12 +7,16 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Okuhle on 2017/03/02.
  */
 
-public class User implements Parcelable{
+public class User extends RealmObject implements Parcelable{
 
+    @PrimaryKey
     @SerializedName("id")
     private int id;
     @SerializedName("surname")

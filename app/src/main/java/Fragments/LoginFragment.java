@@ -1,8 +1,6 @@
 package Fragments;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.koeksworld.homenet.ForgotPasswordActivity;
 import com.koeksworld.homenet.R;
 import com.koeksworld.homenet.RegistrationActivity;
@@ -31,13 +26,12 @@ import com.koeksworld.homenet.WelcomeActivity;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import Communication.HomeNetService;
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.Country;
 import Models.LoginViewModel;
 import Models.Token;
@@ -61,7 +55,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextInputLayout usernameHint,passwordHint;
     private EditText usernameEditText,passwordEditText;
     private List<Country> countryList;
-    private DatabaseHelper databaseHelper;
+    private RealmHelper databaseHelper;
     private SharedPreferences sharedPreferences;
     private DeviceUtils deviceUtils;
     private Retrofit retrofit;
@@ -136,7 +130,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getData() {
-        databaseHelper = new DatabaseHelper(getActivity());
+        databaseHelper = new RealmHelper();
         countryList = databaseHelper.getCountries();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = sharedPreferences.edit();

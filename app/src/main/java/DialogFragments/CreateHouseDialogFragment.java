@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +14,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -24,25 +21,17 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,7 +45,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -64,18 +52,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.koeksworld.homenet.HomeManagerActivity;
 import com.koeksworld.homenet.R;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileDescriptor;
-import java.io.IOError;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -83,23 +64,19 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import Communication.HomeNetService;
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.House;
 import Models.LoginViewModel;
 import Models.Token;
-import Models.User;
 import ResponseModels.SingleResponse;
 import Tasks.CreateHouseTask;
-import Utilities.ProgressRequestBody;
 import Utilities.UploadCallbacks;
-import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
-import it.sephiroth.android.library.tooltip.Tooltip;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.RequestBody;
-import okio.Timeout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -125,7 +102,7 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
     private Button createHouseButton;
     private Uri imageUri;
     private GoogleApiClient googleApiClient;
-    private DatabaseHelper dbHelper;
+    private RealmHelper dbHelper;
     private Location lastLocation;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -175,13 +152,10 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
 
     private void initializeComponents(View currentView, Bundle savedInstanceState) {
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(200, TimeUnit.SECONDS).readTimeout(200, TimeUnit.SECONDS).protocols(Arrays.asList(Protocol.HTTP_1_1)).build();
-        /*dialog = (ProgressBar) currentView.findViewById(R.id.UploadProgressBar);
-        dialog.setVisibility(View.INVISIBLE);
-        dialog.setProgress(0);
-        dialog.setMax(100);*/
         retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
-        dbHelper = new DatabaseHelper(getActivity());
         service = retrofit.create(HomeNetService.class);
+
+        dbHelper = new RealmHelper();
         houseNameEditText = (EditText) currentView.findViewById(R.id.CreateHouseHouseNameEditText);
         houseDescriptionEditText = (EditText) currentView.findViewById(R.id.CreateHouseDescriptionEditText);
         imageUrlEditText = (EditText) currentView.findViewById(R.id.CreateHouseImageLinkEditText);
@@ -289,14 +263,19 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
         messageBox.setCancelable(false);
         if (sharedPreferences.getString("authorization_token","") != "") {
             try {
+
+
+
                 File imageFile = new File(fileName);
+                File compressedFile = new Compressor(getActivity()).compressToFile(imageFile);
                 RequestBody houseNamePart = RequestBody.create(MultipartBody.FORM, newHouse.getName());
                 RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, newHouse.getDescription());
                 RequestBody locationPart = RequestBody.create(MultipartBody.FORM, newHouse.getLocation());
                 RequestBody emailAddressPart = RequestBody.create(MultipartBody.FORM, sharedPreferences.getString("emailAddress", ""));
                 //ProgressRequestBody modifiedImagePart = new ProgressRequestBody(imageFile, getActivity().getContentResolver().getType(imageUri), this);
-                RequestBody imageBodyPart = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(imageUri)), imageFile);
-                MultipartBody.Part finalImageFile = MultipartBody.Part.createFormData("imageFile", imageFile.getName(), imageBodyPart);
+
+                RequestBody imageBodyPart = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(imageUri)), compressedFile);
+                MultipartBody.Part finalImageFile = MultipartBody.Part.createFormData("imageFile", compressedFile.getName(), imageBodyPart);
                 CreateHouseTask task = new CreateHouseTask(getActivity(), finalImageFile, houseNamePart, descriptionPart, emailAddressPart, locationPart, getResources().getString(R.string.homenet_client_string));
                 task.execute();
             } catch (Exception error) {
@@ -307,7 +286,6 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
         }
 
     }
-
     private void createToken(final House newHouse) {
         final ProgressDialog tokenBar = new ProgressDialog(getActivity());
         tokenBar.setMessage("Authorizing. Please wait...");
@@ -333,7 +311,6 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
                         displayMessage("Error Creating Token", "An error occurred while generating the token");
                     }
                 }
-
                 @Override
                 public void onFailure(Call<SingleResponse<Token>> call, Throwable t) {
                     if (tokenBar.isShowing()) {

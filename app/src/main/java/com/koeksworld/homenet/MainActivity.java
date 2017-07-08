@@ -22,7 +22,7 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import java.util.ArrayList;
 import java.util.List;
 
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import DialogFragments.AboutApplicationDialog;
 import Fragments.LoginFragment;
 import Fragments.LoginInformationFragment;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private DeviceUtils deviceUtils;
     private List<Country> countryList;
     private final User partialUser = new User();
-    private DatabaseHelper databaseHelper;
+    private RealmHelper databaseHelper;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Fragment currentFragment;
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private void getData() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new RealmHelper();
         countryList = databaseHelper.getCountries();
         loadKeys();
     }

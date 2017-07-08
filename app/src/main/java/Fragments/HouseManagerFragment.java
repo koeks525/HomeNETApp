@@ -18,6 +18,7 @@ import java.util.List;
 
 import MangeHouseFragments.ActiveUsersFragment;
 import MangeHouseFragments.PendingUsersFragment;
+import Models.House;
 import Tasks.HouseManagerTask;
 import Utilities.DeviceUtils;
 
@@ -46,7 +47,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
         if (savedInstanceState == null) {
             getData();
         } else {
-            housesSpinner.setItems(savedInstanceState.getStringArrayList("items"));
+            housesSpinner.setItems(savedInstanceState.getParcelableArrayList("items"));
         }
         return currentView;
     }
@@ -77,14 +78,14 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ArrayList<String> itemsList = new ArrayList<>();
-        List<String> items = housesSpinner.getItems();
+        ArrayList<House> itemsList = new ArrayList<>();
+        List<House> items = housesSpinner.getItems();
         if (items != null) {
-            for (String item : items) {
+            for (House item : items) {
                 itemsList.add(item);
             }
         }
-            outState.putStringArrayList("items", itemsList);
+            outState.putParcelableArrayList("items", itemsList);
     }
 
     @Override
@@ -92,11 +93,15 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
         switch (view.getId()) {
             //We will not use the backstack, we will restore these when the screen is rotated.
             case R.id.ManageHomeEditHouseCardView:
+                int selectedIndex = housesSpinner.getSelectedIndex();
+                House selectedHouse = (House) housesSpinner.getItems().get(selectedIndex);
+
                 if (deviceUtils.isTablet()) {
                     if (deviceUtils.isLandscape()) {
                         FragmentTransaction manageUsersTransaction = getFragmentManager().beginTransaction();
                         Bundle bundle = new Bundle();
                         bundle.putString("mode","edit_house");
+                        bundle.putSerializable("House", selectedHouse);
                         HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
                         endFragment.setArguments(bundle);
                         manageUsersTransaction.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment, null);
@@ -105,6 +110,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         //Load this layout on a tablet on portrait, and add to the backstack
                         FragmentTransaction tabletLandTransaction = getFragmentManager().beginTransaction();
                         Bundle newBunde = new Bundle();
+                        newBunde.putSerializable("House", selectedHouse);
                         newBunde.putString("mode", "edit_house");
                         HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
                         endFragmentTwo.setArguments(newBunde);
@@ -117,6 +123,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     HouseManagerEndFragment endFragmentThree = new HouseManagerEndFragment();
                     Bundle bundleThree = new Bundle();
+                    bundleThree.putParcelable("House", selectedHouse);
                     bundleThree.putString("mode", "edit_house");
                     endFragmentThree.setArguments(bundleThree);
                     transaction.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentThree, null);
@@ -126,6 +133,8 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
 
                 break;
             case R.id.ManageHomeUsersCardView:
+
+
                 if (deviceUtils.isTablet()) {
                     if (deviceUtils.isLandscape()) {
                       //Landscape mode tablet

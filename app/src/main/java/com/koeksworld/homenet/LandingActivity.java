@@ -1,6 +1,5 @@
 package com.koeksworld.homenet;
 
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -11,15 +10,11 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import Communication.HomeNetService;
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.House;
-import Models.HousePost;
-import Models.User;
 import ResponseModels.ListResponse;
 import Utilities.DeviceUtils;
 import retrofit2.Call;
@@ -34,7 +29,7 @@ public class LandingActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private HomeNetService service;
     private DeviceUtils deviceUtils;
-    private DatabaseHelper dbHelper;
+    private RealmHelper dbHelper;
     private SharedPreferences sharedPreferences;
 
     //Landing activity must check if the user owns a house. If they do, take them to a page where they can see details to their house
@@ -49,7 +44,7 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
         deviceUtils = new DeviceUtils(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        dbHelper = new DatabaseHelper(this);
+        dbHelper = new RealmHelper();
         if (deviceUtils.checkNetworkConnection()) {
             initializeRetrofit();
 

@@ -1,26 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="HomeNETStream.FeedFragment"
-    android:orientation="vertical">
-    <android.support.v7.widget.Toolbar
+    android:orientation="vertical"
+    android:id = "@+id/HomeNetFeedView">
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:id = "@+id/FeedToolbar"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:text="@string/homenet_string"
-            />
-    </android.support.v7.widget.Toolbar>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="100"
-        android:id = "@+id/HomeNetFeedView"></FrameLayout>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:id = "@+id/HomeNetFeedRecyclerView">
+    </android.support.v7.widget.RecyclerView>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/FeedRefreshButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_refresh_white_24dp"/>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/HomeNetFeedNewPostButton"
+        android:src="@drawable/ic_add_white_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"/>
+</RelativeLayout>

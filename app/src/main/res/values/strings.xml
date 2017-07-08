@@ -148,4 +148,10 @@
     <string name="announcements_string">Announcements</string>
     <string name="flag_post_string">Flag Post</string>
     <string name="view_house_profile_string">View House Profile</string>
+    <string name="upload_photo_string">No Photo Selected</string>
+    <string name="post_title_string">Say it out loud</string>
+    <string name="select_house">Select House</string>
+    <string name="post_to_facebook_string">Share this post on Facebook</string>
+    <string name="post_to_twitter_string">Share this post on Twitter</string>
+    <string name="add_location_string">Add Location information to this post</string>
 </resources>

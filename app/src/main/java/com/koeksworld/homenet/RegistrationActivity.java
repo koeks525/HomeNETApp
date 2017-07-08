@@ -2,7 +2,6 @@ package com.koeksworld.homenet;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,10 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import DialogFragments.AboutApplicationDialog;
 import Fragments.CreateAccountFragment;
 import Fragments.CreateAccountInformationFragment;
@@ -32,7 +30,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Bundle regBundle;
     private Toolbar toolbar;
     private TextView toolbarTextView;
-    private DatabaseHelper databaseHelper;
+    private RealmHelper databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +72,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void getData()
     {
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new RealmHelper();
         countryArrayList = databaseHelper.getCountries();
     }
 

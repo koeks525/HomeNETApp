@@ -2,23 +2,17 @@ package com.koeksworld.homenet;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.ImageView;
-
-import com.google.firebase.crash.FirebaseCrash;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import Data.DatabaseHelper;
+import Data.RealmHelper;
 import Models.Key;
 import Tasks.AppSetupTask;
 import Utilities.DeviceUtils;
@@ -28,12 +22,8 @@ import java.util.List;
 
 import Communication.HomeNetService;
 import Models.Country;
-import ResponseModels.ListResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.realm.Realm;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -47,7 +37,7 @@ public class SplashScreen extends AppCompatActivity {
     private HomeNetService homeNetService;
     private ImageView imageView;
     private DeviceUtils deviceUtils;
-    private DatabaseHelper helper;
+    private RealmHelper helper;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private AppSetupTask task;
@@ -65,7 +55,7 @@ public class SplashScreen extends AppCompatActivity {
             deviceUtils = new DeviceUtils(this);
             if (deviceUtils.checkNetworkConnection()) {
                 task = new AppSetupTask(this);
-                task.execute();
+                task.execute().wait();
             } else {
                 displayMessage("No Network Connection", "Please connect to the internet", new DialogInterface.OnClickListener() {
                     @Override

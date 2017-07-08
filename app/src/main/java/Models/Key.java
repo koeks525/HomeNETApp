@@ -2,12 +2,16 @@ package Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Okuhle on 2017/04/01.
  */
 
-public class Key {
+public class Key extends RealmObject{
 
+    @PrimaryKey
     @SerializedName("keyID")
     public int keyID;
     @SerializedName("name")
@@ -25,6 +29,10 @@ public class Key {
         this.description = description;
         this.value = value;
         this.isDeleted = isDeleted;
+    }
+
+    public Key() {
+
     }
 
     public int getKeyID() {

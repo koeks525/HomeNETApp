@@ -6,40 +6,34 @@
     >
     <CheckBoxPreference
         android:title="@string/remember_Credentials_string"
+        android:key= "RememberCredentialsOption"
         android:text= "@string/remember_credentials_description_string"
-        android:checked="true"/>
+        android:defaultValue="false"/>
 </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/audio_settings">
-        <ListPreference
-            android:id = "@+id/TonePreference"
-            android:entryValues="@array/tones_string"
-            android:entries="@array/tones_string"
-            android:title="@string/select_tone_string"/>
-    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/social_media_string"
         >
         <CheckBoxPreference
-            android:id = "@+id/FacebookPostOption"
+            android:key = "FacebookPostOption"
             android:title="@string/post_facebook_string"
-            android:checked="false"/>
+            android:defaultValue="false"/>
         <CheckBoxPreference
-            android:id = "@+id/TwitterPostOption"
+            android:key = "TwitterPostOption"
             android:title="@string/post_twitter_string"
-            android:checked="false"/>
+            android:defaultValue="false"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/account_settings"
         >
         <Preference
-            android:id="@+id/DeleteAccountOption"
+            android:key="DeleteAccountOption"
             android:title="@string/delete_Account_option"/>
         <Preference
-            android:id="@+id/DeactivateAccountOption"
+            android:key="DeactivateAccountOption"
             android:title="@string/deactivate_Account_option"/>
         <Preference
-            android:id="@+id/LogoutAccountOption"
+            android:key="LogoutAccountOption"
             android:title="@string/logout_option"/>
 </PreferenceCategory>
 </PreferenceScreen>
