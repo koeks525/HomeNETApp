@@ -18,8 +18,9 @@ public class HomeManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_manager);
-        if (savedInstanceState == null) {
-            initializeComponents(savedInstanceState);
+        initializeComponents(savedInstanceState);
+        if (savedInstanceState != null) {
+            toolbarTextView.setText(savedInstanceState.getString("toolbar"));
         }
     }
 
@@ -59,5 +60,11 @@ public class HomeManagerActivity extends AppCompatActivity {
             //transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("toolbar", toolbarTextView.getText().toString());
     }
 }

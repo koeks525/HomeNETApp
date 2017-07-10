@@ -154,4 +154,8 @@
     <string name="post_to_facebook_string">Share this post on Facebook</string>
     <string name="post_to_twitter_string">Share this post on Twitter</string>
     <string name="add_location_string">Add Location information to this post</string>
+    <string name="view_report_string">View Report</string>
+    <string name="authorize_user_string">Authorize User</string>
+    <string name="approve_member_string">Approve</string>
+    <string name="decline_member_string">Decline</string>
 </resources>

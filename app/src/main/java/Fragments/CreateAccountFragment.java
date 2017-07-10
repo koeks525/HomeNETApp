@@ -213,6 +213,8 @@ public class CreateAccountFragment extends Fragment implements View.OnClickListe
                         editor.putString("username", resultUser.getUserName());
                         editor.putString("password", resultUser.getPassword());
                         editor.putString("emailAddress", resultUser.getEmail());
+                        editor.putString("name", resultUser.getName());
+                        editor.putString("surname", resultUser.getSurname());
                         editor.commit();
 
                         if (resultUser != null) {

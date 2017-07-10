@@ -213,6 +213,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         editor.putString("password", resultUser.getPassword());
                         editor.putString("emailAddress", resultUser.getEmail());
                         editor.putString("name", resultUser.getName());
+                        editor.putString("surname", resultUser.getSurname());
                         editor.putInt("userID", resultUser.getId());
                         editor.commit();
                         //SQLite does not want to add my user object - ignore for now... will sort later (doesnt Google Firebase have something for this situation)

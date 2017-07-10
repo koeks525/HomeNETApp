@@ -48,6 +48,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
             getData();
         } else {
             housesSpinner.setItems(savedInstanceState.getParcelableArrayList("items"));
+
         }
         return currentView;
     }

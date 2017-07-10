@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import com.koeksworld.homenet.LandingActivity;
 import com.koeksworld.homenet.MainActivity;
 import com.koeksworld.homenet.R;
+import com.koeksworld.homenet.WelcomeActivity;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -180,6 +181,7 @@ public class AppSetupTask extends AsyncTask<Integer, Integer, Integer> {
                             public void onResponse(Call<SingleResponse<User>> call, Response<SingleResponse<User>> response) {
                                 if (response.code() == 200) {
                                     //refresh the login data
+                                    editor.putInt("userID", response.body().getModel().getId());
                                     editor.putString("username", response.body().getModel().getUserName());
                                     editor.putString("password", response.body().getModel().getPassword());
                                     editor.putString("name", response.body().getModel().getName());
@@ -290,7 +292,7 @@ public class AppSetupTask extends AsyncTask<Integer, Integer, Integer> {
     }
 
     private void loadLandingScreen(){
-        Intent newIntent = new Intent(currentActivity, LandingActivity.class);
+        Intent newIntent = new Intent(currentActivity, WelcomeActivity.class);
         currentActivity.startActivity(newIntent);
         currentActivity.finish();
 

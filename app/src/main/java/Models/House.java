@@ -170,4 +170,9 @@ public class House implements Serializable, Parcelable {
         parcel.writeInt(oneTimePin);
         parcel.writeInt(isPrivate);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

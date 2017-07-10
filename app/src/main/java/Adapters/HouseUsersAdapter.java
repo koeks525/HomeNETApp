@@ -2,6 +2,7 @@ package Adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Data.RealmHelper;
 import Models.User;
 
 /**
@@ -25,9 +28,11 @@ import Models.User;
 public class HouseUsersAdapter extends RecyclerView.Adapter<HouseUsersAdapter.HouseUserAdapter> {
 
     private List<User> userList = new ArrayList<>();
+    private RealmHelper helper;
 
     public HouseUsersAdapter(List<User> userList) {
         this.userList = userList;
+        helper = new RealmHelper();
     }
     @Override
     public HouseUserAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,14 +41,16 @@ public class HouseUsersAdapter extends RecyclerView.Adapter<HouseUsersAdapter.Ho
         return new HouseUserAdapter(currentView);
 
     }
-
     @Override
     public void onBindViewHolder(HouseUserAdapter holder, int position) {
         holder.nameSurnameTextView.setText(userList.get(position).getName() + " " + userList.get(position).getSurname());
         holder.emailTextView.setText(userList.get(position).getEmail());
-        holder.countryTextView.setText(userList.get(position).getSecurityQuestion()); //Horrible, just disgusting
+        holder.countryTextView.setText(helper.getCountryById(userList.get(position).getCountryID()).getName()); //FInd a country name with local list
         holder.profileImageView.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
-        holder.profileImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        holder.profileImageView.setScaleType(ImageView.ScaleType.FIT_CENTER); //We will need to find profile picture
+        TextDrawable drawable = TextDrawable.builder().buildRound(userList.get(position).getName().substring(0,1).toUpperCase() + userList.get(position).getSurname().substring(0,1).toUpperCase(), Color.BLUE);
+        holder.profileImageView.setImageDrawable(drawable);
+
     }
 
     @Override

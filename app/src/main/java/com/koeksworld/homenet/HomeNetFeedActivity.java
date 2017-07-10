@@ -2,6 +2,7 @@ package com.koeksworld.homenet;
 
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -14,8 +15,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.roughike.bottombar.BottomBar;
 
 import HomeNETStream.FeedFragment;
@@ -34,6 +37,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
     private TextView nameSurnameTextView;
     private TextView emailTextView;
     private BottomBar feedBottomBar;
+    private ImageView profileImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,12 @@ public class HomeNetFeedActivity extends AppCompatActivity {
         emailTextView = (TextView) headerView.findViewById(R.id.HeaderEmailAddressTextView);
         nameSurnameTextView.setText(sharedPreferences.getString("name", "") + " "+sharedPreferences.getString("surname", ""));
         emailTextView.setText(sharedPreferences.getString("emailAddress", ""));
+        profileImageView = (ImageView) headerView.findViewById(R.id.UserProfileImageView);
+        String name =  sharedPreferences.getString("name", "").substring(0,1);
+        String surname = sharedPreferences.getString("surname", "").substring(0,1);
+        TextDrawable drawable = TextDrawable.builder().buildRound(name.toUpperCase() + surname.toUpperCase(), Color.BLUE);
+        profileImageView.setImageDrawable(drawable);
+
     }
 
     //Source: https://stackoverflow.com/questions/33194594/navigationview-get-find-header-layout

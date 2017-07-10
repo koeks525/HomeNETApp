@@ -55,7 +55,7 @@ public class SplashScreen extends AppCompatActivity {
             deviceUtils = new DeviceUtils(this);
             if (deviceUtils.checkNetworkConnection()) {
                 task = new AppSetupTask(this);
-                task.execute().wait();
+                task.execute();
             } else {
                 displayMessage("No Network Connection", "Please connect to the internet", new DialogInterface.OnClickListener() {
                     @Override
@@ -65,7 +65,12 @@ public class SplashScreen extends AppCompatActivity {
                 });
             }
         } catch (Exception error) {
-
+            displayMessage("Error", error.getMessage(), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    System.exit(0);
+                }
+            });
         }
 
     }
@@ -81,44 +86,8 @@ public class SplashScreen extends AppCompatActivity {
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.homenet_background_vertical));
         }
     }
-
-    private void checkKeys() {
-        if (TWITTER_KEY != null && TWITTER_SECRET != null) {
-            TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-            Fabric.with(this, new Twitter(authConfig));
-            Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
-            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(loginIntent);
-            overridePendingTransition(0, 0);
-            finish();
-        } else {
-            displayMessage("Error Getting Keys", "No keys were found on the system", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0);
-                }
-            });
-        }
-    }
-
-
     private void displayMessage(String title, String message, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder box = new AlertDialog.Builder(this);
         box.setTitle(title).setMessage(message).setCancelable(false).setPositiveButton("Okay", listener).show();
-    }
-
-    private void loadKeys() {
-        for (Key thiskey : keysList) {
-            if (thiskey.getName().trim().equalsIgnoreCase("twitter_api_key")) {
-                TWITTER_KEY = thiskey.getValue();
-            }
-            if (thiskey.getName().trim().equalsIgnoreCase("twitter_api_secret")) {
-                TWITTER_SECRET = thiskey.getValue();
-            }
-            if (thiskey.getName().trim().equalsIgnoreCase("facebook_app_id")) {
-                editor.putString("facebook_app_id", thiskey.getValue());
-                editor.commit();
-            }
-        }
     }
 }

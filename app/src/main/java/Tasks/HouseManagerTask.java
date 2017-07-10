@@ -74,18 +74,7 @@ public class HouseManagerTask extends AsyncTask<Integer, Integer, Integer> {
                         }
                     }
                 }
-                if (houseList.size() > 0) {
-                    for (House thisHouse : houseList) {
-                        Response<ListResponse<HousePost>> housePostResponse = service.getHousePosts("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
-                        if (housePostResponse.isSuccessful()) {
-                            if (housePostResponse.body().getModel() != null) {
-                                if (housePostResponse.body().getModel().size() > 0) {
-                                    houseMap.put(thisHouse, housePostResponse.body().getModel());
-                                }
-                            }
-                        }
-                    }
-                }
+
 
                 return 1;
 
@@ -110,6 +99,7 @@ public class HouseManagerTask extends AsyncTask<Integer, Integer, Integer> {
 
         if (houseList.size() > 0) {
             spinner.setItems(houseList);
+
         } else {
             //This must change at a later stage
             displayMessage("No houses found", "No houses were found! Why not create a house?", null);

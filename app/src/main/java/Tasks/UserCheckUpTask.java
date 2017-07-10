@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.koeksworld.homenet.HomeManagerActivity;
 import com.koeksworld.homenet.HomeNetFeedActivity;
 import com.koeksworld.homenet.R;
 import com.viewpagerindicator.LinePageIndicator;
@@ -58,7 +59,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
     private ArrayList<House> houseList = new ArrayList<>();
     //private ArrayList<Organization> organizationList = new ArrayList();
    // private ArrayList<HousePost> housePostList = new ArrayList<>();
-    private List<HouseMember> userMembershipList = new ArrayList<>();
+    private ArrayList<HouseMember> userMembershipList = new ArrayList<>();
 
     private User currentUser;
     private RealmHelper dbHelper;
@@ -147,11 +148,21 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
         }
 
         if (houseList.size() > 0 || userMembershipList.size() > 0) {
-            Intent newIntent = new Intent(currentActivity, HomeNetFeedActivity.class);
-            Bundle newBundle = new Bundle();
-            newBundle.putParcelableArrayList("houseList", houseList);
-            currentActivity.startActivity(newIntent);
-            currentActivity.finish();
+            if (userMembershipList.size() > 0) {
+                Intent newIntent = new Intent(currentActivity, HomeNetFeedActivity.class);
+                Bundle newBundle = new Bundle();
+                newBundle.putParcelableArrayList("MembershipList", userMembershipList);
+                newIntent.putExtra("MembershipBundle", newBundle);
+                currentActivity.startActivity(newIntent);
+                currentActivity.finish();
+            } else if (houseList.size() > 0 ){
+                Intent nextIntent = new Intent(currentActivity, HomeManagerActivity.class);
+                Bundle nextBundle = new Bundle();
+                nextBundle.putParcelableArrayList("HouseList", houseList);
+                nextIntent.putExtra("HouseBundle", nextBundle);
+                currentActivity.startActivity(nextIntent);
+                currentActivity.finish();
+            }
         }
 
         if (houseList.size() == 0 && userMembershipList.size() == 0) {

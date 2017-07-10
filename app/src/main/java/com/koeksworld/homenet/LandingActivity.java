@@ -16,6 +16,7 @@ import Communication.HomeNetService;
 import Data.RealmHelper;
 import Models.House;
 import ResponseModels.ListResponse;
+import Tasks.UserCheckUpTask;
 import Utilities.DeviceUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,12 +32,7 @@ public class LandingActivity extends AppCompatActivity {
     private DeviceUtils deviceUtils;
     private RealmHelper dbHelper;
     private SharedPreferences sharedPreferences;
-
-    //Landing activity must check if the user owns a house. If they do, take them to a page where they can see details to their house
-    //Show the user streams from all their houses
-    //If the user doesnt manage any houses, check house membership, then get all posts from the houses they are in
-    //Check if the user owns an organization. If they do, then take them to the organization manager
-    //If the above has all returned 0, then show the user a landing fragment where they can decide what they want to do.
+    private UserCheckUpTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +40,11 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
         deviceUtils = new DeviceUtils(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        task = new UserCheckUpTask(this);
         dbHelper = new RealmHelper();
         if (deviceUtils.checkNetworkConnection()) {
             initializeRetrofit();
+            task.execute();
 
         } else {
             displayMessage("No Network Connection", "Please enable network access (WiFi or 3G) and try again", new DialogInterface.OnClickListener() {
@@ -80,45 +78,5 @@ public class LandingActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(positiveButton, positiveListener);
         alertDialog.setNegativeButton(negativeButton, negativeListener);
         alertDialog.show();
-    }
-
-    private void checkUserHouses() {
-        final Snackbar bar = Snackbar.make(this.getWindow().getCurrentFocus(), "Checking Linked Data. Please wait", Snackbar.LENGTH_INDEFINITE);
-        ViewGroup viewGroup = (ViewGroup) bar.getView().findViewById(android.support.design.R.id.snackbar_text).getParent();
-        viewGroup.addView(new ProgressBar(this));
-        bar.show();
-
-
-        Call<ListResponse<House>> houseCall = service.getUserHouses("Bearer "+ sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), getResources().getString(R.string.homenet_client_string));
-        houseCall.enqueue(new Callback<ListResponse<House>>() {
-            @Override
-            public void onResponse(Call<ListResponse<House>> call, Response<ListResponse<House>> response) {
-                if (bar.isShown()) {
-                    bar.dismiss();
-                }
-                ListResponse<House> houseResponse;
-                switch (response.code()) {
-                    case 200:
-                        houseResponse = response.body();
-                        if (houseResponse.getModel() != null) {
-                            if (houseResponse.getModel().size() > 0) {
-                                //A user owns one or more houses, save this data to the phone
-                                houseList = houseResponse.getModel();
-                                //This house list must be passed to the "House Manager"
-
-                            }
-                        }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ListResponse<House>> call, Throwable t) {
-                if (bar.isShown()) {
-                    bar.dismiss();
-                }
-            }
-        });
-
     }
 }

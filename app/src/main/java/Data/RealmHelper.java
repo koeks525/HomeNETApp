@@ -95,4 +95,10 @@ public class RealmHelper {
         return keys;
 
     }
+
+    public Country getCountryById(int countryID) {
+        RealmResults<Country> results = realmInstance.where(Country.class).equalTo("countryID", countryID).findAllAsync();
+        Country found = results.first();
+        return found;
+    }
 }
