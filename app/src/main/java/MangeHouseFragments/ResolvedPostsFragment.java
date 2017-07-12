@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.FlaggedPostsAdapter;
+import Adapters.PendingPostsAdapter;
+import Models.House;
 import Models.HousePostFlag;
+import Tasks.GetHousePostsTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +26,9 @@ import Models.HousePostFlag;
 public class ResolvedPostsFragment extends Fragment {
 
 
-    private List<HousePostFlag> housePostList = new ArrayList<>();
+    private House selectedHouse;
     private RecyclerView resolvedRecyclerView;
-    private FlaggedPostsAdapter adapter;
+    private GetHousePostsTask task;
     public ResolvedPostsFragment() {
         // Required empty public constructor
     }
@@ -37,27 +40,22 @@ public class ResolvedPostsFragment extends Fragment {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_resolved_posts, container, false);
         initializeComponents(currentView);
+        if (savedInstanceState != null) {
+            selectedHouse = (House) savedInstanceState.getSerializable("SelectedHouse");
+        } else {
+            selectedHouse = (House) getArguments().getSerializable("SelectedHouse");
+        }
+        getData();
         return currentView;
     }
 
     private void initializeComponents(View currentView) {
-        setFakeData();
         resolvedRecyclerView = (RecyclerView) currentView.findViewById(R.id.ResolvedPostsRecyclerView);
         resolvedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new FlaggedPostsAdapter(housePostList);
-        resolvedRecyclerView.setAdapter(adapter);
     }
 
-    private void setFakeData()
-    {
-        housePostList.clear();
-        //For the sake of the fake data, we will use response to show description. Bad hack!
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Violent", "2017-03-02", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Racist", "2017-04-02", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Offensive", "2017-03-01", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Pornographic", "2017-03-05", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Hate Speech", "2017-03-07", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
-        housePostList.add(new HousePostFlag(0, "Post Flagged as Violent", "2017-03-10", 0, "Administrator agrees fully with the post. User has been notified of transgression", 0, 1, 1));
+    private void getData() {
+       task = new GetHousePostsTask(getActivity(), selectedHouse.getHouseID(), 2);
+        task.execute();
     }
-
 }

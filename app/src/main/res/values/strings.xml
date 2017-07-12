@@ -158,4 +158,8 @@
     <string name="authorize_user_string">Authorize User</string>
     <string name="approve_member_string">Approve</string>
     <string name="decline_member_string">Decline</string>
+    <string name="view_details_string">View Details</string>
+    <string name="reverse_ban_string">Reverse Ban</string>
+    <string name="ban_post_string">Flag Post</string>
+    <string name="remove_flag_string">Remove (Safe Post)</string>
 </resources>

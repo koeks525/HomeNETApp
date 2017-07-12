@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:title="@string/ban_post_string"
+    android:id = "@+id/FlagPost"/>
+    <item
+        android:title="@string/remove_flag_string"
+        android:id = "@+id/MarkSafe"/>
+</menu>

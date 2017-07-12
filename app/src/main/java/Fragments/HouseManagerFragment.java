@@ -91,18 +91,20 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+
+        int selectedIndex = housesSpinner.getSelectedIndex();
+        House selectedHouse = (House) housesSpinner.getItems().get(selectedIndex);
         switch (view.getId()) {
             //We will not use the backstack, we will restore these when the screen is rotated.
             case R.id.ManageHomeEditHouseCardView:
-                int selectedIndex = housesSpinner.getSelectedIndex();
-                House selectedHouse = (House) housesSpinner.getItems().get(selectedIndex);
+
 
                 if (deviceUtils.isTablet()) {
                     if (deviceUtils.isLandscape()) {
                         FragmentTransaction manageUsersTransaction = getFragmentManager().beginTransaction();
                         Bundle bundle = new Bundle();
                         bundle.putString("mode","edit_house");
-                        bundle.putSerializable("House", selectedHouse);
+                        bundle.putSerializable("SelectedHouse", selectedHouse);
                         HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
                         endFragment.setArguments(bundle);
                         manageUsersTransaction.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment, null);
@@ -111,7 +113,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         //Load this layout on a tablet on portrait, and add to the backstack
                         FragmentTransaction tabletLandTransaction = getFragmentManager().beginTransaction();
                         Bundle newBunde = new Bundle();
-                        newBunde.putSerializable("House", selectedHouse);
+                        newBunde.putSerializable("SelectedHouse", selectedHouse);
                         newBunde.putString("mode", "edit_house");
                         HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
                         endFragmentTwo.setArguments(newBunde);
@@ -124,7 +126,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     HouseManagerEndFragment endFragmentThree = new HouseManagerEndFragment();
                     Bundle bundleThree = new Bundle();
-                    bundleThree.putParcelable("House", selectedHouse);
+                    bundleThree.putSerializable("SelectedHouse", selectedHouse);
                     bundleThree.putString("mode", "edit_house");
                     endFragmentThree.setArguments(bundleThree);
                     transaction.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentThree, null);
@@ -142,6 +144,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         FragmentTransaction transactionThree = getFragmentManager().beginTransaction();
                         HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
                         Bundle newBundle = new Bundle();
+                        newBundle.putSerializable("SelectedHouse", selectedHouse);
                         newBundle.putString("mode", "manage_users");
                         endFragment.setArguments(newBundle);
                         transactionThree.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment);
@@ -152,6 +155,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         FragmentTransaction transactionFour = getFragmentManager().beginTransaction();
                         HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
                         Bundle nextBundle = new Bundle();
+                        nextBundle.putSerializable("SelectedHouse", selectedHouse);
                         nextBundle.putString("mode", "manage_users");
                         endFragmentTwo.setArguments(nextBundle);
                         transactionFour.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentTwo);
@@ -163,6 +167,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     FragmentTransaction transactionFive = getFragmentManager().beginTransaction();
                     HouseManagerEndFragment endFragmentFive = new HouseManagerEndFragment();
                     Bundle nextBundle = new Bundle();
+                    nextBundle.putSerializable("SelectedHouse", selectedHouse);
                     nextBundle.putString("mode", "manage_users");
                     endFragmentFive.setArguments(nextBundle);
                     transactionFive.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentFive);
@@ -181,6 +186,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
                         Bundle newBundle = new Bundle();
                         newBundle.putString("mode", "manage_content");
+                        newBundle.putSerializable("SelectedHouse", selectedHouse);
                         endFragment.setArguments(newBundle);
                         transactionThree.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment);
                         transactionThree.commit();
@@ -191,6 +197,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
                         Bundle nextBundle = new Bundle();
                         nextBundle.putString("mode", "manage_content");
+                        nextBundle.putSerializable("SelectedHouse", selectedHouse);
                         endFragmentTwo.setArguments(nextBundle);
                         transactionFour.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentTwo);
                         transactionFour.commit();
@@ -201,6 +208,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     HouseManagerEndFragment endFragmentFive = new HouseManagerEndFragment();
                     Bundle nextBundle = new Bundle();
                     nextBundle.putString("mode", "manage_content");
+                    nextBundle.putSerializable("SelectedHouse", selectedHouse);
                     endFragmentFive.setArguments(nextBundle);
                     transactionFive.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentFive);
                     transactionFive.addToBackStack(null);
@@ -214,6 +222,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         FragmentTransaction transactionThree = getFragmentManager().beginTransaction();
                         HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
                         Bundle newBundle = new Bundle();
+                        newBundle.putSerializable("SelectedHouse", selectedHouse);
                         newBundle.putString("mode", "messages");
                         endFragment.setArguments(newBundle);
                         transactionThree.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment);
@@ -224,6 +233,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                         FragmentTransaction transactionFour = getFragmentManager().beginTransaction();
                         HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
                         Bundle nextBundle = new Bundle();
+                        nextBundle.putSerializable("SelectedHouse", selectedHouse);
                         nextBundle.putString("mode", "messages");
                         endFragmentTwo.setArguments(nextBundle);
                         transactionFour.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentTwo);
@@ -234,6 +244,7 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     FragmentTransaction transactionFive = getFragmentManager().beginTransaction();
                     HouseManagerEndFragment endFragmentFive = new HouseManagerEndFragment();
                     Bundle nextBundle = new Bundle();
+                    nextBundle.putSerializable("SelectedHouse", selectedHouse);
                     nextBundle.putString("mode", "messages");
                     endFragmentFive.setArguments(nextBundle);
                     transactionFive.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentFive);

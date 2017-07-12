@@ -20,6 +20,7 @@ import MangeHouseFragments.EditHouseFragment;
 import MangeHouseFragments.FlaggedPostsFragment;
 import MangeHouseFragments.PendingUsersFragment;
 import MangeHouseFragments.ResolvedPostsFragment;
+import Models.House;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +34,7 @@ public class HouseManagerEndFragment extends Fragment {
     private ArrayList<String> fragmentTitle = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private HouseManagerPagerAdapter adapter;
+    private House selectedHouse;
 
     public HouseManagerEndFragment() {
         // Required empty public constructor
@@ -44,6 +46,11 @@ public class HouseManagerEndFragment extends Fragment {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_house_manager_end, container, false);
         initializeComponents(currentView, savedInstanceState);
+        if (savedInstanceState != null) {
+            selectedHouse = (House) savedInstanceState.getSerializable("SelectedHouse");
+        } else {
+            selectedHouse = (House) getArguments().getSerializable("SelectedHouse");
+        }
         return currentView;
     }
 

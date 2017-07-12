@@ -9,6 +9,7 @@ import Models.HomeData;
 import Models.House;
 import Models.HouseMember;
 import Models.HousePost;
+import Models.HousePostFlag;
 import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.Key;
@@ -100,4 +101,9 @@ public interface HomeNetService {
     @Multipart
     @POST("HousePost/AddHousePost")
     Call<SingleResponse<HousePost>> addHousePost(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Part("emailAddress") RequestBody emailAddress, @Part("postText") RequestBody postText, @Part("location") RequestBody location, @Query("clientCode") String clientCode, @Part MultipartBody.Part file );
+    @GET("FlaggedPost/GetPendingHousePosts")
+    Call<ListResponse<HousePostFlag>> getHousePendingPosts(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @GET("FlaggedPost/GetFlaggedHousePosts")
+    Call<ListResponse<HousePostFlag>> getFlaggedHousePosts(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+
 }
