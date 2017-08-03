@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.SocketFactory;
+
 import Adapters.GettingStartedPagerAdapter;
 import Communication.HomeNetService;
 import Data.RealmHelper;
@@ -84,7 +86,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
     public UserCheckUpTask(Activity currentActivity) {
         this.currentActivity = currentActivity;
         protocolList.add(Protocol.HTTP_1_1);
-        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES).readTimeout(1, TimeUnit.MINUTES).protocols(protocolList).build();
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).socketFactory(SocketFactory.getDefault()).build();
         retrofit = new Retrofit.Builder().baseUrl(currentActivity.getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(HomeNetService.class);
         dbHelper = new RealmHelper();
@@ -108,6 +110,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
     protected Integer doInBackground(Integer... integers) {
         try {
             Response<ListResponse<HouseMember>> membershipCall = service.getUserMemberships("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+
             if (membershipCall.isSuccessful()) {
                 if (membershipCall.body().getModel() != null) {
                     for (HouseMember member : membershipCall.body().getModel()) {
@@ -117,6 +120,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
             } else {
                 errorString = errorString + membershipCall.errorBody().string();
             }
+            membershipCall = null;
             Response<ListResponse<House>> userHouseCall = service.getUserHouses("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
             if (userHouseCall.isSuccessful()) {
                 if (userHouseCall.body().getModel() != null) {
@@ -124,18 +128,15 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
                         houseList.add(house);
                     }
                 }
+            } else {
+                errorString += userHouseCall.errorBody().string();
             }
+            userHouseCall = null;
             return 1;
             //Organizations are out of the question - this wont be added yet
 
         } catch (Exception error) {
-
-            displayMessage("Error Getting User Initial Data", error.getMessage(), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0); //Close the mobile app
-                }
-            });
+            errorString += error.getMessage() + "\n";
             return -1;
 
         }
@@ -163,11 +164,19 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
                 currentActivity.startActivity(nextIntent);
                 currentActivity.finish();
             }
-        }
+        } else {
 
-        if (houseList.size() == 0 && userMembershipList.size() == 0) {
-            //Take them to the guide
-            initializeComponents();
+            if (errorString != "") {
+                displayMessage("Error Getting Setup Information", errorString, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        System.exit(0);
+                    }
+                });
+            } else  {
+                //Take them to the guide
+                initializeComponents();
+            }
         }
 
     }

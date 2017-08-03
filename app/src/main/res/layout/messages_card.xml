@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
     android:clickable="true"
+    android:id = "@+id/MessagesCardView"
     android:foreground="?android:attr/selectableItemBackground">
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"

@@ -12,8 +12,8 @@ public class HouseAnnouncement {
     private int announcementCommentID;
     @SerializedName("title")
     private String title;
-    @SerializedName("comment")
-    private String comment;
+    @SerializedName("message")
+    private String message;
     @SerializedName("dateAdded")
     private String dateAdded;
     @SerializedName("isDeleted")
@@ -21,10 +21,10 @@ public class HouseAnnouncement {
     @SerializedName("isFlagged")
     private int isFlagged;
 
-    public HouseAnnouncement(int announcementCommentID, String title, String comment, String dateAdded, int isDeleted, int isFlagged) {
+    public HouseAnnouncement(int announcementCommentID, String title, String message, String dateAdded, int isDeleted, int isFlagged) {
         this.announcementCommentID = announcementCommentID;
         this.title = title;
-        this.comment = comment;
+        this.message = message;
         this.dateAdded = dateAdded;
         this.isDeleted = isDeleted;
         this.isFlagged = isFlagged;
@@ -46,12 +46,12 @@ public class HouseAnnouncement {
         this.title = title;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getDateAdded() {

@@ -21,8 +21,6 @@ public class House implements Serializable, Parcelable {
     private String houseImage; //Reference to image on web server.
     @SerializedName("isDeleted")
     private int isDeleted;
-    @SerializedName("location")
-    private String location;
     @SerializedName("name")
     private String name;
     @SerializedName("userID")
@@ -34,13 +32,12 @@ public class House implements Serializable, Parcelable {
 
     public House(){}
 
-    public House(int houseID, String dateCreated, String description, String houseImage, int isDeleted, String location, String name, int userID, int oneTimePin, int isPrivate) {
+    public House(int houseID, String dateCreated, String description, String houseImage, int isDeleted, String name, int userID, int oneTimePin, int isPrivate) {
         this.houseID = houseID;
         this.dateCreated = dateCreated;
         this.description = description;
         this.houseImage = houseImage;
         this.isDeleted = isDeleted;
-        this.location = location;
         this.name = name;
         this.userID = userID;
         this.oneTimePin = oneTimePin;
@@ -53,7 +50,6 @@ public class House implements Serializable, Parcelable {
         description = in.readString();
         houseImage = in.readString();
         isDeleted = in.readInt();
-        location = in.readString();
         name = in.readString();
         userID = in.readInt();
         oneTimePin = in.readInt();
@@ -112,14 +108,6 @@ public class House implements Serializable, Parcelable {
         this.isDeleted = isDeleted;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getName() {
         return name;
     }
@@ -153,6 +141,11 @@ public class House implements Serializable, Parcelable {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -164,15 +157,9 @@ public class House implements Serializable, Parcelable {
         parcel.writeString(description);
         parcel.writeString(houseImage);
         parcel.writeInt(isDeleted);
-        parcel.writeString(location);
         parcel.writeString(name);
         parcel.writeInt(userID);
         parcel.writeInt(oneTimePin);
         parcel.writeInt(isPrivate);
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

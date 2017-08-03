@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">HomeNet</string>
     <string name="facebook_app_id">174137489749832</string>
+    <string name="enter_reply_string">Enter Reply</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="please_login_string">Log In to Continue</string>
@@ -162,4 +163,7 @@
     <string name="reverse_ban_string">Reverse Ban</string>
     <string name="ban_post_string">Flag Post</string>
     <string name="remove_flag_string">Remove (Safe Post)</string>
+    <string name="remove_announcement_string">Delete (Admin Only)</string>
+    <string name="delete_message">Delete Message</string>
+    <string name="view_participants">View Participants</string>
 </resources>

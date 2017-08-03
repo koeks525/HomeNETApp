@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.koeksworld.homenet.R;
 
@@ -31,10 +32,11 @@ import Tasks.HomeNetFeedTask;
 public class FeedFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView recyclerView;
-    private FloatingActionButton refreshButton;
+    private FloatingActionButton refreshButton, newPostButton;
     private ArrayList<House> houseList;
     private HomeNetFeedAdapter feedAdapter;
     private HomeNetFeedTask feedTask;
+    private TextView toolbarTextView;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -53,7 +55,11 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
         recyclerView = (RecyclerView) currentView.findViewById(R.id.HomeNetFeedRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshButton = (FloatingActionButton) currentView.findViewById(R.id.FeedRefreshButton);
+        newPostButton = (FloatingActionButton) currentView.findViewById(R.id.HomeNetFeedNewPostButton);
+        newPostButton.setOnClickListener(this);
         refreshButton.setOnClickListener(this);
+        toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
+        toolbarTextView.setText("Your Feed");
     }
 
     private void runFeedTask() {
@@ -76,7 +82,6 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
                 transaction.replace(R.id.HomeNetFeedContentView, fragment, null);
                 transaction.addToBackStack("NewPostTransaction");
                 transaction.commit();
-
                 break;
         }
     }

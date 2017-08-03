@@ -41,20 +41,18 @@ public class CreateHouseTask extends AsyncTask<Integer, Integer, Integer> {
     private RequestBody houseName;
     private RequestBody description;
     private RequestBody emailAddress;
-    private RequestBody houseLocation;
     private String clientCode;
     private SharedPreferences sharedPreferences;
     private String errorInformation = "";
     private List<Protocol> protocolList = new ArrayList<>();
     private String creationMessage = "";
 
-    public CreateHouseTask(Activity currentActivity, MultipartBody.Part imageBodyPart, RequestBody houseName, RequestBody description, RequestBody emailAddress, RequestBody houseLocation, String clientCode) {
+    public CreateHouseTask(Activity currentActivity, MultipartBody.Part imageBodyPart, RequestBody houseName, RequestBody description, RequestBody emailAddress, String clientCode) {
         this.currentActivity = currentActivity;
         this.imageBodyPart = imageBodyPart;
         this.houseName = houseName;
         this.description = description;
         this.emailAddress = emailAddress;
-        this.houseLocation = houseLocation;
         this.clientCode = clientCode;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
         protocolList.add(Protocol.HTTP_1_1);
@@ -76,7 +74,7 @@ public class CreateHouseTask extends AsyncTask<Integer, Integer, Integer> {
     @Override
     protected Integer doInBackground(Integer... integers) {
         try {
-            Response<SingleResponse<House>> houseResponse = service.createHouse("Bearer "+sharedPreferences.getString("authorization_token", ""), houseName, description, houseLocation, emailAddress, clientCode, imageBodyPart).execute();
+            Response<SingleResponse<House>> houseResponse = service.createHouse("Bearer "+sharedPreferences.getString("authorization_token", ""), houseName, description, emailAddress, clientCode, imageBodyPart).execute();
             if (houseResponse.isSuccessful()) {
                 if (houseResponse.code() == 200) {
                     creationMessage = houseResponse.body().getMessage();

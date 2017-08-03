@@ -127,18 +127,7 @@ public class EditHouseTask extends AsyncTask<Integer, Integer, Integer> {
             } else {
                 isPrivate.setChecked(true);
             }
-            if (house.getLocation() != null) {
-                String [] houseLocation = house.getLocation().split(" ");
-                LatLng housePoint = new LatLng(Double.parseDouble(houseLocation[0]), Double.parseDouble(houseLocation[1]));
-                final MarkerOptions pointer = new MarkerOptions().position(housePoint).title("House Location");
-                houseLocationMapView.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        googleMap.addMarker(pointer);
-                    }
-                });
 
-            }
         }
     }
 

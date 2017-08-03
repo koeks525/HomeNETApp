@@ -43,9 +43,10 @@ public class ActiveUsersFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View currentView =  inflater.inflate(R.layout.fragment_active_users, container, false);
         if (savedInstanceState != null) {
-            selectedHouse = (House) savedInstanceState.getSerializable("SelectedHouse");
+            selectedHouse = savedInstanceState.getParcelable("SelectedHouse");
         } else {
-            selectedHouse = (House) getArguments().getSerializable("SelectedHouse");
+            Bundle bundle = getArguments();
+            selectedHouse = bundle.getParcelable("SelectedHouse");
         }
         initializeComponents(currentView);
         return currentView;

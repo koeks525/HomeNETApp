@@ -1,10 +1,12 @@
 package com.koeksworld.homenet;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +22,10 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
+import Fragments.HouseMessagesFragment;
+import HomeNETStream.AnnoucementFragment;
 import HomeNETStream.FeedFragment;
 import Tasks.HomeNetFeedTask;
 import Utilities.DeviceUtils;
@@ -44,19 +49,17 @@ public class HomeNetFeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_net_feed);
         initializeComponents();
         setupHeaderView();
-        if (savedInstanceState == null) {
-            toolbarTextView.setText("Your Feed");
-        } else {
-            toolbarTextView.setText(savedInstanceState.getString("toolbar"));
-        }
-        getSupportActionBar().setTitle(null);
+        toolbarTextView.setText("Your Feed");
+        //getSupportActionBar().setTitle(null);
         setSupportActionBar(appToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         loadFeedFragment();
     }
 
     private void setupHeaderView() {
-        View headerView = navigationView.getHeaderView(0);
+        View headerView = navigationView.inflateHeaderView(R.layout.homenet_feed_menu_header);
         nameSurnameTextView = (TextView) headerView.findViewById(R.id.UserNameSurnameTextView);
         emailTextView = (TextView) headerView.findViewById(R.id.HeaderEmailAddressTextView);
         nameSurnameTextView.setText(sharedPreferences.getString("name", "") + " "+sharedPreferences.getString("surname", ""));
@@ -73,10 +76,45 @@ public class HomeNetFeedActivity extends AppCompatActivity {
     private void initializeComponents() {
         deviceUtils = new DeviceUtils(this);
         feedBottomBar = (BottomBar) findViewById(R.id.HomeNetFeedBottomBar);
+        feedBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.MessagesTab:
+                        HouseMessagesFragment messagesFragment = new HouseMessagesFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.HomeNetFeedContentView, messagesFragment, null);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    case R.id.AnnouncementsTab:
+                        AnnoucementFragment annoucementFragment = new AnnoucementFragment();
+                        FragmentTransaction transactionTwo = getFragmentManager().beginTransaction();
+                        transactionTwo.replace(R.id.HomeNetFeedContentView, annoucementFragment, null);
+                        transactionTwo.addToBackStack(null);
+                        transactionTwo.commit();
+                        break;
+                    case R.id.SettingsTab:
+                        Intent settingsIntent = new Intent(getParent(), ApplicationSettingsActivity.class);
+                        startActivity(settingsIntent);
+                        break;
+                    case R.id.YourFeedTab:
+                        FeedFragment feedFragment = new FeedFragment();
+                        FragmentTransaction transactionThree = getFragmentManager().beginTransaction();
+                        transactionThree.replace(R.id.HomeNetFeedContentView, feedFragment, null);
+                        transactionThree.addToBackStack(null);
+                        transactionThree.commit();
+
+
+                        break;
+
+                }
+            }
+        });
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         appToolbar = (Toolbar) findViewById(R.id.HomeNetFeedToolbar);
         toolbarTextView = (TextView) findViewById(R.id.HomeNetFeedToolbarTextView);
-        navigationView = (NavigationView) findViewById(R.id.HomeNetFeedNavigationView);
+        navigationView = (NavigationView) findViewById(R.id.HomeNetFeedNavigationMenu);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

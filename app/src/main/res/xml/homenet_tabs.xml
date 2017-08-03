@@ -13,5 +13,9 @@
         id = "@+id/SettingsTab"
         title = "Settings"
         icon = "@drawable/ic_settings_black_24dp"/>
+    <tab
+        id = "@+id/MessagesTab"
+        title = "Messages"
+        icon = "@drawable/ic_mail_black_24dp"/>
 
 </tabs>

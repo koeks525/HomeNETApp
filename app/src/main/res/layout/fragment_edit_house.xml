@@ -81,10 +81,12 @@
                     android:hint="@string/image_string">
                     <EditText
                         android:layout_width="match_parent"
+                        android:id = "@+id/EditHouseProfileImageView"
                         android:layout_height="match_parent" />
                 </android.support.design.widget.TextInputLayout>
                 <Button
                     android:layout_width="0dp"
+                    android:id = "@+id/EditHouseSelectImageButton"
                     android:layout_weight="40"
                     android:background="@color/colorPrimary"
                     android:textColor="@android:color/white"

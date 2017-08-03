@@ -45,12 +45,13 @@ public class HouseManagerEndFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_house_manager_end, container, false);
-        initializeComponents(currentView, savedInstanceState);
         if (savedInstanceState != null) {
-            selectedHouse = (House) savedInstanceState.getSerializable("SelectedHouse");
+            selectedHouse = savedInstanceState.getParcelable("SelectedHouse");
         } else {
-            selectedHouse = (House) getArguments().getSerializable("SelectedHouse");
+            selectedHouse = getArguments().getParcelable("SelectedHouse");
         }
+        initializeComponents(currentView, savedInstanceState);
+
         return currentView;
     }
 
@@ -67,8 +68,12 @@ public class HouseManagerEndFragment extends Fragment {
             }
         }
         if (mode.equalsIgnoreCase("edit_house")) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("SelectedHouse", selectedHouse);
             EditHouseFragment editHouseFragment = new EditHouseFragment();
+            editHouseFragment.setArguments(bundle);
             AboutHouseFragment aboutHouseFragment = new AboutHouseFragment();
+            aboutHouseFragment.setArguments(bundle);
             fragmentList.clear();
             fragmentTitle.clear();
             fragmentList.add(editHouseFragment);
@@ -80,9 +85,14 @@ public class HouseManagerEndFragment extends Fragment {
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         } else if (mode.equalsIgnoreCase("manage_users")) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("SelectedHouse", selectedHouse);
             BannedUsersFragment bannedUsersFragment = new BannedUsersFragment();
+            bannedUsersFragment.setArguments(bundle);
             PendingUsersFragment pendingUsersFragment = new PendingUsersFragment();
+            pendingUsersFragment.setArguments(bundle);
             ActiveUsersFragment activeUsersFragment = new ActiveUsersFragment();
+            activeUsersFragment.setArguments(bundle);
             fragmentTitle.clear();
             fragmentList.clear();
             fragmentTitle.add("Active");
@@ -97,8 +107,12 @@ public class HouseManagerEndFragment extends Fragment {
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         } else if (mode.equalsIgnoreCase("manage_content")) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("SelectedHouse", selectedHouse);
             FlaggedPostsFragment flaggedPostsFragment = new FlaggedPostsFragment();
+            flaggedPostsFragment.setArguments(bundle);
             ResolvedPostsFragment resolvedPostsFragment = new ResolvedPostsFragment();
+            resolvedPostsFragment.setArguments(bundle);
             fragmentList.clear();
             fragmentTitle.clear();
             fragmentTitle.add("Flagged");
@@ -111,9 +125,13 @@ public class HouseManagerEndFragment extends Fragment {
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         } else if (mode.equalsIgnoreCase("messages")) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("SelectedHouse", selectedHouse);
             adapter = new HouseManagerPagerAdapter(getChildFragmentManager());
             HouseAnnouncementsFragment announcementsFragment = new HouseAnnouncementsFragment();
+            announcementsFragment.setArguments(bundle);
             HouseMessagesFragment houseMessagesFragment = new HouseMessagesFragment();
+            houseMessagesFragment.setArguments(bundle);
             fragmentList.clear();
             fragmentTitle.clear();
             fragmentTitle.add("Announcements");

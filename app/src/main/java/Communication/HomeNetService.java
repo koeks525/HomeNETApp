@@ -7,6 +7,7 @@ import Models.Category;
 import Models.Country;
 import Models.HomeData;
 import Models.House;
+import Models.HouseAnnouncement;
 import Models.HouseMember;
 import Models.HousePost;
 import Models.HousePostFlag;
@@ -14,6 +15,7 @@ import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.Key;
 import Models.LoginViewModel;
+import Models.MessageThread;
 import Models.Organization;
 import Models.SearchViewModel;
 import Models.Token;
@@ -53,7 +55,7 @@ public interface HomeNetService {
     Call<SingleResponse<User>> loginUser(@Header("Authorization") String authCode, @Body LoginViewModel model, @Query("clientCode") String clientCode);
     @Multipart
     @POST("House/CreateHouse")
-    Call<SingleResponse<House>> createHouse(@Header("Authorization") String authCode, @Part("houseName") RequestBody houseName, @Part("description") RequestBody description, @Part("houseLocation") RequestBody houseLocation, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode, @Part MultipartBody.Part imageFile);
+    Call<SingleResponse<House>> createHouse(@Header("Authorization") String authCode, @Part("houseName") RequestBody houseName, @Part("description") RequestBody description,  @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode, @Part MultipartBody.Part imageFile);
     @GET("Category/GetCategories")
     Call<ListResponse<Category>> getCategories(@Query("clientCode") String clientCode);
     @GET("House/GetHouses")
@@ -105,5 +107,16 @@ public interface HomeNetService {
     Call<ListResponse<HousePostFlag>> getHousePendingPosts(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
     @GET("FlaggedPost/GetFlaggedHousePosts")
     Call<ListResponse<HousePostFlag>> getFlaggedHousePosts(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @GET("Announcement/GetHouseAnnouncements")
+    Call<ListResponse<HouseAnnouncement>> getHouseAnnouncements(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @Multipart
+    @POST("House/UpdateHouse")
+    Call<SingleResponse<House>> updateHouse(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Part("houseName") String houseName, @Part("houseDescription") String houseDescription, @Part("emailAddress") String emailAddress, @Part("isPrivate") int isPrivate, @Part("oneTimePin") String oneTimePin, @Part MultipartBody.Part imageFile);
+    @Multipart
+    @POST("House/GetSubscribedHouses")
+    Call<ListResponse<House>> getSubscribedHouses(@Header("Authorization") String authCode, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode);
+    @GET
+    Call<ListResponse<MessageThread>> getMessageThreads(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+
 
 }

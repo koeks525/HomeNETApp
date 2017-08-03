@@ -8,10 +8,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 
 import Models.House;
 import Tasks.CreatePostTask;
+import Tasks.NewPostGetSubscribedHousesTask;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,6 +53,7 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
     private Button selectImageButton;
     private FloatingActionButton submitPostButton;
     private CheckBox postToFacebook, postToTwitter, locationData;
+    private TextView toolbarTextView;
     private Uri imageUri;
 
     public NewPostFragment() {
@@ -61,17 +67,20 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_new_post, container, false);
         initializeComponents(currentView);
-        if (savedInstanceState != null) {
-            userHouseList = savedInstanceState.getParcelableArrayList("Houses");
-        } else {
-            getData();
-        }
-        setUpMaterialSpinner();
+        getSubscribedHouses();
         return currentView;
 
     }
 
+    private void getSubscribedHouses() {
+        NewPostGetSubscribedHousesTask task = new NewPostGetSubscribedHousesTask(housesSpinner, getActivity()); //error
+        try {task.execute().wait(); } catch (Exception error) {}
+    }
+
+
+
     private void initializeComponents(View currentView){
+        userHouseList = new ArrayList<>();
         housesSpinner = (MaterialSpinner) currentView.findViewById(R.id.NewPostSelectHouseSpinner);
         postDescriptionEditText = (EditText) currentView.findViewById(R.id.NewPostDescriptionTextView);
         postImageView = (ImageView) currentView.findViewById(R.id.NewPostPhotoImageView);
@@ -83,35 +92,14 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
         postToFacebook = (CheckBox) currentView.findViewById(R.id.NewPostToFacebookCheckbox);
         postToTwitter = (CheckBox) currentView.findViewById(R.id.NewPostToTwitterCheckbox);
         locationData = (CheckBox) currentView.findViewById(R.id.NewPostAddLocationCheckbox);
+        toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
+        toolbarTextView.setText("Post an Update");
 
-    }
-
-    private void setUpMaterialSpinner() {
-        if (userHouseList != null) {
-            housesSpinner.setItems(userHouseList);
-        } else {
-            displayMessage("No Houses Found", "No linked houses were found for your profile", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    getFragmentManager().popBackStack();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("Houses", userHouseList);
     }
 
     private void displayMessage(String title, String message, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title).setMessage(message).setPositiveButton("Okay", listener).setCancelable(false).show();
-    }
-
-    private void getData() {
-        userHouseList = getArguments().getParcelableArrayList("Houses");
     }
 
     @Override
@@ -164,7 +152,6 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
         }
         return null;
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

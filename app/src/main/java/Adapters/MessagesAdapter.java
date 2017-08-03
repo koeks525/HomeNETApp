@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.internal.IMapFragmentDelegate;
 import com.koeksworld.homenet.R;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             holder.readReceiptImageView.setBackgroundColor(Color.RED);
         }
         holder.titleTextView.setText(houseAnnouncementList.get(position).getTitle());
-        holder.descriptionTextView.setText(houseAnnouncementList.get(position).getComment());
+        holder.descriptionTextView.setText(houseAnnouncementList.get(position).getMessage());
         holder.userImageView.setImageResource(R.drawable.post_it);
 
 

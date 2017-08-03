@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:id="@+id/HeaderLayout">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/material_design_backgrounds_blue"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:id = "@+id/HeaderBackgroundImageView"/>
+    android:id="@+id/HeaderLayout"
+    android:background="@drawable/background"
+    >
     <ImageView
         android:id = "@+id/UserProfileImageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="40%"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:src="@color/colorAccent"
@@ -41,4 +35,4 @@
         android:textSize="18sp"
         android:textColor="@android:color/white"
         android:layout_above="@id/HeaderEmailAddressTextView"/>
-    </android.support.percent.PercentRelativeLayout>
+    </RelativeLayout>
