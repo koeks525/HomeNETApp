@@ -27,6 +27,7 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
     private RecyclerView messagesRecyclerView;
     private GetHouseMessagesTask task;
     private FloatingActionButton refreshButton;
+    private FloatingActionButton newPostButton;
 
     public HouseMessagesFragment() {
         // Required empty public constructor
@@ -47,6 +48,8 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
         messagesRecyclerView = (RecyclerView) currentView.findViewById(R.id.MessagesRecyclerView);
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshButton = (FloatingActionButton) currentView.findViewById(R.id.MessagesActionButton);
+        newPostButton = (FloatingActionButton) currentView.findViewById(R.id.NewMessageButton);
+        newPostButton.setOnClickListener(this);
         refreshButton.setOnClickListener(this);
     }
 
@@ -58,7 +61,15 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        task = new GetHouseMessagesTask(getActivity(), messagesRecyclerView);
-        task.execute();
+        switch (view.getId()) {
+            case R.id.MessagesActionButton:
+                task = new GetHouseMessagesTask(getActivity(), messagesRecyclerView);
+                task.execute();
+                break;
+            case R.id.NewMessageButton:
+
+
+                break;
+        }
     }
 }

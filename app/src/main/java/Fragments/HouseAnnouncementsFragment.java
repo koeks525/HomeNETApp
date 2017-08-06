@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.MessagesAdapter;
+import Models.House;
 import Models.HouseAnnouncement;
+import Tasks.GetHouseAnnouncementsTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,8 @@ public class HouseAnnouncementsFragment extends Fragment {
     private RecyclerView announcementsRecyclerView;
     private List<HouseAnnouncement> houseAnnouncementList = new ArrayList<>();
     private MessagesAdapter adapter;
+    private House selectedHouse;
+    private GetHouseAnnouncementsTask task;
     public HouseAnnouncementsFragment() {
         // Required empty public constructor
     }
@@ -36,26 +40,22 @@ public class HouseAnnouncementsFragment extends Fragment {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_house_announcements, container, false);
         initializeComponents(currentView);
+        if (savedInstanceState != null) {
+            selectedHouse = savedInstanceState.getParcelable("SelectedHouse");
+        } else {
+            selectedHouse = getArguments().getParcelable("SelectedHouse");
+        }
+        task = new GetHouseAnnouncementsTask(getActivity(), announcementsRecyclerView, selectedHouse.getHouseID());
+        task.execute();
         return currentView;
     }
 
     private void initializeComponents(View currentView) {
-        setFakeData();
-        adapter = new MessagesAdapter(houseAnnouncementList);
         announcementsRecyclerView = (RecyclerView) currentView.findViewById(R.id.AnnouncementsRecyclerView);
         announcementsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         announcementsRecyclerView.setAdapter(adapter);
     }
 
-    private void setFakeData() {
-        houseAnnouncementList.clear();
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Kitchen Situation", "Can someone please respond to the kitchen being messy", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Swimming Pool Situation", "The swimming pool is scheduled for maintenance sometime this week", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Crazy Landlord", "The landlord is talking about the house rent not being up to date. Can someone confirm this", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Assignment", "Someone left their assignment in the kitchen. Please collect it from me", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The House Party Plan", "Can someone please put together some money for the upcoming house party", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Kitchen Situation Again", "Please do not leave the pots open in the kitchen", "2017-04-20", 0, 0));
-        houseAnnouncementList.add(new HouseAnnouncement(0, "The Kitchen Situation", "Can someone please respond to the kitchen being messy", "2017-04-20", 0, 0));
-    }
+
 
 }

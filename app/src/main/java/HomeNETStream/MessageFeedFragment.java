@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.koeksworld.homenet.R;
 
 import Models.MessageThread;
+import Tasks.GetMessageThreadMessagesTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +25,7 @@ public class MessageFeedFragment extends Fragment implements View.OnClickListene
     private EditText replyEditText;
     private FloatingActionButton replyButton;
     private MessageThread selectedThread;
-
+    private GetMessageThreadMessagesTask task;
 
     public MessageFeedFragment() {
         // Required empty public constructor
@@ -35,12 +36,18 @@ public class MessageFeedFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View currentView = inflater.inflate(R.layout.fragment_message_feed, container, false);
+        initializeComponents(currentView);
         if (savedInstanceState == null) {
             getData();
         } else {
             selectedThread = savedInstanceState.getParcelable("SelectedThread");
         }
-        return inflater.inflate(R.layout.fragment_message_feed, container, false);
+
+        task = new GetMessageThreadMessagesTask(getActivity(), recyclerView, selectedThread);
+        task.execute();
+        return currentView;
+
     }
 
     private void initializeComponents(View currentView) {

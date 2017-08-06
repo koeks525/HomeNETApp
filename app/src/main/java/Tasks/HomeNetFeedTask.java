@@ -73,7 +73,6 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         dialog = new ProgressDialog(currentActivity);
         dialog.setMessage("Fetching feed data. Please wait...");
         dialog.setCancelable(false);
@@ -117,6 +116,9 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
             }
             return 1;
         } catch (Exception error) {
+            if (dialog.isShowing()) {
+                dialog.cancel();
+            }
             displayMessage("Error Processing Feed Data", error.getMessage(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -129,7 +131,6 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
-        super.onPostExecute(integer);
         if (dialog.isShowing()) {
             dialog.cancel();
         }
@@ -175,7 +176,7 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
         });
     }
 
-    private void displaySnackbar(String message) {
-        Snackbar.make(feedRecyclerView, message, Snackbar.LENGTH_LONG).show();
+    private void displaySnackbar(String message) {//error is here
+        Snackbar.make(currentActivity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 }

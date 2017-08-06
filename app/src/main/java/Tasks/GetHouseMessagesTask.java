@@ -44,6 +44,7 @@ public class GetHouseMessagesTask extends AsyncTask<Integer, Integer, Integer> {
     private List<MessageThread> messageThreadList;
     private List<Protocol> protocolList;
     private String errorInformation = "";
+    private boolean noPosts = false;
 
     public GetHouseMessagesTask(Activity currentActivity, RecyclerView messagesRecyclerView) {
         protocolList = new ArrayList<>();
@@ -77,7 +78,11 @@ public class GetHouseMessagesTask extends AsyncTask<Integer, Integer, Integer> {
                     }
                 }
             } else {
-                errorInformation += response.errorBody().string();
+                if (response.code() == 404) {
+                    noPosts = true;
+                } else {
+                    errorInformation += response.errorBody().string();
+                }
             }
             return 1;
 
@@ -98,7 +103,7 @@ public class GetHouseMessagesTask extends AsyncTask<Integer, Integer, Integer> {
         }
         if (errorInformation == "") {
             if (messageThreadList.size() > 0) {
-                messagesAdapter = new UserMessagesAdapter(messageThreadList);
+                messagesAdapter = new UserMessagesAdapter(messageThreadList, currentActivity);
                 messagesRecyclerView.setAdapter(messagesAdapter);
             } else {
                 displayToast("No Messages Found!");

@@ -84,8 +84,6 @@ public class AppSetupTask extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPreExecute() {
-        super.onPreExecute();
-
         if (!realmHelper.exists()) {
             bar = new ProgressDialog(currentActivity);
             bar.setCancelable(false);

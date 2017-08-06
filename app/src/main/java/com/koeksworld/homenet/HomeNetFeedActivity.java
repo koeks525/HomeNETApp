@@ -111,6 +111,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                 }
             }
         });
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         appToolbar = (Toolbar) findViewById(R.id.HomeNetFeedToolbar);
         toolbarTextView = (TextView) findViewById(R.id.HomeNetFeedToolbarTextView);

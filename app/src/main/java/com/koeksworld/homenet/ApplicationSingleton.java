@@ -12,6 +12,7 @@ import io.realm.RealmConfiguration;
 
 //Source: http://www.androidhive.info/2016/05/android-working-with-realm-database-replacing-sqlite-core-data/
 public class ApplicationSingleton extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();

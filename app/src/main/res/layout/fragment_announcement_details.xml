@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="HomeNETStream.AnnouncementDetailsFragment"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id = "@+id/AnnouncementInformationCardView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="100">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:text="@string/announcement_title_string"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_margin="5dp"
+                    android:id = "@+id/AnnouncementTitleTextView"/>
+            </TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="@string/message_string"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="9"
+                android:id = "@+id/AnnouncementMessageTextView"
+                android:layout_margin="5dp"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        android:id = "@+id/AnnouncementRepliesRecyclerView">
+    </android.support.v7.widget.RecyclerView>
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:id = "@+id/AnnouncementReplyHint"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="60%"
+            android:hint="Enter Message">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id = "@+id/AnnouncementReplyEditText"
+                android:maxLines="4"
+                android:scrollbars="vertical"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id = "@+id/AnnouncementReplyButton"
+            android:layout_toEndOf="@id/AnnouncementReplyHint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="20%"
+            android:src="@drawable/ic_send_white_24dp"
+            android:layout_margin="5dp"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id = "@+id/AnnouncementRefreshButton"
+            android:layout_toEndOf="@id/AnnouncementReplyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="20%"
+            android:src="@drawable/ic_refresh_white_24dp"
+            android:layout_margin="5dp"/>
+    </android.support.percent.PercentRelativeLayout>
+
+</LinearLayout>

@@ -1,7 +1,10 @@
 package Adapters;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +21,7 @@ import com.koeksworld.homenet.R;
 
 import java.util.List;
 
+import HomeNETStream.AnnouncementDetailsFragment;
 import Models.HouseAnnouncement;
 
 /**
@@ -27,8 +31,10 @@ import Models.HouseAnnouncement;
 public class HouseAnnouncementsAdapter extends RecyclerView.Adapter<HouseAnnouncementsAdapter.HouseAnnouncementViewHolder> {
 
     private List<HouseAnnouncement> announcementList;
-    public HouseAnnouncementsAdapter(List<HouseAnnouncement> announcementList) {
+    private Activity currentActivity;
+    public HouseAnnouncementsAdapter(List<HouseAnnouncement> announcementList, Activity currentActivity) {
         this.announcementList = announcementList;
+        this.currentActivity = currentActivity;
     }
     @Override
     public HouseAnnouncementsAdapter.HouseAnnouncementViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,6 +71,7 @@ public class HouseAnnouncementsAdapter extends RecyclerView.Adapter<HouseAnnounc
                 });
             }
         });
+
     }
 
     @Override
@@ -88,6 +95,21 @@ public class HouseAnnouncementsAdapter extends RecyclerView.Adapter<HouseAnnounc
             messageTitleTextView = (TextView) itemView.findViewById(R.id.MessageTitleTextView);
             messageAnnouncementDescriptionTextView = (TextView) itemView.findViewById(R.id.MessageAnnouncementDescriptionTextView);
             announcementMoreOptionsTextView = (ImageView) itemView.findViewById(R.id.AnnouncementMoreOptionsImageView);
+            messageCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int index = getAdapterPosition();
+                    AnnouncementDetailsFragment detailsFragment = new AnnouncementDetailsFragment();
+                    Bundle args = new Bundle();
+                    HouseAnnouncement selected = announcementList.get(index);
+                    args.putParcelable("SelectedAnnouncement", selected);
+                    detailsFragment.setArguments(args);
+                    FragmentTransaction transaction = currentActivity.getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.HomeNetFeedContentView, detailsFragment, null);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }
     }
 

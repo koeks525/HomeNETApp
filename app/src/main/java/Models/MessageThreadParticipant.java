@@ -2,22 +2,12 @@ package Models;
 
 import com.google.gson.annotations.SerializedName;
 
-import okhttp3.MultipartBody;
-
 /**
- * Created by Okuhle on 2017/08/02.
+ * Created by Okuhle on 2017/08/03.
  */
 
-public class ParticipantViewModel {
+public class MessageThreadParticipant {
 
-    @SerializedName("userID")
-    private int userID;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("surname")
-    private String surname;
-    @SerializedName("emailAddress")
-    private String emailAddress;
     @SerializedName("messageThreadParticipantID")
     private int messageThreadParticipantID;
     @SerializedName("isDeleted")
@@ -27,49 +17,11 @@ public class ParticipantViewModel {
     @SerializedName("houseMemberID")
     private int houseMemberID;
 
-    public ParticipantViewModel() {}
-
-    public ParticipantViewModel(int userID, String name, String surname, String emailAddress, int messageThreadParticipantID, int isDeleted, int messageThreadID, int houseMemberID) {
-        this.userID = userID;
-        this.name = name;
-        this.surname = surname;
-        this.emailAddress = emailAddress;
+    public MessageThreadParticipant(int messageThreadParticipantID, int isDeleted, int messageThreadID, int houseMemberID) {
         this.messageThreadParticipantID = messageThreadParticipantID;
         this.isDeleted = isDeleted;
         this.messageThreadID = messageThreadID;
         this.houseMemberID = houseMemberID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
     }
 
     public int getMessageThreadParticipantID() {

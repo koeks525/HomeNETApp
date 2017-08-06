@@ -7,6 +7,7 @@ import java.util.List;
 
 import Models.Category;
 import Models.Country;
+import Models.FirebaseMessagingKey;
 import Models.Key;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -63,6 +64,19 @@ public class RealmHelper {
             realmInstance.commitTransaction();
         }
         return true;
+    }
+
+    public boolean addFirebaseMessagingKey(FirebaseMessagingKey newKey) {
+        FirebaseMessagingKey key = realmInstance.createObject(FirebaseMessagingKey.class, newKey.getKey());
+        key.setKey(newKey.getKey());
+        realmInstance.commitTransaction();
+        return true;
+    }
+
+    public String getFirebaseMessagingKey() {
+        RealmResults<FirebaseMessagingKey> results = realmInstance.where(FirebaseMessagingKey.class).findAllAsync();
+        List<FirebaseMessagingKey> key = realmInstance.copyFromRealm(results);
+        return key.get(0).getKey();
     }
 
     public boolean addCategories(List<Category> categories) {

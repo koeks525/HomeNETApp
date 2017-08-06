@@ -16,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.koeksworld.homenet.ApplicationSingleton;
 import com.koeksworld.homenet.HomeManagerActivity;
 import com.koeksworld.homenet.HomeNetFeedActivity;
 import com.koeksworld.homenet.R;
+import com.koeksworld.homenet.TokenSingleton;
 import com.viewpagerindicator.LinePageIndicator;
 
 import org.json.JSONObject;
@@ -42,6 +45,7 @@ import Models.HousePost;
 import Models.Organization;
 import Models.User;
 import ResponseModels.ListResponse;
+import ResponseModels.SingleResponse;
 import Utilities.DeviceUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -82,6 +86,9 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
     private LinePageIndicator indicator;
     private ArrayList<Fragment> fragmentList;
     private List<Protocol> protocolList = new ArrayList<>();
+    private SharedPreferences.Editor editor;
+    private RealmHelper helper;
+    String token;
 
     public UserCheckUpTask(Activity currentActivity) {
         this.currentActivity = currentActivity;
@@ -91,10 +98,13 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
         service = retrofit.create(HomeNetService.class);
         dbHelper = new RealmHelper();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
+        editor = sharedPreferences.edit();
         errorString = "";
         deviceUtils = new DeviceUtils(currentActivity);
         currentView = currentActivity.findViewById(android.R.id.content);
         fragmentManager = currentActivity.getFragmentManager();
+        helper = new RealmHelper();
+        token = FirebaseInstanceId.getInstance().getToken();
     }
 
     @Override
@@ -109,6 +119,21 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
     @Override
     protected Integer doInBackground(Integer... integers) {
         try {
+            //Save the firebase token for the selected user
+            Response<SingleResponse<User>> userCall = service.getUser("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+            if (userCall.isSuccessful()) {
+                User foundUser = userCall.body().getModel();
+                foundUser.setFirebaseMessagingToken(token);
+                Response<SingleResponse<User>> updateCall = service.updateUser("Bearer "+sharedPreferences.getString("authorization_token", ""), foundUser, currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+                if (updateCall.isSuccessful()) {
+                    editor.putString("firebase_token", updateCall.body().getModel().getFirebaseMessagingToken());
+                    editor.commit();
+                } else {
+                    errorString += errorString + "\n"+updateCall.errorBody().string();
+                }
+                updateCall = null;
+            }
+            userCall = null;
             Response<ListResponse<HouseMember>> membershipCall = service.getUserMemberships("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
 
             if (membershipCall.isSuccessful()) {

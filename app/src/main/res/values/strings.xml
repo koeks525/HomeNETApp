@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">HomeNet</string>
+    <string name="message_title_string">Message Title</string>
+    <string name="message_description_string">Enter Message</string>
     <string name="facebook_app_id">174137489749832</string>
     <string name="enter_reply_string">Enter Reply</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_hint">Announcement Title</string>
+    <string name="description_hint">Announcement Details</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="please_login_string">Log In to Continue</string>
     <string name="homenet_string">HomeNET</string>
@@ -166,4 +170,8 @@
     <string name="remove_announcement_string">Delete (Admin Only)</string>
     <string name="delete_message">Delete Message</string>
     <string name="view_participants">View Participants</string>
+    <string name="person_hint_string">NOTE: After selecting your house, a list of possible users will appear</string>
+    <string name="house_name_string">House Name:</string>
+    <string name="announcement_title_string">Title:</string>
+    <string name="message_string">Message:</string>
 </resources>

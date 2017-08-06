@@ -46,7 +46,7 @@
                 android:id = "@+id/HomeNetFeedContentView"/>
             <com.roughike.bottombar.BottomBar
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id = "@+id/HomeNetFeedBottomBar"
                 app:bb_showShadow="true"
                 app:bb_tabXmlResource="@xml/homenet_tabs"/>

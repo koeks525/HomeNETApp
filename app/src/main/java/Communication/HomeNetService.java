@@ -3,6 +3,8 @@ package Communication;
 import java.io.File;
 import java.util.List;
 
+import Models.AnnouncementComment;
+import Models.AnnouncementCommentViewModel;
 import Models.Category;
 import Models.Country;
 import Models.HomeData;
@@ -16,11 +18,15 @@ import Models.HousePostMetaDataViewModel;
 import Models.Key;
 import Models.LoginViewModel;
 import Models.MessageThread;
+import Models.MessagesViewModel;
+import Models.NewAnnouncementViewModel;
+import Models.NewCommentViewModel;
 import Models.Organization;
 import Models.SearchViewModel;
 import Models.Token;
 import Models.User;
 import Models.UserData;
+import Models.UserViewModel;
 import ResponseModels.ListResponse;
 import ResponseModels.SingleResponse;
 import okhttp3.MultipartBody;
@@ -41,6 +47,20 @@ import retrofit2.http.Query;
 
 public interface HomeNetService {
 
+    @POST("AnnouncementComment/CreateAnnouncementComment")
+    Call<SingleResponse<AnnouncementComment>> createAnnouncementComment(@Header("Authorization") String authCode, @Body NewCommentViewModel model, @Query("clientCode") String clientCode);
+    @GET("AnnouncementComment/GetAnnouncementComments")
+    Call<ListResponse<AnnouncementCommentViewModel>> getAnnouncementComments(@Header("Authorization") String authCode, @Query("houseAnnouncementID") int houseAnnouncementID, @Query("clientCode") String clientCode);
+    @GET("Announcement/GetAllAnnouncements")
+    Call<ListResponse<HouseAnnouncement>> getAllAnnouncements(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @POST("Announcement/CreateAnnouncement")
+    Call<SingleResponse<HouseAnnouncement>> createAnnouncement(@Header("Authorization") String authCode, @Body NewAnnouncementViewModel model, @Query("clientCode") String clientCode);
+    @GET("Announcement/GetUserAnnouncements")
+    Call<ListResponse<HouseAnnouncement>> getUserAnnouncements(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @POST("User/UpdateUser")
+    Call<SingleResponse<User>> updateUser(@Header("Authorization") String authCode, @Body User updateUser, @Query("clientCode") String clientCode);
+    @GET("User/GetUser")
+    Call<SingleResponse<User>> getUser(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String cleintCode);
     @GET("Country/GetCountries")
     Call<ListResponse<Country>> getCountries(@Query("clientCode") String clientCode);
     @POST("User/CreateUser")
@@ -115,8 +135,12 @@ public interface HomeNetService {
     @Multipart
     @POST("House/GetSubscribedHouses")
     Call<ListResponse<House>> getSubscribedHouses(@Header("Authorization") String authCode, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode);
-    @GET
+    @GET("Messages/GetMessageThread")
     Call<ListResponse<MessageThread>> getMessageThreads(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @GET("Messages/GetMessagesInThread")
+    Call<ListResponse<MessagesViewModel>> getMessagesInThread(@Header("Authorization") String authCode, @Query("messageThreadID") int messageThreadID, @Query("clientCode") String clientCode);
+    @GET("House/GetUsersInHouse")
+    Call<ListResponse<UserViewModel>> getUsersInHouse(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
 
 
 }

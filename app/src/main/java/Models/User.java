@@ -53,6 +53,8 @@ public class User extends RealmObject implements Parcelable{
     private String facebookID;
     @SerializedName("twitterID")
     private String twitterID;
+    @SerializedName("firebaseMessagingToken")
+    private String firebaseMessagingToken;
 
     public User() {}
     public User(int id, String surname, String name, String email, String dateOfBirth, String userName, String password, String securityQuestion, String securityAnswer, String dateRegistered, int isDeleted, String gender, int countryID, String phoneNumber) {
@@ -254,6 +256,14 @@ public class User extends RealmObject implements Parcelable{
         return 0;
     }
 
+    public String getFirebaseMessagingToken() {
+        return firebaseMessagingToken;
+    }
+
+    public void setFirebaseMessagingToken(String firebaseMessagingToken) {
+        this.firebaseMessagingToken = firebaseMessagingToken;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -274,5 +284,6 @@ public class User extends RealmObject implements Parcelable{
         parcel.writeString(skypeID);
         parcel.writeString(facebookID);
         parcel.writeString(twitterID);
+        parcel.writeString(firebaseMessagingToken);
     }
 }

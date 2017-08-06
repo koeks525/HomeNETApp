@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="HomeNETStream.NewAnnouncementFragment"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title_hint">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/NewAnnouncementTitleTextView"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/description_hint">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id = "@+id/NewAnnouncementDescriptionTextView"
+            android:lines="3"
+            android:maxLines="3"/>
+    </android.support.design.widget.TextInputLayout>
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select House"
+        android:id = "@+id/NewAnnouncementHouseSpinner"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/CreateAnnouncementButton"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_send_white_24dp"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>

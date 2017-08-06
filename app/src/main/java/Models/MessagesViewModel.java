@@ -18,13 +18,22 @@ public class MessagesViewModel {
     private int messageThreadID;
     @SerializedName("houseMemberID")
     private int houseMemberID;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("surname")
+    private String surname;
+    @SerializedName("emailAddress")
+    private String emailAddress;
 
-    public MessagesViewModel(int messageThreadMessageID, String message, String dateSent, int messageThreadID, int houseMemberID) {
+    public MessagesViewModel(int messageThreadMessageID, String message, String dateSent, int messageThreadID, int houseMemberID, String name, String surname, String emailAddress) {
         this.messageThreadMessageID = messageThreadMessageID;
         this.message = message;
         this.dateSent = dateSent;
         this.messageThreadID = messageThreadID;
         this.houseMemberID = houseMemberID;
+        this.name = name;
+        this.surname = surname;
+        this.emailAddress = emailAddress;
     }
 
     public int getMessageThreadMessageID() {
@@ -65,5 +74,29 @@ public class MessagesViewModel {
 
     public void setHouseMemberID(int houseMemberID) {
         this.houseMemberID = houseMemberID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }
