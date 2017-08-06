@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.koeksworld.homenet.HomeNetFeedActivity;
 import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.Map;
 import Models.HouseMember;
 import Models.HousePost;
 import Models.HousePostMetaDataViewModel;
+import Models.HousePostViewModel;
 import Models.User;
 
 /**
@@ -31,17 +35,14 @@ import Models.User;
 
 public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.HomeNetFeedViewHolder> {
 
-    private List<HousePost> housePostList; //Keep list of house posts
-    private List<User> userList; //keep list of related users to the house posts
-    private List<HouseMember> houseMemberList; //keep list of related memberships for each house post
-    private List<HousePostMetaDataViewModel> housePostData; //Keeps a list of total likes/dislikes for each house post
+    private List<HousePostMetaDataViewModel> metaDataList;
+    private List<HousePostViewModel> housePostList;
     private Activity currentActivity;
-    public HomeNetFeedAdapter(List<HousePost> housePostList, List<User> userList, List<HouseMember> houseMemberList, List<HousePostMetaDataViewModel> housePostData, Activity currentActivity) {
-        this.housePostList = housePostList;
-        this.userList = userList;
-        this.houseMemberList = houseMemberList;
-        this.housePostData = housePostData;
+
+    public HomeNetFeedAdapter(List<HousePostMetaDataViewModel> metaDataList, List<HousePostViewModel> housePostList, Activity currentActivity) {
+        this.metaDataList = metaDataList;
         this.currentActivity = currentActivity;
+        this.housePostList = housePostList;
     }
 
     @Override
@@ -53,31 +54,21 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
 
     @Override
     public void onBindViewHolder(final HomeNetFeedViewHolder holder, int position) {
-        HousePost selectedPost = housePostList.get(position);
-        HouseMember selectedMembership = null;
-        HousePostMetaDataViewModel housePostMetrics = null;
-        for(HouseMember membership : houseMemberList) {
-            if (selectedPost.getHouseMemberID() == membership.getHouseMemberID()) {
-                selectedMembership = membership;
-                break;
+        HousePostViewModel selectedPost = housePostList.get(position);
+        HousePostMetaDataViewModel metaData = metaDataList.get(position);
+        /*HousePostMetaDataViewModel metaData = null;
+        for (HousePostMetaDataViewModel data : metaDataList ){
+            if (data.getHousePostID() == selectedPost.getHousePostID()) {
+                metaData = data;
             }
-        }
-        for(HousePostMetaDataViewModel model : housePostData) {
-            if (model.getHousePostID() == selectedPost.getHousePostID()) {
-                housePostMetrics = model;
-            }
-        }
-        if (selectedMembership != null) {
-            for (User selectedUser : userList) {
-                if (selectedUser.getId() == selectedMembership.getUserId()) {
-                    holder.usernameTextView.setText(selectedUser.getUserName());
-                    break;
-                }
-            }
-        }
+        }*/
+
         holder.newsFeedTextTextView.setText(selectedPost.getPostText());
-        holder.totalLikesTextView.setText(Integer.toString(housePostMetrics.getTotalLikes()));
-        holder.totalDislikesTextView.setText(Integer.toString(housePostMetrics.getTotalDislikes()));
+        holder.totalLikesTextView.setText(Integer.toString(metaData.getTotalLikes()));
+        holder.totalDislikesTextView.setText(Integer.toString(metaData.getTotalDislikes()));
+        holder.usernameTextView.setText(selectedPost.getName() +" "+selectedPost.getSurname());
+        TextDrawable drawable = TextDrawable.builder().buildRect(selectedPost.getName().substring(0,1).toUpperCase() +selectedPost.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
+        holder.newsFeedProfileImageView.setImageDrawable(drawable);
         holder.optionsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +142,7 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
             optionsImageView = (ImageView) itemView.findViewById(R.id.FeedItemOptionsMenu);
             totalLikesImageView = (ImageView) itemView.findViewById(R.id.LikeImageView);
             totalDislikesImageView = (ImageView) itemView.findViewById(R.id.DislikeImageView);
+            newsFeedProfileImageView = (ImageView) itemView.findViewById(R.id.FeedItemProfilePicture);
         }
     }
 }

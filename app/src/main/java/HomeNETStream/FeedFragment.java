@@ -86,22 +86,5 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-   /* private void checkData(View currentView) {
-        if (housePostList == null || houseMemberList.size() == 0) {
-            Snackbar.make(currentView.findViewById(R.id.HomeNetFeedView), "No Feed Data Found.", Snackbar.LENGTH_INDEFINITE).show();
-        }
-    }*/
 
-   /* private void getData() {
-        housePostList = getArguments().getParcelableArrayList("HousePostList");
-        houseMemberList = getArguments().getParcelableArrayList("MembershipList");
-        userList = getArguments().getParcelableArrayList("UserList");
-        metaDataList = getArguments().getParcelableArrayList("HousePostMetaData");
-        houseList = getArguments().getParcelableArrayList("HouseList");
-    }*/
-
-    /*private void setFeedAdapter() {
-        feedAdapter = new HomeNetFeedAdapter(housePostList, userList, houseMemberList, metaDataList, getActivity());
-        recyclerView.setAdapter(feedAdapter);
-    }*/
 }

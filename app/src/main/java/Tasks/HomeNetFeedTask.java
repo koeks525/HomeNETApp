@@ -30,6 +30,7 @@ import Models.HouseMember;
 import Models.HousePost;
 import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
+import Models.HousePostViewModel;
 import Models.User;
 import ResponseModels.ListResponse;
 import ResponseModels.SingleResponse;
@@ -52,14 +53,12 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
     private OkHttpClient client;
     private List<Protocol> protocolList = new ArrayList<>();
     private ProgressDialog dialog;
-    private ArrayList<HousePost> housePostList = new ArrayList<>();
-    private ArrayList<HousePostMetaDataViewModel> housePostMetaDataList = new ArrayList<>();
-    private ArrayList<HouseMember> membershipList = new ArrayList<>();
-    private ArrayList<House> houseList = new ArrayList<>();
-    private ArrayList<User> userList = new ArrayList<>();
+    private List<HousePostViewModel> postList;
+    private List<HousePostMetaDataViewModel> metaDataList;
     private String errorInformation = "";
     private RecyclerView feedRecyclerView;
     private HomeNetFeedAdapter feedAdapter;
+
 
     public HomeNetFeedTask(Activity currentActivity, RecyclerView feedRecyclerView) {
         this.currentActivity = currentActivity;
@@ -69,6 +68,8 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
         service = retrofit.create(HomeNetService.class);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
         this.feedRecyclerView = feedRecyclerView;
+        postList = new ArrayList<>();
+        metaDataList = new ArrayList<>();
     }
 
     @Override
@@ -78,53 +79,34 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
         dialog.setCancelable(false);
         dialog.show();
     }
-    //Get all house posts, all memberships, all user data, post metric data
+
     @Override
     protected Integer doInBackground(Integer... integers) {
         try {
-            Response<ListResponse<HousePost>> housePostCall = service.getHousePosts("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
-            if (housePostCall.isSuccessful()) {
-                if (housePostCall.body().getModel() != null) {
-                    housePostList = new ArrayList<>(housePostCall.body().getModel());
-                }
-                if (housePostList.size() > 0) {
-                    for (HousePost post : housePostList) {
-                        Response<SingleResponse<HouseMember>> memberCall = service.getHouseMember("Bearer "+sharedPreferences.getString("authorization_token", ""), post.getHouseMemberID(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
-                        if (memberCall.isSuccessful()) {
-                            if (memberCall.body().getModel() != null) {
-                                membershipList.add(memberCall.body().getModel());
-                                Response<SingleResponse<House>> houseCall = service.getHouse("Bearer "+sharedPreferences.getString("authorization_token", ""), memberCall.body().getModel().getHouseID(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
-                                if (houseCall.isSuccessful()) {
-                                    if (houseCall.body().getModel() != null) {
-                                        houseList.add(houseCall.body().getModel());
-                                    }
-                                }
-                                Response<SingleResponse<User>> userCall = service.getUserById("Bearer "+sharedPreferences.getString("authorization_token", ""), memberCall.body().getModel().getUserId(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
-                                if (userCall.isSuccessful()) {
-                                    if (userCall.body().getModel() != null) {
-                                        userList.add(userCall.body().getModel());
-                                    }
-                                }
+           Response<ListResponse<HousePostViewModel>> listCall = service.getAllHousePosts("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+            if (listCall.isSuccessful()) {
+                if (listCall.body().getModel() != null) {
+                    for (HousePostViewModel model : listCall.body().getModel()) {
+                        postList.add(model);
+                        Response<SingleResponse<HousePostMetaDataViewModel>> call = service.getHousePostMetrics("Bearer "+sharedPreferences.getString("authorization_token", ""), model.getHousePostID(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+                        if (call.isSuccessful()) {
+                            HousePostMetaDataViewModel data = call.body().getModel();
+                            if (model != null) {
+                                metaDataList.add(data);
                             }
+                        } else {
+                            errorInformation = call.errorBody().string();
                         }
-
                     }
                 }
+            } else {
+                errorInformation = listCall.errorBody().string();
             }
-            else {
-                errorInformation = errorInformation + housePostCall.errorBody().string();
-            }
-            return 1;
         } catch (Exception error) {
             if (dialog.isShowing()) {
                 dialog.cancel();
             }
-            displayMessage("Error Processing Feed Data", error.getMessage(), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0);
-                }
-            });
+            errorInformation = error.getMessage();
         }
         return -1;
     }
@@ -134,34 +116,13 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
         if (dialog.isShowing()) {
             dialog.cancel();
         }
-        if (housePostList.size() > 0 && membershipList.size() > 0 && userList.size() > 0 && housePostMetaDataList.size() > 0) {
-            feedAdapter = new HomeNetFeedAdapter(housePostList, userList, membershipList, housePostMetaDataList, currentActivity);
+        if (errorInformation != "") {
+            displayMessage("Error Generating Feed", errorInformation, null);
+        } else if (postList.size() <= 0) {
+            displaySnackbar("No posts found. Refresh to get latest posts");
+        } else if (postList.size() > 0){
+            feedAdapter = new HomeNetFeedAdapter(metaDataList, postList, currentActivity);
             feedRecyclerView.setAdapter(feedAdapter);
-
-
-
-
-
-
-            /*FeedFragment feedFragment = new FeedFragment();
-            Bundle newBundle = new Bundle();
-            newBundle.putParcelableArrayList("HousePostList", housePostList);
-            newBundle.putParcelableArrayList("MembershipList", membershipList);
-            newBundle.putParcelableArrayList("UserList", userList);
-            newBundle.putParcelableArrayList("HousePostMetaData", housePostMetaDataList);
-            newBundle.putParcelableArrayList("HouseList", houseList);
-            feedFragment.setArguments(newBundle);
-            FragmentManager manager = currentActivity.getFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.HomeNetFeedContentView, feedFragment, null);
-            transaction.commit();*/
-        } else {
-            displaySnackbar("No Posts Found. Refresh to get latest posts");
-
-            /*FeedFragment feedFragment = new FeedFragment();
-            FragmentTransaction transaction = currentActivity.getFragmentManager().beginTransaction();
-            transaction.replace(R.id.HomeNetFeedContentView, feedFragment, null);
-            transaction.commit();*/
         }
 
     }

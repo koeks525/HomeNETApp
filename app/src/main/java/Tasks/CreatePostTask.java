@@ -2,6 +2,7 @@ package Tasks;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -138,9 +139,21 @@ public class CreatePostTask extends AsyncTask<Integer, Integer, Integer> {
         }
         if (resultHousePost != null) {
             //The post should be successful - this means we can take them back to main page
-            FeedFragment feedFragment = new FeedFragment();
-            Bundle newBundle = new Bundle();
+            displayMessage("Post Saved!", "New Post has been saved successfully!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    FragmentTransaction transaction = currentActivity.getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.HomeNetFeedContentView, new FeedFragment(), null);
+                    transaction.commit();
+                }
+            });
+        } else {
+            displayMessage("Error Saving Post", "Post was not saved, please try again later", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
+                }
+            });
         }
 
     }

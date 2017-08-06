@@ -15,6 +15,7 @@ import Models.HousePost;
 import Models.HousePostFlag;
 import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
+import Models.HousePostViewModel;
 import Models.Key;
 import Models.LoginViewModel;
 import Models.MessageThread;
@@ -47,6 +48,10 @@ import retrofit2.http.Query;
 
 public interface HomeNetService {
 
+    @GET("HousePostMetaData/GetHousePostMetrics")
+    Call<SingleResponse<HousePostMetaDataViewModel>> getHousePostMetrics(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
+    @GET("HousePost/GetAllHousePosts")
+    Call<ListResponse<HousePostViewModel>> getAllHousePosts(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
     @POST("AnnouncementComment/CreateAnnouncementComment")
     Call<SingleResponse<AnnouncementComment>> createAnnouncementComment(@Header("Authorization") String authCode, @Body NewCommentViewModel model, @Query("clientCode") String clientCode);
     @GET("AnnouncementComment/GetAnnouncementComments")
