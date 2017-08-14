@@ -20,17 +20,20 @@ public class NewMessageThreadViewModel {
     private String emailAddress;
     @SerializedName("dateSent")
     private String dateSent;
+    @SerializedName("senderEmail")
+    private String senderEmail;
     @SerializedName("participants")
     private List<MessageThreadParticipant> participants;
-
-    public NewMessageThreadViewModel(int houseID, String threadTitle, String threadMessage, String emailAddress, String dateSent, List<MessageThreadParticipant> participants) {
+    public NewMessageThreadViewModel(int houseID, String threadTitle, String threadMessage, String emailAddress, String dateSent, String senderEmail, List<MessageThreadParticipant> participants) {
         this.houseID = houseID;
         this.threadTitle = threadTitle;
         this.threadMessage = threadMessage;
         this.emailAddress = emailAddress;
         this.dateSent = dateSent;
         this.participants = participants;
+        this.senderEmail = senderEmail;
     }
+
 
     public NewMessageThreadViewModel() {
 
@@ -82,5 +85,13 @@ public class NewMessageThreadViewModel {
 
     public void setParticipants(List<MessageThreadParticipant> participants) {
         this.participants = participants;
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
     }
 }

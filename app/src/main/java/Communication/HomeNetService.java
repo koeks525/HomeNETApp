@@ -6,6 +6,8 @@ import java.util.List;
 import Models.AnnouncementComment;
 import Models.AnnouncementCommentViewModel;
 import Models.Category;
+import Models.CommentPartialModel;
+import Models.CommentViewModel;
 import Models.Country;
 import Models.HomeData;
 import Models.House;
@@ -19,9 +21,12 @@ import Models.HousePostViewModel;
 import Models.Key;
 import Models.LoginViewModel;
 import Models.MessageThread;
+import Models.MessageThreadMessage;
+import Models.MessageViewModel;
 import Models.MessagesViewModel;
 import Models.NewAnnouncementViewModel;
 import Models.NewCommentViewModel;
+import Models.NewMessageThreadViewModel;
 import Models.Organization;
 import Models.SearchViewModel;
 import Models.Token;
@@ -32,6 +37,7 @@ import ResponseModels.ListResponse;
 import ResponseModels.SingleResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,6 +47,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 /**
  * Created by Okuhle on 2017/03/02.
@@ -48,6 +55,21 @@ import retrofit2.http.Query;
 
 public interface HomeNetService {
 
+
+    @Streaming
+    @GET("User/GetProfilePicture")
+    Call<ResponseBody> getProfilePicture(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode );
+    @Multipart
+    @POST("User/UpdateProfilePicture")
+    Call<SingleResponse<User>> updateProfilePicture(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Part MultipartBody.Part imageFile, @Query("clientCode") String clientCode);
+    @POST("Messages/AddMessageToThread")
+    Call<SingleResponse<MessageThreadMessage>> addMessageToThread(@Header("Authorization") String authCode, @Body MessageViewModel messageModel, @Query("clientCode") String clientCode);
+    @POST("Messages/CreateMessageThread")
+    Call<SingleResponse<MessageThread>> createMessageThread(@Header("Authorization") String authCode, @Body NewMessageThreadViewModel newMessage, @Query("clientCode") String clientCode);
+    @GET("Comment/GetComments")
+    Call<ListResponse<CommentViewModel>> getComments(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
+    @POST("Comment/AddComment")
+    Call<SingleResponse<CommentViewModel>> addComment(@Header("Authorization") String authCode, @Body CommentPartialModel model, @Query("clientCode") String clientCode);
     @GET("HousePostMetaData/GetHousePostMetrics")
     Call<SingleResponse<HousePostMetaDataViewModel>> getHousePostMetrics(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @GET("HousePost/GetAllHousePosts")
@@ -119,8 +141,9 @@ public interface HomeNetService {
     Call<SingleResponse<HousePostMetaData>> registerDislike(@Header("Authorization") String authCode, @Body String emailAddress, @Query("clientCode") String clientCode);
     @GET("Report/GetHouseOverviewReport")
     Call<SingleResponse<HomeData>> getHouseOverviewReport(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
-    @GET("Report/GetUserOverviewReport")
-    Call<SingleResponse<UserData>> getUserOverviewReport(@Header("Authorization") String authCode, @Part("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @Multipart
+    @POST("Report/GetUserOverviewReport")
+    Call<SingleResponse<UserData>> getUserOverviewReport(@Header("Authorization") String authCode, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetHouseMember")
     Call<SingleResponse<HouseMember>> getHouseMember(@Header("Authorization") String authCode, @Query("houseMemberID") int houseMemberID, @Query("clientCode") String clientCode);
     @GET("User/GetUserMemberships")

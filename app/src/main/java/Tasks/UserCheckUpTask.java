@@ -134,6 +134,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
                 updateCall = null;
             }
             userCall = null;
+            //Check the users memberships
             Response<ListResponse<HouseMember>> membershipCall = service.getUserMemberships("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
 
             if (membershipCall.isSuccessful()) {
@@ -146,6 +147,7 @@ public class UserCheckUpTask extends AsyncTask<Integer, Integer, Integer> {
                 errorString = errorString + membershipCall.errorBody().string();
             }
             membershipCall = null;
+            //Check the users houses
             Response<ListResponse<House>> userHouseCall = service.getUserHouses("Bearer "+sharedPreferences.getString("authorization_token", ""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
             if (userHouseCall.isSuccessful()) {
                 if (userHouseCall.body().getModel() != null) {

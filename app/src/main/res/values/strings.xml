@@ -174,4 +174,8 @@
     <string name="house_name_string">House Name:</string>
     <string name="announcement_title_string">Title:</string>
     <string name="message_string">Message:</string>
+    <string name="open_drawer">Menu Open</string>
+    <string name="close_drawer">Menu closed</string>
+    <string name="select_user">Select User</string>
+    <string name="new_message_note_string">NOTE: User selected will be notified of the new message via email and push notification</string>
 </resources>

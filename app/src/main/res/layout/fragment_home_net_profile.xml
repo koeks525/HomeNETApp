@@ -10,29 +10,31 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:id = "@+id/UserProfileAppBarLayout"
-        style="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        style="@style/ToolbarStyle">
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@android:color/transparent"
             app:expandedTitleTextAppearance="@android:color/transparent"
-
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:id = "@+id/ProfileCollapsiingToolbarLayout">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 app:layout_collapseParallaxMultiplier="0.7"
                 android:id = "@+id/ProfileImageView"/>
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:id = "@+id/ProfileToolbar"
                 app:layout_collapseMode="pin"
+                app:titleTextColor="@android:color/white"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+                android:layout_height="?attr/actionBarSize">
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
     <android.support.design.widget.FloatingActionButton

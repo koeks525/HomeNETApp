@@ -1,5 +1,7 @@
 package Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Okuhle on 2017/08/06.
  */
 
-public class HousePostViewModel {
+public class HousePostViewModel implements Parcelable {
 
     @SerializedName("housePostID")
     private int housePostID;
@@ -43,6 +45,50 @@ public class HousePostViewModel {
         this.emailAddress = emailAddress;
         this.housePostID = housePostID;
     }
+
+    protected HousePostViewModel(Parcel in) {
+        housePostID = in.readInt();
+        name = in.readString();
+        surname = in.readString();
+        postText = in.readString();
+        houseMemberID = in.readInt();
+        isFlagged = in.readInt();
+        mediaResource = in.readString();
+        datePosted = in.readString();
+        isDeleted = in.readInt();
+        emailAddress = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(housePostID);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(postText);
+        dest.writeInt(houseMemberID);
+        dest.writeInt(isFlagged);
+        dest.writeString(mediaResource);
+        dest.writeString(datePosted);
+        dest.writeInt(isDeleted);
+        dest.writeString(emailAddress);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<HousePostViewModel> CREATOR = new Creator<HousePostViewModel>() {
+        @Override
+        public HousePostViewModel createFromParcel(Parcel in) {
+            return new HousePostViewModel(in);
+        }
+
+        @Override
+        public HousePostViewModel[] newArray(int size) {
+            return new HousePostViewModel[size];
+        }
+    };
 
     public int getHousePostID() {
         return housePostID;

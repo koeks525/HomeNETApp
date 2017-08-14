@@ -1,0 +1,139 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="HomeNETStream.FeedItemFragment"
+    android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:layout_weight="50"
+            android:id = "@+id/FeedItemCardView">
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                   <ImageView
+                       android:layout_width="20dp"
+                       android:layout_height="20dp"
+                       android:id = "@+id/FeedItemProfileImageView"
+                       android:layout_margin="5dp"
+                       android:layout_alignParentStart="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id = "@+id/FeedItemNameSurnameTextView"
+                        android:textAlignment="textStart"
+                        android:layout_toEndOf="@id/FeedItemProfileImageView"
+                        android:layout_margin="5dp"
+                        android:text="@string/sample_name_string"
+                        android:textStyle="bold"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:id = "@+id/NameSurnameView"
+                        android:background="@android:color/black"
+                        android:layout_below="@id/FeedItemNameSurnameTextView"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="8"
+                        android:scrollbars="vertical"
+                        android:layout_margin="5dp"
+                        android:id = "@+id/FeedItemTextView"
+                        android:layout_below="@id/NameSurnameView"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="fitCenter"
+                        android:layout_margin="5dp"
+                        android:id = "@+id/FeedItemImageView"
+                        android:layout_below="@id/FeedItemTextView"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@id/FeedItemImageView"
+                        android:background="@android:color/black"
+                        android:id="@+id/FeedItemImageRule"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_thumb_up_black_24dp"
+                        android:id = "@+id/FeedItemLikeImageView"
+                        android:layout_below="@id/FeedItemImageRule"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:id ="@+id/FeedItemTotalLikesTextView"
+                        android:layout_toEndOf="@id/FeedItemLikeImageView"
+                        android:layout_below="@id/FeedItemImageRule"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id = "@+id/FeedItemDislikesImageView"
+                        android:layout_toEndOf="@id/FeedItemTotalLikesTextView"
+                        android:layout_below="@id/FeedItemImageRule"
+                        android:src="@drawable/ic_thumb_down_black_24dp"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id = "@+id/FeedItemDislikesTextView"
+                        android:textStyle="bold"
+                        android:layout_below="@id/FeedItemImageRule"
+                        android:layout_toEndOf="@id/FeedItemDislikesImageView"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id = "@+id/FeedItemTotalCommentsTextView"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/FeedItemImageRule"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v7.widget.CardView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id = "@+id/FeedItemRecyclerView"
+        android:layout_margin="5dp"
+        android:layout_weight="50"></android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your Response"
+            android:layout_margin="5dp"
+            android:layout_weight="100">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id = "@+id/FeedItemReplyEditText"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/FeedItemReplyButton"
+            android:src="@drawable/ic_send_white_24dp"
+            android:layout_margin="5dp"/>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_refresh_white_24dp"
+            android:layout_margin="5dp"
+            android:id = "@+id/FeedItemRefreshButton"/>
+    </LinearLayout>
+
+
+</LinearLayout>

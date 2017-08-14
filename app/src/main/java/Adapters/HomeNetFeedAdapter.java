@@ -1,8 +1,10 @@
 package Adapters;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +25,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import HomeNETStream.FeedItemFragment;
 import Models.HouseMember;
 import Models.HousePost;
+import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.HousePostViewModel;
 import Models.User;
@@ -69,6 +73,7 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
         holder.usernameTextView.setText(selectedPost.getName() +" "+selectedPost.getSurname());
         TextDrawable drawable = TextDrawable.builder().buildRect(selectedPost.getName().substring(0,1).toUpperCase() +selectedPost.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
         holder.newsFeedProfileImageView.setImageDrawable(drawable);
+        holder.totalCommentsTextView.setText(Integer.toString(metaData.getTotalComments()) + " Comments");
         holder.optionsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +130,7 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
 
         CardView newsFeedCard;
         TextView usernameTextView;
+        TextView totalCommentsTextView;
         TextView newsFeedTextTextView;
         TextView totalLikesTextView;
         TextView totalDislikesTextView;
@@ -142,7 +148,25 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
             optionsImageView = (ImageView) itemView.findViewById(R.id.FeedItemOptionsMenu);
             totalLikesImageView = (ImageView) itemView.findViewById(R.id.LikeImageView);
             totalDislikesImageView = (ImageView) itemView.findViewById(R.id.DislikeImageView);
+            totalCommentsTextView = (TextView) itemView.findViewById(R.id.NewsFeedCommentsTextView);
             newsFeedProfileImageView = (ImageView) itemView.findViewById(R.id.FeedItemProfilePicture);
+            newsFeedCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int index = getAdapterPosition();
+                    HousePostViewModel selectedPost = housePostList.get(index);
+                    HousePostMetaDataViewModel metaData = metaDataList.get(index);
+                    Bundle newBundle = new Bundle();
+                    newBundle.putParcelable("SelectedPost", selectedPost);
+                    newBundle.putParcelable("MetaData", metaData);
+                    FeedItemFragment fragment = new FeedItemFragment();
+                    fragment.setArguments(newBundle);
+                    FragmentTransaction transaction = currentActivity.getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.HomeNetFeedContentView, fragment, null);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }
     }
 }

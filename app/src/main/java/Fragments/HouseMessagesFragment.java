@@ -1,6 +1,7 @@
 package Fragments;
 
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.koeksworld.homenet.R;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.MessagesAdapter;
+import HomeNETStream.NewMessageFragment;
 import Models.HouseAnnouncement;
 import Tasks.GetHouseMessagesTask;
 
@@ -28,6 +31,7 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
     private GetHouseMessagesTask task;
     private FloatingActionButton refreshButton;
     private FloatingActionButton newPostButton;
+    private TextView toolbarTextView;
 
     public HouseMessagesFragment() {
         // Required empty public constructor
@@ -49,6 +53,8 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshButton = (FloatingActionButton) currentView.findViewById(R.id.MessagesActionButton);
         newPostButton = (FloatingActionButton) currentView.findViewById(R.id.NewMessageButton);
+        toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
+        toolbarTextView.setText("Messages");
         newPostButton.setOnClickListener(this);
         refreshButton.setOnClickListener(this);
     }
@@ -67,7 +73,11 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
                 task.execute();
                 break;
             case R.id.NewMessageButton:
-
+                NewMessageFragment fragment = new NewMessageFragment();
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                transaction.replace(R.id.HomeNetFeedContentView, fragment, null);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
                 break;
         }

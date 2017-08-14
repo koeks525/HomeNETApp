@@ -118,7 +118,7 @@ public class HouseAnnouncementsAdapter extends RecyclerView.Adapter<HouseAnnounc
         int length = sourceString.length();
         if (type == 1) {
             if (length > 25) {
-                resultString = sourceString.substring(0, 40);
+                resultString = sourceString.substring(0, 25);
                 resultString += "...";
                 return resultString;
             } else {

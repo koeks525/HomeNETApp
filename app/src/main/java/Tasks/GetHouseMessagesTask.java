@@ -20,6 +20,9 @@ import Adapters.MessagesAdapter;
 import Adapters.UserMessagesAdapter;
 import Communication.HomeNetService;
 import Models.MessageThread;
+import Models.MessageThreadMessage;
+import Models.MessagesViewModel;
+import Models.NewMessageThreadViewModel;
 import ResponseModels.ListResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -73,8 +76,8 @@ public class GetHouseMessagesTask extends AsyncTask<Integer, Integer, Integer> {
             Response<ListResponse<MessageThread>> response = service.getMessageThreads("Bearer "+sharedPreferences.getString("authorization_token",""), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
             if (response.isSuccessful()) {
                 if (response.body().getModel() != null) {
-                    for(MessageThread thread : response.body().getModel()) {
-                        messageThreadList.add(thread);
+                    for (MessageThread current : response.body().getModel()) {
+                        messageThreadList.add(current);
                     }
                 }
             } else {
@@ -83,6 +86,32 @@ public class GetHouseMessagesTask extends AsyncTask<Integer, Integer, Integer> {
                 } else {
                     errorInformation += response.errorBody().string();
                 }
+            }
+            response = null;
+            if (messageThreadList.size() > 0) {
+                for (MessageThread current : messageThreadList) {
+                    Response<ListResponse<MessagesViewModel>> messages = service.getMessagesInThread("Bearer " + sharedPreferences.getString("authorization_token", ""), current.getMessageThreadID(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+                    if (messages.isSuccessful()) {
+
+                        if (messages.body().getModel() != null) {
+                            for (MessagesViewModel item : messages.body().getModel()) {
+                                MessageThread currentMessage = null;
+                                for (MessageThread currentThread : messageThreadList) {
+                                    if (currentThread.getMessageThreadID() == item.getMessageThreadID()) {
+                                        currentMessage = currentThread;
+                                        break;
+                                    }
+                                }
+                                if (currentMessage != null) {
+                                    currentMessage.setMessageList(messages.body().getModel());
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
             }
             return 1;
 

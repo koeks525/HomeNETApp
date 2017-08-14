@@ -17,11 +17,14 @@ public class HousePostMetaDataViewModel implements Parcelable{
     private int totalLikes;
     @SerializedName("totalDislikes")
     private int totalDislikes;
+    @SerializedName("totalComments")
+    public int totalComments;
 
-    public HousePostMetaDataViewModel(int housePostID, int totalLikes, int totalDislikes) {
+    public HousePostMetaDataViewModel(int housePostID, int totalLikes, int totalDislikes, int totalComments) {
         this.housePostID = housePostID;
         this.totalLikes = totalLikes;
         this.totalDislikes = totalDislikes;
+        this.totalComments = totalComments;
     }
 
     protected HousePostMetaDataViewModel(Parcel in) {
@@ -35,6 +38,7 @@ public class HousePostMetaDataViewModel implements Parcelable{
         dest.writeInt(housePostID);
         dest.writeInt(totalLikes);
         dest.writeInt(totalDislikes);
+        dest.writeInt(totalComments);
     }
 
     @Override
@@ -76,5 +80,13 @@ public class HousePostMetaDataViewModel implements Parcelable{
 
     public void setTotalDislikes(int totalDislikes) {
         this.totalDislikes = totalDislikes;
+    }
+
+    public int getTotalComments() {
+        return totalComments;
+    }
+
+    public void setTotalComments(int totalComments) {
+        this.totalComments = totalComments;
     }
 }

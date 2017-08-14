@@ -46,6 +46,7 @@ public class GetSubscribedHousesTask extends AsyncTask<Integer, Integer, Integer
     private ProgressDialog dialog;
     private String errorInformation = "";
 
+
     public GetSubscribedHousesTask(Activity currentActivity, MaterialSpinner housesSpinner) {
         protocolList = new ArrayList<>();
         protocolList.add(Protocol.HTTP_1_1);
@@ -91,7 +92,6 @@ public class GetSubscribedHousesTask extends AsyncTask<Integer, Integer, Integer
         if (dialog.isShowing()) {
             dialog.cancel();
         }
-
         if (errorInformation != "") {
             displayMessage("Error Getting Houses", errorInformation, null);
         } else if (houseList != null) {

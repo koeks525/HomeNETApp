@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlNormal">#808080</item>
 
         </style>
 
@@ -24,5 +24,11 @@
         <item name="android:fontFamily">sans-serif-light</item>
 
     </style>
+
+    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
+
 
 </resources>

@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by Okuhle on 2017/07/29.
  */
@@ -19,6 +21,18 @@ public class MessageThread implements Parcelable{
     private int priority;
     @SerializedName("houseMemberID")
     private int houseMemberID;
+    @SerializedName("messages")
+    private List<MessageThreadMessage> messages;
+
+    private List<MessagesViewModel> messageList;
+
+    public MessageThread(int messageThreadID, String title, int priority, int houseMemberID, List<MessageThreadMessage> messages) {
+        this.messageThreadID = messageThreadID;
+        this.title = title;
+        this.priority = priority;
+        this.houseMemberID = houseMemberID;
+        this.messages = messages;
+    }
 
     public MessageThread(int messageThreadID, String title, int priority, int houseMemberID) {
         this.messageThreadID = messageThreadID;
@@ -74,8 +88,24 @@ public class MessageThread implements Parcelable{
         return houseMemberID;
     }
 
+    public List<MessagesViewModel> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<MessagesViewModel> messageList) {
+        this.messageList = messageList;
+    }
+
     public void setHouseMemberID(int houseMemberID) {
         this.houseMemberID = houseMemberID;
+    }
+
+    public List<MessageThreadMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<MessageThreadMessage> messages) {
+        this.messages = messages;
     }
 
     @Override

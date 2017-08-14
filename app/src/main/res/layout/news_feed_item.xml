@@ -7,6 +7,8 @@
     android:id="@+id/HomeNetNewsFeedCardView"
     android:layout_margin="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
     app:cardElevation="5dp">
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
