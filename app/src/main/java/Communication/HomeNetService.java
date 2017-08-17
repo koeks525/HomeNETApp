@@ -136,9 +136,9 @@ public interface HomeNetService {
     @GET("HousePostMetaData/GetPostData")
     Call<SingleResponse<HousePostMetaDataViewModel>> getHousePostMetaData(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @POST("HousePostMetaData/RegisterLike")
-    Call<SingleResponse<HousePostMetaData>> registerLike(@Header("Authorization") String authCode, @Body String emailAddress,@Query("clientCode") String clientCode );
+    Call<SingleResponse<HousePostMetaData>> registerLike(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Body String emailAddress,@Query("clientCode") String clientCode );
     @POST("HousePostMetaData/RegisterDislike")
-    Call<SingleResponse<HousePostMetaData>> registerDislike(@Header("Authorization") String authCode, @Body String emailAddress, @Query("clientCode") String clientCode);
+    Call<SingleResponse<HousePostMetaData>> registerDislike(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Body String emailAddress, @Query("clientCode") String clientCode);
     @GET("Report/GetHouseOverviewReport")
     Call<SingleResponse<HomeData>> getHouseOverviewReport(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
     @Multipart

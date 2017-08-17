@@ -85,4 +85,9 @@ public class Country extends RealmObject implements Serializable, Parcelable {
         parcel.writeString(name);
         parcel.writeInt(isDeleted);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

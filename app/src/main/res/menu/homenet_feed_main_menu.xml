@@ -17,11 +17,23 @@
         android:title="@string/search_string"
         android:icon="@drawable/ic_search_black_24dp"/>
 
+        <item
+            android:id = "@+id/NewHouseOption"
+            android:title="@string/new_house_string"
+            android:icon="@drawable/ic_add_circle_black_24dp"
+            />
+
     <item
         android:id = "@+id/HomeManager"
         android:checked="false"
         android:title="@string/home_manager_string"
         android:icon ="@drawable/ic_home_black_24dp"/>
+
+        <item
+            android:id = "@+id/MyHousesOption"
+            android:title="@string/my_houses_string"
+            android:icon="@drawable/ic_home_black_48dp"
+            />
     <item
         android:id = "@+id/AnnouncementsOption"
         android:title="@string/announcements_string"

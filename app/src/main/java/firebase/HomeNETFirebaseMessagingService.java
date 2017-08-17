@@ -12,6 +12,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.koeksworld.homenet.HomeNetFeedActivity;
 import com.koeksworld.homenet.R;
 
+import org.json.JSONObject;
+
+import java.util.Map;
+
 /**
  * Created by Okuhle on 2017/06/23.
  */
@@ -25,23 +29,31 @@ public class HomeNETFirebaseMessagingService extends FirebaseMessagingService {
     //This is called when a message is received from the FCM
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage); //remoteMessage.getData() - key value (key is message)
-        //Notification should come through here
-        showNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("message"));
+        super.onMessageReceived(remoteMessage);
+
+            showNotification(remoteMessage);
     }
 
-    private void showNotification(String title, String message) {
+    private void showNotification(RemoteMessage message) {
         //Redirect to the news feed - then load the messages fragment
+        JSONObject object = null;
+        try {
+            Map<String,String> mapData = message.getData();
+            object = new JSONObject(mapData);
         Intent readIntent = new Intent(this, HomeNetFeedActivity.class);
         readIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         readIntent.putExtra("mode", "notification_message");
-        readIntent.setAction("notification_message");
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, readIntent, 0);
+        int requestCode = 0;
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, readIntent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setSmallIcon(R.drawable.homenetlogo).setContentText(title).setContentText(message).setDefaults(Notification.DEFAULT_ALL).setPriority(NotificationCompat.PRIORITY_HIGH);
+        notificationBuilder.setSmallIcon(R.drawable.homenetlogo).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(NotificationCompat.PRIORITY_HIGH);
         notificationBuilder.addAction(R.drawable.ic_message_black_24dp, "Read", pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
+
+        } catch (Exception error) {
+
+        }
 
     }
 }

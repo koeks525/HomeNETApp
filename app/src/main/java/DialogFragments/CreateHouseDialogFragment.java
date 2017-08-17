@@ -107,6 +107,7 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
     private View dialogView;
     private FloatingActionButton clearMarkerButton;
     private ImageView houseImageView;
+    private Button createHouseButton;
 
 
     @Override
@@ -137,7 +138,9 @@ public class CreateHouseDialogFragment extends DialogFragment implements View.On
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(200, TimeUnit.SECONDS).readTimeout(200, TimeUnit.SECONDS).protocols(Arrays.asList(Protocol.HTTP_1_1)).build();
         retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(HomeNetService.class);
-
+        createHouseButton = (Button) currentView.findViewById(R.id.CreateHouseCreateHouseButton);
+        createHouseButton.setVisibility(View.GONE);
+        createHouseButton.setEnabled(false);
         houseNameEditText = (EditText) currentView.findViewById(R.id.CreateHouseHouseNameEditText);
         houseDescriptionEditText = (EditText) currentView.findViewById(R.id.CreateHouseDescriptionEditText);
         imageUrlEditText = (EditText) currentView.findViewById(R.id.CreateHouseImageLinkEditText);

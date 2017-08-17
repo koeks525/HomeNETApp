@@ -2,12 +2,16 @@ package Adapters;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +28,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import Communication.HomeNetService;
 import HomeNETStream.FeedItemFragment;
 import Models.HouseMember;
 import Models.HousePost;
@@ -32,6 +38,16 @@ import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.HousePostViewModel;
 import Models.User;
+import ResponseModels.SingleResponse;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Okuhle on 2017/07/01.
@@ -106,19 +122,6 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
                 });
             }
         });
-        holder.totalLikesImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        holder.totalDislikesImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
     }
 
     @Override
@@ -137,9 +140,11 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
         ImageView newsFeedProfileImageView;
         ImageView optionsImageView;
         ImageView totalLikesImageView, totalDislikesImageView;
+        SharedPreferences sharedPreferences;
 
         public HomeNetFeedViewHolder(View itemView) {
             super(itemView);
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
             newsFeedCard = (CardView) itemView.findViewById(R.id.HomeNetNewsFeedCardView);
             usernameTextView = (TextView) itemView.findViewById(R.id.FeedItemUsernameTextView);
             newsFeedTextTextView = (TextView) itemView.findViewById(R.id.FeedItemPostTextView);
@@ -167,6 +172,133 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
                     transaction.commit();
                 }
             });
+            totalLikesImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int selectedIndex = getAdapterPosition();
+                    final HousePostViewModel selectedPost = housePostList.get(selectedIndex);
+                    final Snackbar snackbar = Snackbar.make(view.getRootView(), "Registering Like...", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.show();
+                    List<Protocol> protocolList = new ArrayList<Protocol>();
+                    protocolList.add(Protocol.HTTP_1_1);
+                    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(currentActivity.getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
+                    final HomeNetService service = retrofit.create(HomeNetService.class);
+                    RequestBody emailBody = RequestBody.create(MultipartBody.FORM, sharedPreferences.getString("emailAddress", ""));
+                    Call<SingleResponse<HousePostMetaData>> responseCall = service.registerLike("Bearer "+sharedPreferences.getString("authorization_token", ""), selectedPost.getHousePostID(), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string));
+                    responseCall.enqueue(new Callback<SingleResponse<HousePostMetaData>>() {
+                        @Override
+                        public void onResponse(Call<SingleResponse<HousePostMetaData>> call, Response<SingleResponse<HousePostMetaData>> response) {
+                            if (snackbar.isShown()) {
+                                snackbar.dismiss();
+                            }
+                            if (response.isSuccessful()) {
+                                HousePostMetaData data = response.body().getModel();
+                                Call<SingleResponse<HousePostMetaDataViewModel>> postDataCall = service.getHousePostMetaData("Bearer "+sharedPreferences.getString("authorization_token", ""), selectedPost.getHousePostID(), currentActivity.getResources().getString(R.string.homenet_client_string));
+                                postDataCall.enqueue(new Callback<SingleResponse<HousePostMetaDataViewModel>>() {
+                                    @Override
+                                    public void onResponse(Call<SingleResponse<HousePostMetaDataViewModel>> call, Response<SingleResponse<HousePostMetaDataViewModel>> response) {
+                                        if (snackbar.isShown()) {
+                                            snackbar.dismiss();
+                                        }
+                                        if (response.isSuccessful()) {
+                                            HousePostMetaDataViewModel model = response.body().getModel();
+                                            if (model != null) {
+                                                totalLikesTextView.setText(Integer.toString(model.getTotalLikes()));
+                                                totalDislikesTextView.setText(Integer.toString(model.getTotalDislikes()));
+                                                totalCommentsTextView.setText(model.getTotalComments() + " Comments");
+                                            }
+                                        } else {
+                                            try {
+                                                Log.i("Error Information", response.errorBody().string());
+                                            } catch (Exception error) {
+
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<SingleResponse<HousePostMetaDataViewModel>> call, Throwable t) {
+                                        if (snackbar.isShown()) {
+                                            snackbar.dismiss();
+                                        }
+
+                                    }
+                                });
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SingleResponse<HousePostMetaData>> call, Throwable t) {
+                            if (snackbar.isShown()) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+                }
+            });
+            totalDislikesImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int selectedIndex = getAdapterPosition();
+                    final HousePostViewModel selectedPost = housePostList.get(selectedIndex);
+                    final Snackbar snackbar = Snackbar.make(view.getRootView(), "Registering Dislike...", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.show();
+                    List<Protocol> protocolList = new ArrayList<Protocol>();
+                    protocolList.add(Protocol.HTTP_1_1);
+                    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(currentActivity.getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
+                    final HomeNetService service = retrofit.create(HomeNetService.class);
+                    Call<SingleResponse<HousePostMetaData>> responseCall = service.registerDislike("Bearer "+sharedPreferences.getString("authorization_token", ""), selectedPost.getHousePostID(), sharedPreferences.getString("emailAddress", ""), currentActivity.getResources().getString(R.string.homenet_client_string));
+                    responseCall.enqueue(new Callback<SingleResponse<HousePostMetaData>>() {
+                        @Override
+                        public void onResponse(Call<SingleResponse<HousePostMetaData>> call, Response<SingleResponse<HousePostMetaData>> response) {
+                            if (snackbar.isShown()) {
+                                snackbar.dismiss();
+                            }
+                            if (response.isSuccessful()) {
+                                HousePostMetaData data = response.body().getModel();
+                                Call<SingleResponse<HousePostMetaDataViewModel>> postDataCall = service.getHousePostMetaData("Bearer "+sharedPreferences.getString("authorization_token", ""), selectedPost.getHousePostID(), currentActivity.getResources().getString(R.string.homenet_client_string));
+                                postDataCall.enqueue(new Callback<SingleResponse<HousePostMetaDataViewModel>>() {
+                                    @Override
+                                    public void onResponse(Call<SingleResponse<HousePostMetaDataViewModel>> call, Response<SingleResponse<HousePostMetaDataViewModel>> response) {
+                                        if (snackbar.isShown()) {
+                                            snackbar.dismiss();
+                                        }
+                                        if (response.isSuccessful()) {
+                                            HousePostMetaDataViewModel model = response.body().getModel();
+                                            if (model != null) {
+                                                totalLikesTextView.setText(Integer.toString(model.getTotalLikes()));
+                                                totalDislikesTextView.setText(Integer.toString(model.getTotalDislikes()));
+                                                totalCommentsTextView.setText(model.getTotalComments() + " Comments");
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<SingleResponse<HousePostMetaDataViewModel>> call, Throwable t) {
+                                        if (snackbar.isShown()) {
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SingleResponse<HousePostMetaData>> call, Throwable t) {
+                            if (snackbar.isShown()) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+                }
+
+            });
         }
+
+
     }
 }

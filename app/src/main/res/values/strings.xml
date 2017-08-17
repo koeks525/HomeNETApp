@@ -178,4 +178,15 @@
     <string name="close_drawer">Menu closed</string>
     <string name="select_user">Select User</string>
     <string name="new_message_note_string">NOTE: User selected will be notified of the new message via email and push notification</string>
+    <string name="my_houses_string">My Houses</string>
+    <string name="new_house_string">Create House</string>
+    <string name="house_disclaimer_string">NOTE: Only the house Administrator has the option of modifying details to the house.</string>
+    <string name="house_description_string">Description</string>
+    <string name="date_created_string">Date Created</string>
+    <string name="house_information_string">Basic House Details</string>
+    <string name="house_owner_string">Owner</string>
+    <string name="house_metrics_string">Latest House Metrics</string>
+    <string name="total_house_users_string">Total Members</string>
+    <string name="total_banned_users_string">Total Banned Members</string>
+    <string name="leave_house">Leave House</string>
 </resources>

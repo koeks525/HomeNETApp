@@ -26,8 +26,11 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import Fragments.EditProfileFragment;
 import Fragments.HomeNetProfileFragment;
 import Fragments.HouseMessagesFragment;
+import Fragments.MyHousesFragment;
+import Fragments.NewHouseFragment;
 import HomeNETStream.AnnoucementFragment;
 import HomeNETStream.FeedFragment;
 import HomeNETStream.SearchHousesFragment;
@@ -59,8 +62,9 @@ public class HomeNetFeedActivity extends AppCompatActivity {
         setSupportActionBar(appToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        loadFeedFragment();
+        if (savedInstanceState == null) {
+            loadFeedFragment();
+        }
     }
 
     private void setupHeaderView() {
@@ -165,6 +169,30 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                         third.commit();
 
                         break;
+                    case R.id.EditProfileOption:
+                        drawerLayout.closeDrawers();
+                        getSupportActionBar().hide();
+                        EditProfileFragment editProfileFragment = new EditProfileFragment();
+                        FragmentTransaction forth = getFragmentManager().beginTransaction();
+                        forth.replace(R.id.HomeNetFeedContentView, editProfileFragment, null);
+                        forth.addToBackStack(null);
+                        forth.commit();
+                    case R.id.NewHouseOption:
+                        drawerLayout.closeDrawers();
+                        NewHouseFragment newHouseFragment = new NewHouseFragment();
+                        FragmentTransaction fifth = getFragmentManager().beginTransaction();
+                        fifth.replace(R.id.HomeNetFeedContentView, newHouseFragment, null);
+                        fifth.addToBackStack(null);
+                        fifth.commit();
+                        break;
+                    case R.id.MyHousesOption:
+                        drawerLayout.closeDrawers();
+                        MyHousesFragment myHousesFragment = new MyHousesFragment();
+                        FragmentTransaction sixth = getFragmentManager().beginTransaction();
+                        sixth.replace(R.id.HomeNetFeedContentView, myHousesFragment, null);
+                        sixth.addToBackStack(null);
+                        sixth.commit();
+                        break;
                 }
                 return true;
             }
@@ -208,7 +236,6 @@ public class HomeNetFeedActivity extends AppCompatActivity {
         FeedFragment feedFragment = new FeedFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.HomeNetFeedContentView, feedFragment, null);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
