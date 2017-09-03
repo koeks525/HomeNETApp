@@ -10,9 +10,9 @@
         title = "Announcements"
         icon="@drawable/ic_announcement_black_24dp"/>
     <tab
-        id = "@+id/SettingsTab"
-        title = "Settings"
-        icon = "@drawable/ic_settings_black_24dp"/>
+        id = "@+id/PhotosTab"
+        title = "Photo's"
+        icon = "@drawable/ic_photo_black_24dp"/>
     <tab
         id = "@+id/MessagesTab"
         title = "Messages"

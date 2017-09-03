@@ -82,7 +82,8 @@
             android:name=".ApplicationSettingsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".HomeNetFeedActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity android:name=".UserManagerActivity"
             android:windowSoftInputMode="stateHidden"></activity>
     </application>

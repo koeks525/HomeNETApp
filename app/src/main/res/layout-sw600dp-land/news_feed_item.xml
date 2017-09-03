@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/HomeNetNewsFeedCardView"
+    android:layout_margin="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    app:cardElevation="5dp">
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id = "@+id/FeedItemProfilePicture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerInside"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id = "@+id/FeedItemUsernameTextView"
+            android:text="@string/sample_username_string"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/FeedItemProfilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+        <ImageView
+            android:id = "@+id/FeedItemOptionsMenu"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:tint="@color/secondaryText"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_above="@+id/FeedItemPostTextView"
+            android:layout_alignParentEnd="true"
+             />
+        <TextView
+            android:id = "@+id/FeedItemPostTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/FeedItemUsernameTextView"
+            android:layout_toEndOf="@id/FeedItemProfilePicture"
+            android:layout_margin="5dp"
+            android:maxLines="4"
+            android:textSize="16sp"
+            android:text="@string/sample_post_text_string"/>
+        <View
+            android:id = "@+id/NewsFeedBorderView"
+            android:background="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/FeedItemPostTextView"
+            android:layout_alignBaseline="@id/FeedItemProfilePicture"/>
+        <ImageView
+            android:id = "@+id/LikeImageView"
+            android:src="@drawable/ic_thumb_up_black_24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_below="@id/NewsFeedBorderView"
+            />
+        <TextView
+            android:layout_below="@id/NewsFeedBorderView"
+            android:layout_alignBaseline="@id/LikeImageView"
+            android:id = "@+id/NewsFeedTotalLikesTextView"
+            android:text = "3"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/LikeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            />
+        <ImageView
+            android:id = "@+id/DislikeImageView"
+            android:src="@drawable/ic_thumb_down_black_24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_toEndOf="@id/NewsFeedTotalLikesTextView"
+            android:layout_below="@id/NewsFeedBorderView"
+            />
+        <TextView
+            android:layout_below="@id/NewsFeedBorderView"
+            android:layout_alignBaseline="@id/LikeImageView"
+            android:layout_toEndOf="@+id/DislikeImageView"
+            android:id = "@+id/NewsFeedTotalDislikesTextView"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:text="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+             />
+        <TextView
+            android:id = "@+id/NewsFeedCommentsTextView"
+            android:text="@string/total_comments_string"
+            android:textSize="35sp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:layout_below="@id/NewsFeedBorderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            />
+    </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>

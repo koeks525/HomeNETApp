@@ -121,9 +121,7 @@ public class AppSetupTask extends AsyncTask<Integer, Integer, Integer> {
                 }
             }
         } catch (Exception error) {
-            if (bar.isShowing()) {
-                bar.cancel();
-            }
+
         }
         return -1;
     }

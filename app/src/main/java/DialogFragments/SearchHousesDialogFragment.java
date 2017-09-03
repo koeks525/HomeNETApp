@@ -117,7 +117,6 @@ public class SearchHousesDialogFragment extends DialogFragment implements View.O
             case R.id.SearchHousesButton:
                 if (deviceUtils.checkNetworkConnection()) {
                     String searchParams = searchHousesEditText.getText().toString().trim();
-
                     if (searchParams != "") {
                         SearchHousesTask task = new SearchHousesTask(getActivity(), searchParams, searchHousesRecyclerView);
                         task.execute();

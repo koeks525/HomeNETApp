@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="Total Likes"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="0"
+            android:id = "@+id/HousePostDialogTotalLikesTextView"
+            android:layout_margin="5dp"/>
+    </TableRow>
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="Total Dislikes"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="0"
+            android:id = "@+id/HousePostDialogTotalDislikesTextView"
+            android:layout_margin="5dp"/>
+    </TableRow>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:text="@string/users_like_string"
+        android:textStyle="bold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/HousePostDialogLikesTextView"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:text="@string/users_dislike_string"
+        android:textStyle="bold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/HousePostDialogDislikesTextView"/>
+</LinearLayout>

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id = "@+id/HomeNetFeedToolbar"
         android:background="@color/colorPrimary"
+        app:theme="@style/DrawerArrowStyle"
         android:elevation="5dp">
         <ImageView
             android:layout_width="30dp"

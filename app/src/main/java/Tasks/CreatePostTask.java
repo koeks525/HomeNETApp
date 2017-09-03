@@ -94,27 +94,26 @@ public class CreatePostTask extends AsyncTask<Integer, Integer, Integer> {
 
 
             } else if (locationBody == null && postImage != null) {
-                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, null, currentActivity.getResources().getString(R.string.homenet_client_string), null).execute();
+                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, null, currentActivity.getResources().getString(R.string.homenet_client_string), postImage).execute();
                 if (housePostCall.isSuccessful()) {
                     resultHousePost = housePostCall.body().getModel();
                 } else {
                     errorInformation += housePostCall.errorBody().string();
                 }
             } else if (locationBody != null && postImage == null) {
-                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, null, currentActivity.getResources().getString(R.string.homenet_client_string), null).execute();
+                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, locationBody, currentActivity.getResources().getString(R.string.homenet_client_string), null).execute();
                 if (housePostCall.isSuccessful()) {
                     resultHousePost = housePostCall.body().getModel();
                 } else {
                     errorInformation += housePostCall.errorBody().string();
                 }
             } else if (locationBody != null && postImage != null) {
-                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, null, currentActivity.getResources().getString(R.string.homenet_client_string), null).execute();
+                Response<SingleResponse<HousePost>> housePostCall = service.addHousePost("Bearer " + sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), emailBody, descriptionBody, locationBody, currentActivity.getResources().getString(R.string.homenet_client_string), postImage).execute();
                 if (housePostCall.isSuccessful()) {
                     resultHousePost = housePostCall.body().getModel();
                 } else {
                     errorInformation += housePostCall.errorBody().string();
                 }
-
             }
             return 1;
         } catch (Exception error) {

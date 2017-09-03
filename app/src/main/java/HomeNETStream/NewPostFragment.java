@@ -87,6 +87,7 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
         selectImageButton = (Button) currentView.findViewById(R.id.NewPostSelectPhotoButton);
         selectImageButton.setOnClickListener(this);
         postImageEditText = (EditText) currentView.findViewById(R.id.NewPostPhotoLocationEditText);
+        postImageEditText.setEnabled(false);
         submitPostButton = (FloatingActionButton) currentView.findViewById(R.id.NewPostCreatePostButton);
         submitPostButton.setOnClickListener(this);
         postToFacebook = (CheckBox) currentView.findViewById(R.id.NewPostToFacebookCheckbox);
@@ -117,14 +118,20 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 try {
+
                     House selectedHouse = (House) housesSpinner.getItems().get(housesSpinner.getSelectedIndex());
-                    String fileNameString = getFileName(getActivity().getContentResolver(), imageUri);
-                    File compressedFile = new Compressor(getActivity()).compressToFile(new File(fileNameString));
-                    RequestBody imageBodyPart = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(imageUri)), compressedFile);
-                    MultipartBody.Part finalImageFile = MultipartBody.Part.createFormData("file", compressedFile.getName(), imageBodyPart);
-                    String location = "";
-                    CreatePostTask task = new CreatePostTask(getActivity(), selectedHouse, postDescriptionEditText.getText().toString(), location, finalImageFile);
-                    task.execute();
+                    if (imageUri != null) {
+                        String fileNameString = getFileName(getActivity().getContentResolver(), imageUri);
+                        File compressedFile = new Compressor(getActivity()).compressToFile(new File(fileNameString));
+                        RequestBody imageBodyPart = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(imageUri)), compressedFile);
+                        MultipartBody.Part finalImageFile = MultipartBody.Part.createFormData("file", compressedFile.getName(), imageBodyPart);
+                        String location = "";
+                        CreatePostTask task = new CreatePostTask(getActivity(), selectedHouse, postDescriptionEditText.getText().toString(), location, finalImageFile);
+                        task.execute();
+                    } else {
+                        CreatePostTask task = new CreatePostTask(getActivity(), selectedHouse, postDescriptionEditText.getText().toString(),"", null);
+                        task.execute();
+                    }
                 } catch (Exception error) {
                     displayMessage("Error Creating Post", error.getMessage(), new DialogInterface.OnClickListener() {
                         @Override
@@ -160,6 +167,7 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
             imageUri = data.getData();
             try {
                 Glide.with(getActivity()).load(imageUri).into(postImageView);
+                postImageEditText.setText(imageUri.toString());
             } catch (Exception error) {
 
             }

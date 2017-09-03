@@ -149,7 +149,7 @@ public class GetUserProfileTask extends AsyncTask<Integer, Integer, Integer> {
                                 outputStream.close();
                                 return 1;
                             } catch (Exception error) {
-                                return -1;
+                                return 1;
                             } finally {
                                 if (inputStream != null) {
                                     inputStream.close();

@@ -164,26 +164,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<SingleResponse<Token>> call, Response<SingleResponse<Token>> response) {
                 bar.dismiss();
-                SingleResponse<Token> tokenResponse = response.body();
-                if (response.code() == 200) {
-                    if (!tokenResponse.isDidError()) {
-                        Token token = tokenResponse.getModel();
-                        editor.putString("authorization_token", token.getTokenHandler());
-                        editor.putString("expiry_date", token.getDateExpires());
-                        editor.commit();
-                        //Now with the token, proceed to logging in the user
-                        processLoginRequest(model, currentView);
+                if (response.isSuccessful()) {
+                        Token token = response.body().getModel();
+                        if (token != null) {
+                            editor.putString("authorization_token", token.getTokenHandler());
+                            editor.putString("expiry_date", token.getDateExpires());
+                            editor.commit();
+                            //Now with the token, proceed to logging in the user
+                            processLoginRequest(model, currentView);
+                        } else {
+                            displaySnackBar("Invalid credentials. Please try again", currentView);
+                        }
                     } else {
-                        displaySnackBar(tokenResponse.getMessage(), currentView);
-                    }
-                } else {
-                    if (tokenResponse.getMessage() != null) {
-                        displaySnackBar(tokenResponse.getMessage(), currentView);
-                    } else {
-                        displaySnackBar("Error creating Authorization Token", currentView);
+                        displaySnackBar("Invalid credentials. Please try again", currentView);
                     }
                 }
-            }
 
             @Override
             public void onFailure(Call<SingleResponse<Token>> call, Throwable t) {

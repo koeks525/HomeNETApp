@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.koeksworld.homenet.R;
 
 import java.util.List;
 
+import DialogFragments.AboutHouseDialogFragment;
 import Models.House;
 import Tasks.JoinHouseTask;
 
@@ -67,9 +69,12 @@ public class SearchHousesAdapter extends RecyclerView.Adapter<SearchHousesAdapte
                                 joinHouseTask.execute();
                                 break;
                             case R.id.MoreInformationOption:
-                                //How do i close a dialog, and then open another dialog??
-
-
+                                House selectedHouse = housesList.get(position);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable("SelectedHouse", selectedHouse);
+                                AboutHouseDialogFragment dialogFragment = new AboutHouseDialogFragment();
+                                dialogFragment.setArguments(bundle);
+                                dialogFragment.show(context.getFragmentManager(), "AboutHouseDialog");
                                 break;
                         }
 

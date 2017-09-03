@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
@@ -43,8 +44,9 @@ public class GetUserAnnouncementsTask extends AsyncTask<Integer, Integer, Intege
     private Activity currentActivity;
     private RecyclerView recyclerView;
     private String errorInformation = "";
+    private SwipeRefreshLayout refreshLayout;
 
-    public GetUserAnnouncementsTask(Activity currentActivity, RecyclerView recyclerView) {
+    public GetUserAnnouncementsTask(Activity currentActivity, RecyclerView recyclerView, SwipeRefreshLayout refreshLayout) {
         this.currentActivity = currentActivity;
         this.recyclerView = recyclerView;
         protocolList = new ArrayList<>();
@@ -54,6 +56,7 @@ public class GetUserAnnouncementsTask extends AsyncTask<Integer, Integer, Intege
         service = retrofit.create(HomeNetService.class);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
         houseAnnouncementList = new ArrayList<>();
+        this.refreshLayout = refreshLayout;
     }
 
     @Override
@@ -90,6 +93,7 @@ public class GetUserAnnouncementsTask extends AsyncTask<Integer, Integer, Intege
         if (dialog.isShowing()) {
             dialog.cancel();
         }
+        refreshLayout.setRefreshing(false);
         if (errorInformation != "") {
             displayMessage("Error Getting Announcements", errorInformation, null);
         } else {

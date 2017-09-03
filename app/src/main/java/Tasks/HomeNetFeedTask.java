@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -58,9 +59,10 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
     private String errorInformation = "";
     private RecyclerView feedRecyclerView;
     private HomeNetFeedAdapter feedAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
-    public HomeNetFeedTask(Activity currentActivity, RecyclerView feedRecyclerView) {
+    public HomeNetFeedTask(Activity currentActivity, RecyclerView feedRecyclerView, SwipeRefreshLayout swipeRefreshLayout) {
         this.currentActivity = currentActivity;
         protocolList.add(Protocol.HTTP_1_1);
         client = new OkHttpClient.Builder().protocols(protocolList).connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).build();
@@ -70,6 +72,7 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
         this.feedRecyclerView = feedRecyclerView;
         postList = new ArrayList<>();
         metaDataList = new ArrayList<>();
+        this.swipeRefreshLayout = swipeRefreshLayout;
     }
 
     @Override
@@ -113,6 +116,7 @@ public class HomeNetFeedTask extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
+        swipeRefreshLayout.setRefreshing(false);
         if (dialog.isShowing()) {
             dialog.cancel();
         }

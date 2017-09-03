@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,11 +21,10 @@ import Tasks.GetUserAnnouncementsTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AnnoucementFragment extends Fragment implements View.OnClickListener {
-
+public class AnnoucementFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
-    private FloatingActionButton refreshButton;
+    private SwipeRefreshLayout refreshLayout;
     private FloatingActionButton newAnnouncementButton;
     private GetUserAnnouncementsTask task;
     private TextView toolbarTextView;
@@ -40,7 +40,7 @@ public class AnnoucementFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_annoucement, container, false);
         initializeComponents(currentView);
-        task = new GetUserAnnouncementsTask(getActivity(), recyclerView);
+        task = new GetUserAnnouncementsTask(getActivity(), recyclerView, refreshLayout);
         task.execute();
         return currentView;
     }
@@ -48,10 +48,10 @@ public class AnnoucementFragment extends Fragment implements View.OnClickListene
     private void initializeComponents(View currentView) {
         recyclerView = (RecyclerView) currentView.findViewById(R.id.ViewAnnouncementsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        refreshButton = (FloatingActionButton) currentView.findViewById(R.id.ViewAnnouncementRefreshButton);
+        refreshLayout = (SwipeRefreshLayout) currentView.findViewById(R.id.AnnouncementsSwipeLayout);
+        refreshLayout.setOnRefreshListener(this);
         newAnnouncementButton = (FloatingActionButton) currentView.findViewById(R.id.NewAnnouncementButton);
         newAnnouncementButton.setOnClickListener(this);
-        refreshButton.setOnClickListener(this);
         toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
         toolbarTextView.setText("Announcements");
     }
@@ -67,10 +67,12 @@ public class AnnoucementFragment extends Fragment implements View.OnClickListene
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.ViewAnnouncementRefreshButton:
-                task = new GetUserAnnouncementsTask(getActivity(), recyclerView);
-                task.execute();
-                break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        task = new GetUserAnnouncementsTask(getActivity(), recyclerView, refreshLayout);
+        task.execute();
     }
 }

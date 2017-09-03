@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.koeksworld.homenet.HomeNetFeedActivity;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class HomeNETFirebaseMessagingService extends FirebaseMessagingService {
 
     public HomeNETFirebaseMessagingService() {
+
     }
     //This is called when a message is received from the FCM
     @Override
@@ -46,11 +48,13 @@ public class HomeNETFirebaseMessagingService extends FirebaseMessagingService {
         int requestCode = 0;
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, readIntent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setSmallIcon(R.drawable.homenetlogo).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(NotificationCompat.PRIORITY_HIGH);
-        notificationBuilder.addAction(R.drawable.ic_message_black_24dp, "Read", pendingIntent);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
 
+        notificationBuilder.setSmallIcon(R.drawable.ic_home_black_24dp).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(Notification.PRIORITY_HIGH).setAutoCancel(true);
+            NotificationCompat.Action action = new NotificationCompat.Action(R.drawable.ic_message_black_24dp, "Open", pendingIntent);
+        notificationBuilder.addAction(action);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification box = notificationBuilder.build();
+        notificationManager.notify(0, box);
         } catch (Exception error) {
 
         }

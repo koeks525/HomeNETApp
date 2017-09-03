@@ -8,6 +8,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import Communication.HomeNetService;
+import DialogFragments.FlagPostDialogFragment;
+import DialogFragments.HousePostDialogFragment;
 import HomeNETStream.FeedItemFragment;
 import Models.HouseMember;
 import Models.HousePost;
@@ -90,38 +93,6 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
         TextDrawable drawable = TextDrawable.builder().buildRect(selectedPost.getName().substring(0,1).toUpperCase() +selectedPost.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
         holder.newsFeedProfileImageView.setImageDrawable(drawable);
         holder.totalCommentsTextView.setText(Integer.toString(metaData.getTotalComments()) + " Comments");
-        holder.optionsImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(currentActivity, holder.optionsImageView);
-                popupMenu.inflate(R.menu.news_feed_post_options_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()) {
-                            case R.id.FlagPostOption:
-                                //Show a dialog with the post information
-
-
-                                break;
-                            case R.id.ViewProfileOption:
-                                //Show the user's profile
-
-                                break;
-                            case R.id.ViewHouseProfileOption:
-                                //Show the house profile
-
-
-                                break;
-
-
-
-                        }
-                        return false;
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -151,6 +122,41 @@ public class HomeNetFeedAdapter extends RecyclerView.Adapter<HomeNetFeedAdapter.
             totalLikesTextView = (TextView) itemView.findViewById(R.id.NewsFeedTotalLikesTextView);
             totalDislikesTextView = (TextView) itemView.findViewById(R.id.NewsFeedTotalDislikesTextView);
             optionsImageView = (ImageView) itemView.findViewById(R.id.FeedItemOptionsMenu);
+            optionsImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu menu = new PopupMenu(currentActivity, optionsImageView);
+                    menu.inflate(R.menu.news_feed_post_options_menu);
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.FlagPostOption:
+                                    HousePostViewModel data = housePostList.get(getAdapterPosition());
+                                    FlagPostDialogFragment flagPostDialogFragment = new FlagPostDialogFragment();
+                                    Bundle nextBundle = new Bundle();
+                                    nextBundle.putParcelable("SelectedPost", data);
+                                    flagPostDialogFragment.setArguments(nextBundle);
+                                    flagPostDialogFragment.show(currentActivity.getFragmentManager(), null);
+                                    break;
+                                case R.id.ViewPostDetailsOption:
+                                    HousePostViewModel selectedPost = housePostList.get(getAdapterPosition());
+                                    Bundle newBundle = new Bundle();
+                                    newBundle.putParcelable("SelectedPost", selectedPost);
+                                    HousePostDialogFragment dialogFragment = new HousePostDialogFragment();
+                                    dialogFragment.setArguments(newBundle);
+                                    dialogFragment.show(currentActivity.getFragmentManager(), null);
+                                    break;
+                            }
+
+
+
+                            return true;
+                        }
+                    });
+                    menu.show();
+                }
+            });
             totalLikesImageView = (ImageView) itemView.findViewById(R.id.LikeImageView);
             totalDislikesImageView = (ImageView) itemView.findViewById(R.id.DislikeImageView);
             totalCommentsTextView = (TextView) itemView.findViewById(R.id.NewsFeedCommentsTextView);

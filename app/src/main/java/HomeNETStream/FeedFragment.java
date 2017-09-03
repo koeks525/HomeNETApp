@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ import Tasks.HomeNetFeedTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeedFragment extends Fragment implements View.OnClickListener {
+public class FeedFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private FloatingActionButton refreshButton, newPostButton;
@@ -37,6 +38,7 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
     private HomeNetFeedAdapter feedAdapter;
     private HomeNetFeedTask feedTask;
     private TextView toolbarTextView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -53,27 +55,29 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
 
     private void initializeComponents(View currentView) {
         recyclerView = (RecyclerView) currentView.findViewById(R.id.HomeNetFeedRecyclerView);
+        swipeRefreshLayout = (SwipeRefreshLayout) currentView.findViewById(R.id.FeedItemRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        refreshButton = (FloatingActionButton) currentView.findViewById(R.id.FeedRefreshButton);
+        //refreshButton = (FloatingActionButton) currentView.findViewById(R.id.FeedRefreshButton);
         newPostButton = (FloatingActionButton) currentView.findViewById(R.id.HomeNetFeedNewPostButton);
         newPostButton.setOnClickListener(this);
-        refreshButton.setOnClickListener(this);
+        //refreshButton.setOnClickListener(this);
         toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
         toolbarTextView.setText("Your Feed");
     }
 
     private void runFeedTask() {
-        feedTask = new HomeNetFeedTask(getActivity(), recyclerView);
+        feedTask = new HomeNetFeedTask(getActivity(), recyclerView, swipeRefreshLayout);
         feedTask.execute();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.FeedRefreshButton:
+            /*case R.id.FeedRefreshButton:
                 feedTask = new HomeNetFeedTask(getActivity(), recyclerView);
                 feedTask.execute();
-                break;
+                break;*/
             case R.id.HomeNetFeedNewPostButton:
                 Bundle fragBundle = new Bundle();
                 fragBundle.putParcelableArrayList("HouseList", houseList);
@@ -86,5 +90,9 @@ public class FeedFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
+    @Override
+    public void onRefresh() {
+        feedTask = new HomeNetFeedTask(getActivity(), recyclerView, swipeRefreshLayout);
+        feedTask.execute();
+    }
 }

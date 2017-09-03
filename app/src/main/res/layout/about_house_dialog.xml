@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:scaleType="fitCenter"
+        android:layout_margin="5dp"
+        android:id = "@+id/AboutHouseImageView"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/AboutHouseTitleTextView"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:text="@string/about_house_string"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"
+        />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:textStyle="bold"
+            android:text="@string/house_name"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text="@string/sample_name_string"
+            android:layout_margin="5dp"
+            android:id = "@+id/AboutHouseNameTextView"/>
+    </TableRow>
+    />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:textStyle="bold"
+            android:text="@string/house_description_string"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/AboutHouseDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
+            android:layout_weight="50"
+            android:text="" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:textStyle="bold"
+            android:text="@string/date_created_string"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text=""
+            android:layout_margin="5dp"
+            android:id = "@+id/AboutHouseDateCreatedTextView"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:textStyle="bold"
+            android:text="@string/total_house_users_string"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:text=""
+            android:layout_margin="5dp"
+            android:id = "@+id/AboutHouseTotalMembersTextView"/>
+    </TableRow>
+</LinearLayout>

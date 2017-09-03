@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.koeksworld.homenet.R;
@@ -234,6 +235,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                         if (currentUser.getProfileImage() != "" && currentUser.getProfileImage() != null) {
                             GetProfilePictureTask task = new GetProfilePictureTask(getActivity(), editProfileImageView, dialog);
                             task.execute();
+                        } else {
+                            dialog.cancel();
+                            TextDrawable newOne = TextDrawable.builder().buildRect(currentUser.getName().substring(0,1).toUpperCase()+currentUser.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
+                            editProfileImageView.setImageDrawable(newOne);
                         }
                     } else {
                         if (dialog.isShowing()) {

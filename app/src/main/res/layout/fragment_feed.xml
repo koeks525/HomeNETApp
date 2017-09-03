@@ -5,24 +5,24 @@
     tools:context="HomeNETStream.FeedFragment"
     android:orientation="vertical"
     android:id = "@+id/HomeNetFeedView">
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id = "@+id/HomeNetFeedRecyclerView">
-    </android.support.v7.widget.RecyclerView>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id = "@+id/FeedRefreshButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="5dp"
-        android:src="@drawable/ic_refresh_white_24dp"/>
+        android:id = "@+id/FeedItemRefreshLayout">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/HomeNetFeedRecyclerView">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id = "@+id/HomeNetFeedNewPostButton"
         android:src="@drawable/ic_add_white_24dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="5dp"/>
 </RelativeLayout>

@@ -18,6 +18,7 @@ import Models.HousePostFlag;
 import Models.HousePostMetaData;
 import Models.HousePostMetaDataViewModel;
 import Models.HousePostViewModel;
+import Models.HouseViewModel;
 import Models.Key;
 import Models.LoginViewModel;
 import Models.MessageThread;
@@ -28,6 +29,7 @@ import Models.NewAnnouncementViewModel;
 import Models.NewCommentViewModel;
 import Models.NewMessageThreadViewModel;
 import Models.Organization;
+import Models.PostDetailsViewModel;
 import Models.SearchViewModel;
 import Models.Token;
 import Models.User;
@@ -56,6 +58,18 @@ import retrofit2.http.Streaming;
 public interface HomeNetService {
 
 
+    @Streaming
+    @GET("HousePost/GetHousePostImage")
+    Call<ResponseBody> getHousePostImage(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
+    @GET("HousePost/GetAllMultimediaPosts")
+    Call<ListResponse<HousePostViewModel>> getAllMultimediaPosts(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
+    @GET("HousePostMetaData/GetPostDetails")
+    Call<SingleResponse<PostDetailsViewModel>> getPostDetails(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
+    @GET("HousePost/FlagHousePost")
+    Call<SingleResponse<HousePostFlag>> flagHousePost(@Header("Authorization") String authCode, @Query("clientCode") String clientCode, @Query("housePostID") int housePostID,RequestBody flagReason, RequestBody emailAddress);
+    @Streaming
+    @GET("House/GetHouseProfileImage")
+    Call<ResponseBody> getHouseProfileImage(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
     @Streaming
     @GET("User/GetProfilePicture")
     Call<ResponseBody> getProfilePicture(@Header("Authorization") String authCode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode );
@@ -169,6 +183,10 @@ public interface HomeNetService {
     Call<ListResponse<MessagesViewModel>> getMessagesInThread(@Header("Authorization") String authCode, @Query("messageThreadID") int messageThreadID, @Query("clientCode") String clientCode);
     @GET("House/GetUsersInHouse")
     Call<ListResponse<UserViewModel>> getUsersInHouse(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @GET("House/GenerateHouseMetricsReport")
+    Call<SingleResponse<HouseViewModel>> generateHouseMetricsReport(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);
+    @GET("House/LeaveHouse")
+    Call<SingleResponse<HouseMember>> leaveHouse(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode);
 
 
 }
