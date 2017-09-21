@@ -13,6 +13,7 @@ import Models.HomeData;
 import Models.House;
 import Models.HouseAnnouncement;
 import Models.HouseMember;
+import Models.HouseMemberViewModel;
 import Models.HousePost;
 import Models.HousePostFlag;
 import Models.HousePostMetaData;
@@ -46,6 +47,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -57,7 +59,14 @@ import retrofit2.http.Streaming;
 
 public interface HomeNetService {
 
-
+    @GET("HousePost/GetHousePost")
+    Call<SingleResponse<HousePost>> getHousePost(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
+    @GET("HouseMember/GetBannedHouseMembers")
+    Call<ListResponse<HouseMemberViewModel>> getBannedHouseMembers(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("adminEmail") String adminEmail, @Query("clientCode") String clientCode);
+    @GET("HouseMember/DeclineHouseMember")
+    Call<SingleResponse<HouseMember>> declineHouseMember(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("emailAddress") String emailAddress, @Query("adminEmail") String adminEmail, @Query("clientCode") String clientCode);
+    @GET("HouseMember/ApproveHouseMember")
+    Call<SingleResponse<HouseMember>> approveHouseMember(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("emailAddress") String emailAddress, @Query("adminEmail") String adminEmail, @Query("clientCode") String clientCode);
     @Streaming
     @GET("HousePost/GetHousePostImage")
     Call<ResponseBody> getHousePostImage(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
@@ -132,11 +141,11 @@ public interface HomeNetService {
     @POST("User/RegisterFirebaseToken")
     Call<SingleResponse<String>> registerFirebaseToken(@Header("Authorization") String authCode, @Part("emailAddress") RequestBody emailAddress, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetActiveHouseMembers")
-    Call<ListResponse<HouseMember>> getActiveHouseMembers(@Header("Authorization") String authCode, @Query("houseID") int houseId, @Query("clientCode") String clientCode);
+    Call<ListResponse<HouseMemberViewModel>> getActiveHouseMembers(@Header("Authorization") String authCode, @Query("houseID") int houseId, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetBannedHouseMembers")
     Call<ListResponse<HouseMember>> getBannedHouseUsers(@Header("Authorization") String authCode, @Query("houseID") int houseId, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetPendingHouseMembers")
-    Call<ListResponse<HouseMember>> getPendingHouseUsers(@Header("Authorization") String authCode, @Query("houseID") int houseId, @Query("clientCode") String clientCode);
+    Call<ListResponse<HouseMemberViewModel>> getPendingHouseUsers(@Header("Authorization") String authCode, @Query("houseID") int houseId, @Query("clientCode") String clientCode);
     @GET("User/GetUserById")
     Call<SingleResponse<User>> getUserById(@Header("Authorization") String authCode, @Query("userId") int userId, @Query("clientCode") String clientCode);
     @GET("House/GetHouse")

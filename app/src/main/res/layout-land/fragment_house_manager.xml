@@ -196,7 +196,7 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView
-                    android:id = "@+id/ManageHomeHelpCardView"
+                    android:id = "@+id/ManageHomeContinueCardView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_widthPercent="50%"
@@ -216,13 +216,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="100"
-                            android:src="@drawable/thinking"
+                            android:src="@drawable/right_arrow"
                             android:scaleType="fitCenter"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/help_string"
+                            android:text="@string/continue_string"
                             android:textAlignment="center"
                             android:fontFamily="sans-serif-light"
                             android:textStyle="bold"

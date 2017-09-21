@@ -19,6 +19,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider android:authorities="com.facebook.app.FacebookContentProvider174137489749832"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true"/>

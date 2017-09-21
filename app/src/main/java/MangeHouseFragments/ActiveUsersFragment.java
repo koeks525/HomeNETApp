@@ -1,10 +1,15 @@
 package MangeHouseFragments;
 
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +20,20 @@ import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import Adapters.HouseUsersAdapter;
+import Communication.HomeNetService;
 import Models.House;
-import Models.User;
-import Tasks.ManageUsersTask;
+import Models.HouseMemberViewModel;
+import ResponseModels.ListResponse;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +44,15 @@ public class ActiveUsersFragment extends Fragment implements View.OnClickListene
     //private List<User> bannedUserList = new ArrayList<>();
     private RecyclerView activeUsersRecyclerView;
     //private HouseUsersAdapter adapter;
-    private ManageUsersTask task;
     private House selectedHouse;
     private FloatingActionButton refreshButton;
+    private OkHttpClient client;
+    private HomeNetService service;
+    private Retrofit retrofit;
+    private List<Protocol> protocolList;
+    private SharedPreferences sharedPreferences;
+    private List<HouseMemberViewModel> housePostList;
+
     public ActiveUsersFragment() {
         // Required empty public constructor
     }
@@ -49,43 +69,84 @@ public class ActiveUsersFragment extends Fragment implements View.OnClickListene
             selectedHouse = bundle.getParcelable("SelectedHouse");
         }
         initializeComponents(currentView);
+        initializeRetrofit();
+        executeGetActiveUsers();
         return currentView;
     }
 
     private void initializeComponents(View currentView) {
+        housePostList = new ArrayList<>();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         activeUsersRecyclerView = (RecyclerView) currentView.findViewById(R.id.ActiveUsersRecyclerView);
         activeUsersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshButton = (FloatingActionButton) currentView.findViewById(R.id.ActiveUsersFloatingButton);
         refreshButton.setOnClickListener(this);
-        task = new ManageUsersTask(getActivity(), activeUsersRecyclerView, selectedHouse, 1);
-        task.execute();
+
+    }
+
+    private void initializeRetrofit() {
+        protocolList = new ArrayList<>();
+        protocolList.add(Protocol.HTTP_1_1);
+        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+        retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).addConverterFactory(GsonConverterFactory.create()).client(client).build();
+        service = retrofit.create(HomeNetService.class);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ActiveUsersFloatingButton:
-                task = new ManageUsersTask(getActivity(), activeUsersRecyclerView, selectedHouse, 1);
-                task.execute();
+                executeGetActiveUsers();
                 break;
         }
     }
 
+    private void executeGetActiveUsers() {
+        housePostList.clear();
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Fetching active user list. Please wait...");
+        dialog.setCancelable(false);
+        dialog.show();
+        Call<ListResponse<HouseMemberViewModel>> activeList = service.getActiveHouseMembers("Bearer "+sharedPreferences.getString("authorization_token", ""), selectedHouse.getHouseID(), getResources().getString(R.string.homenet_client_string));
+        activeList.enqueue(new Callback<ListResponse<HouseMemberViewModel>>() {
+            @Override
+            public void onResponse(Call<ListResponse<HouseMemberViewModel>> call, Response<ListResponse<HouseMemberViewModel>> response) {
+                if (dialog.isShowing()) {
+                    dialog.cancel();
+                }
+                if (response.isSuccessful()) {
+                    if (response.body().getModel() != null) {
+                        for(HouseMemberViewModel model : response.body().getModel())  {
+                            housePostList.add(model);
+                        }
+                    }
+                    if (housePostList.size() > 0) {
+                        HouseUsersAdapter adapter = new HouseUsersAdapter(housePostList);
+                        activeUsersRecyclerView.setAdapter(adapter);
+                    } else {
+                        displaySnackbar("No active users found. Refresh to update");
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ListResponse<HouseMemberViewModel>> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.cancel();
+                }
+                displayMessage("Critical Error", t.getMessage(), null);
+            }
+        });
 
+    }
 
+    private void displaySnackbar(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
 
-    /*private void setFakeData() {
-        bannedUserList.add(new User(2, "Ngada", "Okuhle", "okuhle.ngada@outlook.com", "1994-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(1, "Simmons", "Madea", "madea.simmons@outlook.com", "1984-10-13", "mabel2244", "Okuhle*1994", "United States", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(4, "Ngumbela", "Lihle", "leengumbela@gmail.com", "1994-10-13", "leengumbela", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(5, "Reed", "Alexandra", "alexreid@rania.com", "1996-10-13", "thisFish201", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(0, "Jackson", "Janet", "janetjackson@outlook.com", "1950-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(2, "Ngada", "Okuhle", "okuhle.ngada@outlook.com", "1994-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(1, "Simmons", "Madea", "madea.simmons@outlook.com", "1984-10-13", "mabel2244", "Okuhle*1994", "United States", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(4, "Ngumbela", "Lihle", "leengumbela@gmail.com", "1994-10-13", "leengumbela", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(5, "Reed", "Alexandra", "alexreid@rania.com", "1996-10-13", "thisFish201", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(0, "Jackson", "Janet", "janetjackson@outlook.com", "1950-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-    }*/
-
+    private void displayMessage(String title, String message, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title).setMessage(message).setCancelable(false).setPositiveButton("Got it", listener);
+        builder.show();
+    }
 }

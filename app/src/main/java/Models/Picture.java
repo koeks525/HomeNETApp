@@ -13,11 +13,24 @@ public class Picture implements Parcelable {
 
     private File imageFile;
 
+    public Picture() {
+
+    }
+
     public Picture(File imageFile) {
         this.imageFile = imageFile;
     }
 
     protected Picture(Parcel in) {
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Picture> CREATOR = new Creator<Picture>() {
@@ -38,14 +51,5 @@ public class Picture implements Parcelable {
 
     public void setImageFile(File imageFile) {
         this.imageFile = imageFile;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
     }
 }

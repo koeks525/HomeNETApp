@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    >
+    <ImageView
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id = "@+id/PhotoDetailsImageView"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id = "@+id/PhotoDetailsNameSurnameImageView"/>
+        <TextView
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:id = "@+id/PhotoDetailsNameSurnameTextView"
+            android:layout_toEndOf="@id/PhotoDetailsNameSurnameImageView"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id = "@+id/PhotoDetailsView"
+            android:layout_below="@id/PhotoDetailsNameSurnameImageView"
+            android:background="@android:color/black"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id = "@+id/PhotoDetailsTextView"
+            android:layout_margin="5dp"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:layout_below="@id/PhotoDetailsView"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -98,14 +98,14 @@ public class GetHouseProfileTask extends AsyncTask<Integer, Integer, Integer> {
                                         boolean result = profileFile.delete();
                                         profileFile = new File(currentActivity.getExternalFilesDir(null) + File.separator + "tempImage3.jpg");
                                     }
-                                    byte[] fileReader = new byte[4096];
+                                    byte[] fileReader = new byte[8192];
                                     long fileSize = profileCall.body().contentLength();
                                     long fileSizeDownloaded = 0;
                                     inputStream = profileCall.body().byteStream();
                                     outputStream = new FileOutputStream(profileFile);
                                     int c;
-                                    while ((c = inputStream.read()) != -1) {
-                                        outputStream.write(c);
+                                    while ((c = inputStream.read(fileReader)) != -1) {
+                                        outputStream.write(fileReader, 0, c);
                                     }
                                     outputStream.flush();
                                     inputStream.close();

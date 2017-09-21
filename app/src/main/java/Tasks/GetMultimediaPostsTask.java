@@ -6,9 +6,14 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.koeksworld.homenet.R;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -47,6 +52,7 @@ public class GetMultimediaPostsTask extends AsyncTask<Integer, Integer, Integer>
     private String errorString;
     private List<HousePostViewModel> postList;
     private RecyclerView recyclerView;
+    private List<byte[]> imageArray;
 
     public GetMultimediaPostsTask(Activity currentActivity, RecyclerView recyclerView) {
         protocolList = new ArrayList<>();
@@ -60,6 +66,7 @@ public class GetMultimediaPostsTask extends AsyncTask<Integer, Integer, Integer>
         errorString = "";
         postList = new ArrayList<>();
         this.recyclerView = recyclerView;
+        imageArray = new ArrayList<>();
     }
 
     @Override
@@ -83,36 +90,31 @@ public class GetMultimediaPostsTask extends AsyncTask<Integer, Integer, Integer>
                         for (HousePostViewModel model : postList) {
                             Response<ResponseBody> pictureCall = service.getHousePostImage("Bearer " + sharedPreferences.getString("authorization_token", ""), model.getHousePostID(), currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
                             if (pictureCall.isSuccessful()) {
+                                try {
+                                    byte [] readBuffer = new byte [8192];
                                     InputStream inputStream = null;
-                                    OutputStream outputStream = null;
-                                    try {
-                                        File profileFile = new File(currentActivity.getExternalCacheDir() + File.separator + generateRandomString()+"tempImage2.jpg");
-                                        byte[] fileReader = new byte[4096];
-                                        long fileSize = pictureCall.body().contentLength();
-                                        long fileSizeDownloaded = 0;
-                                        inputStream = pictureCall.body().byteStream();
-                                        outputStream = new FileOutputStream(profileFile);
-                                        int c;
-                                        while ((c = inputStream.read()) != -1) {
-                                            outputStream.write(c);
-                                        }
-                                        outputStream.flush();
-                                        inputStream.close();
-                                        outputStream.close();
-                                        Picture finalPicture = new Picture(profileFile);
-                                        pictureList.add(finalPicture);
-                                    } catch (Exception error) {
-
-                                    } finally {
-                                        if (inputStream != null) {
-                                            inputStream.close();
-                                        }
-                                        if (outputStream != null) {
-                                            outputStream.close();
-                                        }
+                                    BufferedOutputStream outputStream = null;
+                                    File profileFile = new File(currentActivity.getExternalCacheDir() + File.separator + generateRandomString()+"tempImage3.jpg");
+                                    inputStream = new BufferedInputStream(pictureCall.body().byteStream());
+                                    outputStream = new BufferedOutputStream(new FileOutputStream(profileFile));
+                                    int c;
+                                    Log.i("START", "Starting to read the image");
+                                    long timeInMS = System.currentTimeMillis();
+                                    //This is the loop, where images take long to write to outputstream
+                                    while ((c = inputStream.read(readBuffer)) != -1) {
+                                        outputStream.write(readBuffer, 0, c);
                                     }
+                                    inputStream.close();
+                                    outputStream.close();
+                                    Picture picture = new Picture(profileFile);
+                                    pictureList.add(picture);
+                                    long finish = System.currentTimeMillis();
+                                    long finalTime = finish - timeInMS;
+                                    Log.i("END", "Finished Reading file in " +finalTime+" ms");
 
+                                } catch (Exception error) {
 
+                                }
                                 } else {
                                 errorString += pictureCall.errorBody().string();
                             }
@@ -137,7 +139,7 @@ public class GetMultimediaPostsTask extends AsyncTask<Integer, Integer, Integer>
             progressDialog.cancel();
         }
         if (pictureList.size() > 0) {
-            PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(currentActivity, pictureList);
+            PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(currentActivity, pictureList, postList);
             recyclerView.setAdapter(adapter);
         }
     }

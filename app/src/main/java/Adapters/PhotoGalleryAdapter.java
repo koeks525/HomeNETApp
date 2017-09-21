@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.koeksworld.homenet.R;
 
 import java.util.List;
 
+import DialogFragments.PhotoDetailsFragment;
+import Models.HousePostViewModel;
 import Models.Picture;
 
 /**
@@ -21,11 +24,13 @@ import Models.Picture;
 public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapter.PhotoGalleryViewHolder> {
 
     private List<Picture> pictureList;
+    private List<HousePostViewModel> postList;
     private Activity currentActivity;
 
-    public PhotoGalleryAdapter(Activity currentActivity, List<Picture> pictureList) {
+    public PhotoGalleryAdapter(Activity currentActivity, List<Picture> pictureList, List<HousePostViewModel> postList) {
         this.pictureList = pictureList;
         this.currentActivity = currentActivity;
+        this.postList = postList;
     }
 
 
@@ -55,6 +60,19 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapte
         public PhotoGalleryViewHolder(View itemView) {
             super(itemView);
             profileImageView = (ImageView) itemView.findViewById(R.id.PhotoGalleryImageView);
+            profileImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    HousePostViewModel selectedPost = postList.get(getAdapterPosition());
+                    Picture selectedPicture = pictureList.get(getAdapterPosition());
+                    Bundle newBundle = new Bundle();
+                    newBundle.putParcelable("SelectedPost", selectedPost);
+                    newBundle.putParcelable("SelectedPhoto", selectedPicture);
+                    PhotoDetailsFragment detailsFragment = new PhotoDetailsFragment();
+                    detailsFragment.setArguments(newBundle);
+                    detailsFragment.show(currentActivity.getFragmentManager(), null);
+                }
+            });
         }
     }
 }

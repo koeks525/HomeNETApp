@@ -17,6 +17,7 @@ import com.koeksworld.homenet.R;
 import java.util.List;
 
 import Data.RealmHelper;
+import Models.HouseMemberViewModel;
 import Models.User;
 
 /**
@@ -25,10 +26,10 @@ import Models.User;
 
 public class BannedUsersAdapter extends RecyclerView.Adapter<BannedUsersAdapter.BannedUserViewHolder> {
 
-    private List<User> bannedUserList;
+    private List<HouseMemberViewModel> bannedUserList;
     private RealmHelper realmHelper;
 
-    public BannedUsersAdapter(List<User> bannedUserList) {
+    public BannedUsersAdapter(List<HouseMemberViewModel> bannedUserList) {
         this.bannedUserList = bannedUserList;
         realmHelper = new RealmHelper();
     }
@@ -42,10 +43,10 @@ public class BannedUsersAdapter extends RecyclerView.Adapter<BannedUsersAdapter.
 
     @Override
     public void onBindViewHolder(final BannedUserViewHolder holder, int position) {
-        User currentUser = bannedUserList.get(position);
+        HouseMemberViewModel currentUser = bannedUserList.get(position);
         holder.nameSurnameTextView.setText(currentUser.getName() + " "+currentUser.getSurname());
         holder.countryTextView.setText(realmHelper.getCountryById(currentUser.getCountryID()).getName());
-        holder.emailTextView.setText(currentUser.getEmail());
+        holder.emailTextView.setText(currentUser.getEmailAddress());
         TextDrawable drawable = TextDrawable.builder().buildRound(currentUser.getName().substring(0,1).toUpperCase() + currentUser.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
         holder.profileImageView.setImageDrawable(drawable);
         holder.profileImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -59,11 +60,9 @@ public class BannedUsersAdapter extends RecyclerView.Adapter<BannedUsersAdapter.
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.ViewBannedReportOption:
-
-
+                                //Pull up the receipts!!
                                 break;
                             case R.id.UnbanUserOption:
-
 
                                 break;
                         }

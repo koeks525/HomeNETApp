@@ -1,5 +1,6 @@
 package Adapters;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -17,7 +18,11 @@ import com.koeksworld.homenet.R;
 import java.util.List;
 
 import Data.RealmHelper;
+import Models.House;
+import Models.HouseMemberViewModel;
 import Models.User;
+import Tasks.ApproveHouseMemberTask;
+import Tasks.DeclineHouseMemberTask;
 
 
 /**
@@ -26,12 +31,16 @@ import Models.User;
 
 public class PendingUsersAdapter extends RecyclerView.Adapter<PendingUsersAdapter.PendingUsersViewHolder> {
 
-    private List<User> userList;
+    private List<HouseMemberViewModel> userList;
     private RealmHelper realmHelper;
+    private Activity currentActivity;
+    private House selectedHouse;
 
-    public PendingUsersAdapter(List<User> userList) {
+    public PendingUsersAdapter(List<HouseMemberViewModel> userList, Activity currentActivity, House selectedHouse) {
         this.userList = userList;
         realmHelper = new RealmHelper();
+        this.currentActivity = currentActivity;
+        this.selectedHouse = selectedHouse;
     }
     @Override
     public PendingUsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,12 +49,18 @@ public class PendingUsersAdapter extends RecyclerView.Adapter<PendingUsersAdapte
         return new PendingUsersViewHolder(currentView);
     }
 
+    public void removeUserFromList(int position) {
+        userList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(0, userList.size());
+    }
+
     @Override
-    public void onBindViewHolder(final PendingUsersViewHolder holder, int position) {
-        User selectedUser = userList.get(position);
+    public void onBindViewHolder(final PendingUsersViewHolder holder, final int position) {
+        final HouseMemberViewModel selectedUser = userList.get(position);
         holder.nameSurnameTextView.setText(selectedUser.getName()+" "+selectedUser.getSurname());
         holder.countryTextView.setText(realmHelper.getCountryById(selectedUser.getCountryID()).getName());
-        holder.emailTextView.setText(selectedUser.getEmail());
+        holder.emailTextView.setText(selectedUser.getEmailAddress());
         TextDrawable drawable = TextDrawable.builder().buildRound(selectedUser.getName().substring(0,1).toUpperCase()+selectedUser.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
         holder.profileImageView.setImageDrawable(drawable);
         holder.houseOverflowButton.setOnClickListener(new View.OnClickListener() {
@@ -58,17 +73,18 @@ public class PendingUsersAdapter extends RecyclerView.Adapter<PendingUsersAdapte
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.ApproveMembershipOption:
-
-
+                                ApproveHouseMemberTask task = new ApproveHouseMemberTask(currentActivity, selectedHouse, userList.get(position).getEmailAddress(), PendingUsersAdapter.this, position);
+                                task.execute();
                                 break;
                             case R.id.DeclineMembershipOption:
-
-
+                                DeclineHouseMemberTask declineTask = new DeclineHouseMemberTask(currentActivity, selectedHouse, position, userList.get(position).getEmailAddress(), PendingUsersAdapter.this);
+                                declineTask.execute();
                                 break;
                         }
                         return true;
                     }
                 });
+                popupMenu.show();
             }
         });
     }

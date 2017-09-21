@@ -12,6 +12,8 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.koeksworld.homenet.R;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -68,17 +70,21 @@ public class GetProfilePictureTask extends AsyncTask<Integer, Integer, Integer> 
             if (profileCall.isSuccessful()) {
                 try {
                     InputStream inputStream = null;
-                    OutputStream outputStream = null;
+                    BufferedOutputStream outputStream = null;
                     try {
-                        profileFile = new File(currentActivity.getExternalFilesDir(null) + File.separator + "tempImage3.jpg");
-                        byte [] fileReader = new byte[4096];
+                        profileFile = new File(currentActivity.getExternalCacheDir() + File.separator + "tempImage3.jpg");
+                        if (profileFile.exists()) {
+                            profileFile.delete();
+                            profileFile = new File(currentActivity.getExternalCacheDir() + File.separator + "tempImage3.jpg");
+                        }
+                        byte [] fileReader = new byte[8192];
                         long fileSize = profileCall.body().contentLength();
                         long fileSizeDownloaded = 0;
-                        inputStream = profileCall.body().byteStream();
-                        outputStream = new FileOutputStream(profileFile);
+                        inputStream = new BufferedInputStream(profileCall.body().byteStream());
+                        outputStream =new BufferedOutputStream(new FileOutputStream(profileFile));
                         int c;
-                        while ((c = inputStream.read()) != -1) {
-                            outputStream.write(c);
+                        while ((c = inputStream.read(fileReader)) != -1) {
+                            outputStream.write(fileReader, 0, c);
                         }
                         outputStream.flush();
                         inputStream.close();

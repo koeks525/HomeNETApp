@@ -44,7 +44,7 @@ public class UpdateHouseTask extends AsyncTask<Integer, Integer, Integer> {
     private String errorInformation = "";
     private House receivedHouse;
 
-    private UpdateHouseTask(Activity currentActivity, House updatedHouse, MultipartBody.Part imageFile) {
+    public UpdateHouseTask(Activity currentActivity, House updatedHouse, MultipartBody.Part imageFile) {
         protocolList = new ArrayList<>();
         protocolList.add(Protocol.HTTP_1_1);
         this.currentActivity = currentActivity;

@@ -69,7 +69,7 @@ public class GetActiveUsersTask extends AsyncTask<Void, Void, List<HouseMember>>
     protected List<HouseMember> doInBackground(Void... voids) {
         try {
             //Get House memberships
-            Response<ListResponse<HouseMember>> houseMemberCall = service.getActiveHouseMembers("Bearer "+sharedPreferences.getString("authorization_token", ""), houseId, currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
+            /*Response<ListResponse<HouseMember>> houseMemberCall = service.getActiveHouseMembers("Bearer "+sharedPreferences.getString("authorization_token", ""), houseId, currentActivity.getResources().getString(R.string.homenet_client_string)).execute();
             if (houseMemberCall.isSuccessful()) {
                 if (houseMemberCall.code() == 200) {
                     ListResponse<HouseMember> memberListResponse = houseMemberCall.body();
@@ -108,7 +108,7 @@ public class GetActiveUsersTask extends AsyncTask<Void, Void, List<HouseMember>>
                 JSONObject object = new JSONObject(houseMemberCall.errorBody().string());
                 errorInformation = object.getString("message");
                 return null;
-            }
+            }*/
         } catch (Exception error) {
             if (progressDialog.isShowing()) {
                 progressDialog.cancel();

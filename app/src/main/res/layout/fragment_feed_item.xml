@@ -6,9 +6,9 @@
     android:orientation="vertical">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="50"
+
             android:id = "@+id/FeedItemCardView">
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -45,17 +45,11 @@
                         android:layout_margin="5dp"
                         android:id = "@+id/FeedItemTextView"
                         android:layout_below="@id/NameSurnameView"/>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:scaleType="fitCenter"
-                        android:layout_margin="5dp"
-                        android:id = "@+id/FeedItemImageView"
-                        android:layout_below="@id/FeedItemTextView"/>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_below="@id/FeedItemImageView"
+                        android:layout_below="@id/FeedItemTextView"
                         android:background="@android:color/black"
                         android:id="@+id/FeedItemImageRule"/>
                     <ImageView
@@ -96,6 +90,15 @@
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/FeedItemImageRule"
                         android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id = "@+id/FeedItemViewImageTextView"
+                        android:text="@string/view_image_string"
+                        android:layout_below="@id/FeedItemDislikesTextView"
+                        android:layout_margin="5dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
                 </RelativeLayout>
             </android.support.v4.widget.NestedScrollView>
         </android.support.v7.widget.CardView>
@@ -104,7 +107,7 @@
         android:layout_height="0dp"
         android:id = "@+id/FeedItemRecyclerView"
         android:layout_margin="5dp"
-        android:layout_weight="50"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="100"></android.support.v7.widget.RecyclerView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

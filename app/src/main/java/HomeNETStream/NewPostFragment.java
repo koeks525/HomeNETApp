@@ -1,6 +1,4 @@
 package HomeNETStream;
-
-
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,15 +21,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.koeksworld.homenet.R;
+import com.nguyenhoanglam.imagepicker.model.Config;
+import com.nguyenhoanglam.imagepicker.model.Image;
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker;
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import Models.House;
 import Tasks.CreatePostTask;
 import Tasks.NewPostGetSubscribedHousesTask;
@@ -55,6 +54,7 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
     private CheckBox postToFacebook, postToTwitter, locationData;
     private TextView toolbarTextView;
     private Uri imageUri;
+    private ArrayList<Image> imageList;
 
     public NewPostFragment() {
         // Required empty public constructor
@@ -68,6 +68,7 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
         View currentView = inflater.inflate(R.layout.fragment_new_post, container, false);
         initializeComponents(currentView);
         getSubscribedHouses();
+        imageList = new ArrayList<>();
         return currentView;
 
     }
@@ -107,10 +108,31 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.NewPostSelectPhotoButton:
-                Intent newPhotoIntent = new Intent();
-                newPhotoIntent.setType("image/*");
+                ImagePicker.Builder builder = ImagePicker.with(getActivity())                         //  Initialize ImagePicker with activity or fragment context
+                        .setToolbarColor("#212121")         //  Toolbar color
+                        .setStatusBarColor("#000000")       //  StatusBar color (works with SDK >= 21  )
+                        .setToolbarTextColor("#FFFFFF")     //  Toolbar text color (Title and Done button)
+                        .setToolbarIconColor("#FFFFFF")     //  Toolbar icon color (Back and Camera button)
+                        .setProgressBarColor("#4CAF50")     //  ProgressBar color
+                        .setBackgroundColor("#212121")      //  Background color
+                        .setCameraOnly(false)               //  Camera mode
+                        .setMultipleMode(false)              //  Select multiple images or single image
+                        .setFolderMode(true)                //  Folder mode
+                        .setShowCamera(true)                //  Show camera button
+                        .setFolderTitle("Albums")           //  Folder title (works with FolderMode = true)
+                        .setImageTitle("Galleries")         //  Image title (works with FolderMode = false)
+                        .setDoneTitle("Done")               //  Done button title
+                        .setMaxSize(10)                     //  Max images can be selected
+                        .setSavePath("HomeNET")         //  Image capture folder name
+                        .setSelectedImages(imageList);
+                builder.start();
+                /*Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
+                startActivityForResult(intent, Config.RC_PICK_IMAGES);*/
+
+                /*Intent newPhotoIntent = new Intent();
+                newPhotoIntent.setType("image*//*");
                 newPhotoIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(newPhotoIntent, "Select Picture"), PHOTO_RESULT);
+                startActivityForResult(Intent.createChooser(newPhotoIntent, "Select Picture"), PHOTO_RESULT);*/
                 break;
             case R.id.NewPostCreatePostButton:
                 if (postDescriptionEditText.getText().toString() == "") {
@@ -120,10 +142,10 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
                 try {
 
                     House selectedHouse = (House) housesSpinner.getItems().get(housesSpinner.getSelectedIndex());
-                    if (imageUri != null) {
-                        String fileNameString = getFileName(getActivity().getContentResolver(), imageUri);
+                    if (imageList != null) {
+                        String fileNameString = imageList.get(0).getPath();
                         File compressedFile = new Compressor(getActivity()).compressToFile(new File(fileNameString));
-                        RequestBody imageBodyPart = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(imageUri)), compressedFile);
+                        RequestBody imageBodyPart = RequestBody.create(MediaType.parse("image/*"), compressedFile);
                         MultipartBody.Part finalImageFile = MultipartBody.Part.createFormData("file", compressedFile.getName(), imageBodyPart);
                         String location = "";
                         CreatePostTask task = new CreatePostTask(getActivity(), selectedHouse, postDescriptionEditText.getText().toString(), location, finalImageFile);
@@ -162,16 +184,16 @@ public class NewPostFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PHOTO_RESULT && resultCode == getActivity().RESULT_OK && data != null) {
+        if (requestCode == Config.RC_PICK_IMAGES && resultCode == getActivity().RESULT_OK && data != null) {
             imageUri = data.getData();
-            try {
-                Glide.with(getActivity()).load(imageUri).into(postImageView);
-                postImageEditText.setText(imageUri.toString());
-            } catch (Exception error) {
-
-            }
+            imageList = data.getParcelableArrayListExtra(Config.EXTRA_IMAGES);
+            postImageEditText.setText(imageList.get(0).getPath());
+            postImageEditText.setEnabled(false);
+            File selectedFile = new File(imageList.get(0).getPath());
+            Glide.with(getActivity()).load(selectedFile).into(postImageView);
         }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void displayToast(String message, View currentView) {

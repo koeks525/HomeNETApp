@@ -29,12 +29,15 @@ import java.util.concurrent.TimeUnit;
 
 import Adapters.FeedItemAdapter;
 import Communication.HomeNetService;
+import DialogFragments.PhotoDetailsFragment;
 import Models.CommentPartialModel;
 import Models.CommentViewModel;
 import Models.HousePostMetaDataViewModel;
 import Models.HousePostViewModel;
+import Models.Picture;
 import ResponseModels.ListResponse;
 import ResponseModels.SingleResponse;
+import Tasks.PostDetailsTask;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import retrofit2.Call;
@@ -51,8 +54,8 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
 
     private FloatingActionButton replyButton;
     private FloatingActionButton refreshButton;
-    private TextView nameSurnameTextView, likeTextView, dislikeTextView, feedItemTextView, commentsTextView;
-    private ImageView profileImageView, likeImage, dislikeImage, feedImageView;
+    private TextView nameSurnameTextView, likeTextView, dislikeTextView, feedItemTextView, commentsTextView, postImageTextView;
+    private ImageView profileImageView, likeImage, dislikeImage;
     private OkHttpClient client;
     private Retrofit retrofit;
     private HomeNetService service;
@@ -63,6 +66,8 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences sharedPreferences;
     private RecyclerView commentRecyclerView;
     private EditText replyEditText;
+    private Picture pictureObject;
+    private Bundle savedInstance;
 
     public FeedItemFragment() {
         // Required empty public constructor
@@ -82,6 +87,7 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
         } else {
             selectedPost = savedInstanceState.getParcelable("SelectedPost");
             metaData = savedInstanceState.getParcelable("MetaData");
+            savedInstance = savedInstanceState;
         }
         setup();
         getPostComments();
@@ -99,7 +105,6 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
         dislikeTextView = (TextView) currentView.findViewById(R.id.FeedItemDislikesTextView);
         likeImage = (ImageView) currentView.findViewById(R.id.FeedItemLikeImageView);
         dislikeImage = (ImageView) currentView.findViewById(R.id.FeedItemDislikesImageView);
-        feedImageView = (ImageView) currentView.findViewById(R.id.FeedItemImageView);
         profileImageView = (ImageView) currentView.findViewById(R.id.FeedItemProfileImageView);
         toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
         feedItemTextView = (TextView) currentView.findViewById(R.id.FeedItemTextView);
@@ -107,6 +112,8 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
         commentRecyclerView = (RecyclerView) currentView.findViewById(R.id.FeedItemRecyclerView);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         replyEditText = (EditText) currentView.findViewById(R.id.FeedItemReplyEditText);
+        postImageTextView = (TextView) currentView.findViewById(R.id.FeedItemViewImageTextView);
+        postImageTextView.setOnClickListener(this);
     }
 
     private void initializeRetrofit() {
@@ -118,6 +125,7 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setup() {
+        pictureObject = new Picture();
         if (selectedPost != null && metaData != null) {
             toolbarTextView.setText(selectedPost.getName() + " "+selectedPost.getSurname()+"'s Post");
             nameSurnameTextView.setText(selectedPost.getName() +" "+selectedPost.getSurname());
@@ -125,10 +133,9 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
             likeTextView.setText(Integer.toString(metaData.getTotalLikes()));
             dislikeTextView.setText(Integer.toString(metaData.getTotalDislikes()));
             commentsTextView.setText(Integer.toString(metaData.getTotalComments()) +" Comments");
-            feedImageView.setVisibility(View.GONE);
+
             TextDrawable drawable = TextDrawable.builder().buildRect(selectedPost.getName().substring(0,1).toUpperCase()+selectedPost.getSurname().substring(0,1).toUpperCase(), Color.BLUE);
             profileImageView.setImageDrawable(drawable);
-
         } else {
             displayMessage("Post Data Missing", "Post data has gone missing. Our enginners will be notified of this glitch", new DialogInterface.OnClickListener() {
                 @Override
@@ -170,6 +177,15 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void executeGetPictureData() {
+        try {
+            PostDetailsTask task = new PostDetailsTask(getActivity(), selectedPost, metaData, postImageTextView);
+            task.execute().wait();
+        } catch (Exception error) {
+
+        }
+    }
+
     private void getPostComments() {
         final ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setCancelable(false);
@@ -186,15 +202,17 @@ public class FeedItemFragment extends Fragment implements View.OnClickListener {
                     List<CommentViewModel> list = response.body().getModel();
                     if (list == null) {
                         displaySnackbar("No Posts found. Please refresh");
+                        executeGetPictureData();
                     } else {
                         FeedItemAdapter adapter = new FeedItemAdapter(list);
                         commentRecyclerView.setAdapter(adapter);
+                        executeGetPictureData();
                     }
 
 
                 } else if (response.code() == 404) {
-
                     displaySnackbar("No comments found!");
+                    executeGetPictureData();
                 } else {
                     try {
                         displayMessage("Error", response.errorBody().string(), null);

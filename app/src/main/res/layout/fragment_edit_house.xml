@@ -34,40 +34,32 @@
                     android:maxLines="1"
                     />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint = "@string/otp_string"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:id = "@+id/EditHouseOneTimePinEditText"
-                    android:layout_height="match_parent"
-                    android:inputType="textPassword"
-                    />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/house_id_string"
+                android:hint="Date Created"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id = "@+id/EditHouseHouseIDEditText"
+                    android:id = "@+id/EditHouseHouseDateCreatedEditText"
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
-            <CheckBox
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/privacy_string"
-                android:textAlignment="center"
+                android:hint="Total Members"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:id = "@+id/EditHouseHousePrivacyCheckbox"
-                />
+                android:layout_marginEnd="5dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id = "@+id/EditHouseHouseTotalMembersEditText"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,10 +91,10 @@
                 android:layout_height="0dp"
                 android:layout_weight="100"
                 android:layout_margin="5dp">
-                <com.google.android.gms.maps.MapView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id = "@+id/EditHouseLocationMapView"></com.google.android.gms.maps.MapView>
+                    android:id = "@+id/EditHouseImageView"></ImageView>
             </FrameLayout>
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"

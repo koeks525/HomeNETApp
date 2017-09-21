@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Data.RealmHelper;
+import Models.HouseMemberViewModel;
 import Models.User;
 
 /**
@@ -27,10 +28,10 @@ import Models.User;
 
 public class HouseUsersAdapter extends RecyclerView.Adapter<HouseUsersAdapter.HouseUserAdapter> {
 
-    private List<User> userList = new ArrayList<>();
+    private List<HouseMemberViewModel> userList = new ArrayList<>();
     private RealmHelper helper;
 
-    public HouseUsersAdapter(List<User> userList) {
+    public HouseUsersAdapter(List<HouseMemberViewModel> userList) {
         this.userList = userList;
         helper = new RealmHelper();
     }
@@ -44,7 +45,7 @@ public class HouseUsersAdapter extends RecyclerView.Adapter<HouseUsersAdapter.Ho
     @Override
     public void onBindViewHolder(HouseUserAdapter holder, int position) {
         holder.nameSurnameTextView.setText(userList.get(position).getName() + " " + userList.get(position).getSurname());
-        holder.emailTextView.setText(userList.get(position).getEmail());
+        holder.emailTextView.setText(userList.get(position).getEmailAddress());
         holder.countryTextView.setText(helper.getCountryById(userList.get(position).getCountryID()).getName()); //FInd a country name with local list
         holder.profileImageView.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
         holder.profileImageView.setScaleType(ImageView.ScaleType.FIT_CENTER); //We will need to find profile picture

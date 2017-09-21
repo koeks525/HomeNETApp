@@ -2,6 +2,7 @@ package Fragments;
 
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BubbleChart;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.koeksworld.homenet.HomeNetFeedActivity;
 import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import Utilities.DeviceUtils;
  */
 public class HouseManagerFragment extends Fragment implements View.OnClickListener {
 
-    private CardView manageFriendsCard, manageContentCard, editHouseCard, settingsCard, messagesCard, helpCard;
+    private CardView manageFriendsCard, manageContentCard, editHouseCard, settingsCard, messagesCard, nextCard;
     private DeviceUtils deviceUtils;
     private MaterialSpinner housesSpinner;
     private HouseManagerTask houseManagerTask;
@@ -66,14 +68,14 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
         editHouseCard = (CardView) currentView.findViewById(R.id.ManageHomeEditHouseCardView);
         settingsCard = (CardView) currentView.findViewById(R.id.ManageHomeHouseSettingsCardView);
         messagesCard = (CardView) currentView.findViewById(R.id.ManageHomeMessagesCardView);
-        helpCard = (CardView) currentView.findViewById(R.id.ManageHomeHelpCardView);
+        nextCard = (CardView) currentView.findViewById(R.id.ManageHomeContinueCardView);
         housesSpinner = (MaterialSpinner) currentView.findViewById(R.id.HouseManagerSpinner);
         manageFriendsCard.setOnClickListener(this);
         manageContentCard.setOnClickListener(this);
         editHouseCard.setOnClickListener(this);
         settingsCard.setOnClickListener(this);
         messagesCard.setOnClickListener(this);
-        helpCard.setOnClickListener(this);
+        nextCard.setOnClickListener(this);
     }
 
     @Override
@@ -246,6 +248,14 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     transactionFive.commit();
                 }
                 break;
+            case R.id.ManageHomeContinueCardView:
+                Intent mainIntent = new Intent(getActivity(), HomeNetFeedActivity.class);
+                startActivity(mainIntent);
+                getActivity().finish();
+                break;
+
+
+
         }
     }
 

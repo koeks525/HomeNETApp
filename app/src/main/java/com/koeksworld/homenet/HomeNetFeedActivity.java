@@ -1,5 +1,7 @@
 package com.koeksworld.homenet;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -34,13 +36,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import Communication.HomeNetService;
+import DialogFragments.AboutApplicationDialog;
 import Fragments.EditProfileFragment;
 import Fragments.HomeNetProfileFragment;
 import Fragments.HouseMessagesFragment;
 import Fragments.MyHousesFragment;
 import Fragments.NewHouseFragment;
+import HelpAndSupport.HelpAndSupportFragment;
 import HomeNETStream.AnnoucementFragment;
 import HomeNETStream.FeedFragment;
+import HomeNETStream.NewPostFragment;
 import HomeNETStream.PhotoGalleryFragment;
 import HomeNETStream.SearchHousesFragment;
 import Models.House;
@@ -133,6 +138,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                         transaction.replace(R.id.HomeNetFeedContentView, messagesFragment, null);
                         transaction.addToBackStack(null);
                         transaction.commit();
+
                         break;
                     case R.id.AnnouncementsTab:
                         if (getSupportActionBar() != null) {
@@ -145,6 +151,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                         transactionTwo.replace(R.id.HomeNetFeedContentView, annoucementFragment, null);
                         transactionTwo.addToBackStack(null);
                         transactionTwo.commit();
+
                         break;
                     case R.id.PhotosTab:
                         if (getSupportActionBar() != null) {
@@ -157,6 +164,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                         transactionLate.replace(R.id.HomeNetFeedContentView, fragment, null);
                         transactionLate.addToBackStack(null);
                         transactionLate.commit();
+
                         break;
                     case R.id.YourFeedTab:
                         if (getSupportActionBar() != null) {
@@ -169,7 +177,6 @@ public class HomeNetFeedActivity extends AppCompatActivity {
                         transactionThree.replace(R.id.HomeNetFeedContentView, feedFragment, null);
                         transactionThree.addToBackStack(null);
                         transactionThree.commit();
-
 
                         break;
 
@@ -276,7 +283,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //return super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.app_setttings_menu_1, menu);
+        getMenuInflater().inflate(R.menu.in_app_menu_settings, menu);
         return true;
     }
 
@@ -288,6 +295,23 @@ public class HomeNetFeedActivity extends AppCompatActivity {
             } else {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
+        }
+
+        switch (item.getItemId()) {
+            case R.id.InAppAboutApplicationOption:
+                AboutApplicationDialog aboutApplicationDialog = new AboutApplicationDialog();
+                aboutApplicationDialog.show(getFragmentManager(), null);
+                break;
+            case R.id.InAppApplicationSettingsOption:
+                Intent settingsIntent = new Intent(this, ApplicationSettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
+            case R.id.InAppHelpOption:
+                HelpAndSupportFragment helpAndSupport = new HelpAndSupportFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.HomeNetFeedContentView, helpAndSupport, null);
+                transaction.commit();
+                break;
         }
 
 
@@ -365,5 +389,15 @@ public class HomeNetFeedActivity extends AppCompatActivity {
         AlertDialog.Builder messageBox = new AlertDialog.Builder(this);
         messageBox.setTitle(title).setMessage(message).setPositiveButton("Okay", listener);
         messageBox.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.HomeNetFeedContentView);
+        if (fragment instanceof NewPostFragment) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 }

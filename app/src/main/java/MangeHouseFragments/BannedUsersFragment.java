@@ -1,8 +1,13 @@
 package MangeHouseFragments;
 
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +18,20 @@ import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import Adapters.BannedUsersAdapter;
-import Adapters.HouseUsersAdapter;
+import Communication.HomeNetService;
 import Models.House;
-import Models.User;
-import Tasks.GetBannedUsersTask;
-import Tasks.ManageUsersTask;
+import Models.HouseMemberViewModel;
+import ResponseModels.ListResponse;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +41,11 @@ public class BannedUsersFragment extends Fragment {
     private RecyclerView bannedUsersRecylcerView;
     private House selectedHouse;
     //private List<User> bannedUserList = new ArrayList<>();
-    private ManageUsersTask task;
+    private OkHttpClient client;
+    private HomeNetService service;
+    private List<Protocol> protocolList;
+    private Retrofit retrofit;
+    private SharedPreferences sharedPreferences;
 
     public BannedUsersFragment() {
         // Required empty public constructor
@@ -41,6 +57,7 @@ public class BannedUsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View currentView = inflater.inflate(R.layout.fragment_banned_users, container, false);
         initializeComponents(currentView);
+        initializeRetrofit();
         if (savedInstanceState != null) {
             selectedHouse = (House) savedInstanceState.getSerializable("SelectedHouse");
         } else {
@@ -51,13 +68,60 @@ public class BannedUsersFragment extends Fragment {
     }
 
     private void initializeComponents(View currentView) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         bannedUsersRecylcerView = (RecyclerView) currentView.findViewById(R.id.BannedUsersRecyclerView);
         bannedUsersRecylcerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void executeBannedUsersTask() {
-        task = new ManageUsersTask(getActivity(), bannedUsersRecylcerView, selectedHouse, 3);
-        task.execute();
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Fetching banned members. Please wait...");
+        dialog.setCancelable(false);
+        dialog.show();
+        Call<ListResponse<HouseMemberViewModel>> bannedCall = service.getBannedHouseMembers("Bearer "+sharedPreferences.getString("authorization_token",""), selectedHouse.getHouseID(), sharedPreferences.getString("emailAddress", ""), getResources().getString(R.string.homenet_client_string));
+        bannedCall.enqueue(new Callback<ListResponse<HouseMemberViewModel>>() {
+            @Override
+            public void onResponse(Call<ListResponse<HouseMemberViewModel>> call, Response<ListResponse<HouseMemberViewModel>> response) {
+                if (dialog.isShowing()) {
+                    dialog.cancel();
+                }
+                if (response.isSuccessful()) {
+                    List<HouseMemberViewModel> bannedList = response.body().getModel();
+                    if (bannedList != null) {
+                        BannedUsersAdapter adapter = new BannedUsersAdapter(bannedList);
+                        bannedUsersRecylcerView.setAdapter(adapter);
+                    } else {
+                        displaySnackbar("No banned users found");
+                    }
+                } else {
+                    displaySnackbar("No banned users found");
+                }
+            }
+            @Override
+            public void onFailure(Call<ListResponse<HouseMemberViewModel>> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.cancel();
+                }
+                displayMessage("Critical Error", t.getMessage(), null);
+            }
+        });
+    }
+
+    private void displayMessage(String title, String message, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title).setMessage(message).setCancelable(false).setPositiveButton("Got it", listener).show();
+    }
+
+    private void displaySnackbar(String message) {
+
+    }
+
+    private void initializeRetrofit() {
+        protocolList = new ArrayList<>();
+        protocolList.add(Protocol.HTTP_1_1);
+        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+        retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).addConverterFactory(GsonConverterFactory.create()).client(client).build();
+        service = retrofit.create(HomeNetService.class);
     }
 
     @Override
@@ -66,18 +130,5 @@ public class BannedUsersFragment extends Fragment {
         outState.putSerializable("SelectedHouse", selectedHouse);
     }
 
-    /* private void createFakeUsers() {
-        bannedUserList.add(new User(2, "Ngada", "Okuhle", "okuhle.ngada@outlook.com", "1994-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(1, "Simmons", "Madea", "madea.simmons@outlook.com", "1984-10-13", "mabel2244", "Okuhle*1994", "United States", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(4, "Ngumbela", "Lihle", "leengumbela@gmail.com", "1994-10-13", "leengumbela", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(5, "Reed", "Alexandra", "alexreid@rania.com", "1996-10-13", "thisFish201", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(0, "Jackson", "Janet", "janetjackson@outlook.com", "1950-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(2, "Ngada", "Okuhle", "okuhle.ngada@outlook.com", "1994-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(1, "Simmons", "Madea", "madea.simmons@outlook.com", "1984-10-13", "mabel2244", "Okuhle*1994", "United States", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(4, "Ngumbela", "Lihle", "leengumbela@gmail.com", "1994-10-13", "leengumbela", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(5, "Reed", "Alexandra", "alexreid@rania.com", "1996-10-13", "thisFish201", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-        bannedUserList.add(new User(0, "Jackson", "Janet", "janetjackson@outlook.com", "1950-10-13", "koeks525", "Okuhle*1994", "South Africa", "Me", "2017-06-15", 0, "Male", 1, ""));
-
-    }*/
 
 }

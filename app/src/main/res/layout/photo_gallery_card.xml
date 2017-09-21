@@ -7,5 +7,7 @@
         android:layout_height="match_parent"
         android:id = "@+id/PhotoGalleryImageView"
         android:scaleType="fitXY"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:adjustViewBounds="true"/>
 </LinearLayout>
