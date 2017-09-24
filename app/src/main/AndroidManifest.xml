@@ -9,20 +9,21 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:allowBackup="true"
         android:name=".ApplicationSingleton"
+        android:allowBackup="true"
         android:icon="@drawable/homenetlogo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider174137489749832"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider174137489749832"
+            android:exported="true" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -36,11 +37,9 @@
             </intent-filter>
         </service>
         <service android:name="firebase.HomeNETFirebaseMessagingService">
-
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
 
         <activity
@@ -82,11 +81,16 @@
         <activity
             android:name=".ApplicationSettingsActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".HomeNetFeedActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".UserManagerActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".HomeNetFeedActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".UserManagerActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".NewPostActivity" />
+        <activity android:name=".FlaggedPostActivity" />
+        <activity android:name=".NewAnnouncementActivity"></activity>
     </application>
 
 </manifest>

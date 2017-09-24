@@ -5,12 +5,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.koeksworld.homenet.FlaggedPostActivity;
 import com.koeksworld.homenet.HomeNetFeedActivity;
+import com.koeksworld.homenet.NewPostActivity;
 import com.koeksworld.homenet.R;
 
 import org.json.JSONObject;
@@ -37,24 +41,74 @@ public class HomeNETFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(RemoteMessage message) {
-        //Redirect to the news feed - then load the messages fragment
+
         JSONObject object = null;
         try {
             Map<String,String> mapData = message.getData();
             object = new JSONObject(mapData);
-        Intent readIntent = new Intent(this, HomeNetFeedActivity.class);
-        readIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        readIntent.putExtra("mode", "notification_message");
-        int requestCode = 0;
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, readIntent, PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+            int requestCode = 0;
+            switch (object.getString("keyword")) {
+                case "new_post":
+                    Intent newPostIntent = new Intent(this, NewPostActivity.class);
+                    newPostIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle newBundle = new Bundle();
+                    newBundle.putString("mode", "new_post");
+                    newBundle.putInt("housePostID", object.getInt("dataID"));
+                    newPostIntent.putExtra("notificationBundle", newBundle);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, newPostIntent, PendingIntent.FLAG_ONE_SHOT);
+                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+                    notificationBuilder.setSmallIcon(R.drawable.ic_home_black_24dp).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(Notification.PRIORITY_HIGH).setAutoCancel(true);
+                    NotificationCompat.Action action = new NotificationCompat.Action(R.drawable.ic_message_black_24dp, "Open", pendingIntent);
+                    notificationBuilder.addAction(action);
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    Notification box = notificationBuilder.build();
+                    notificationManager.notify(0, box);
+                    break;
+                case "flagged_post":
+                    Intent flagIntent = new Intent(this, FlaggedPostActivity.class);
+                    flagIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle flagBundle = new Bundle();
+                    flagBundle.putString("mode", "flagged_post");
+                    flagBundle.putInt("housePostID", object.getInt("housePostID"));
+                    flagIntent.putExtra("notificationBundle", flagBundle);
+                    PendingIntent pendingFlagIntent = PendingIntent.getActivity(this, requestCode, flagIntent, PendingIntent.FLAG_ONE_SHOT);
+                    NotificationCompat.Builder pendingBuilder = new NotificationCompat.Builder(this);
+                    pendingBuilder.setSmallIcon(R.drawable.ic_home_black_24dp).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(Notification.PRIORITY_HIGH).setAutoCancel(true);
+                    NotificationCompat.Action actionTwo = new NotificationCompat.Action(R.drawable.ic_message_black_24dp, "Open", pendingFlagIntent);
+                    pendingBuilder.addAction(actionTwo);
+                    NotificationManager nextManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    Notification boxTwo = pendingBuilder.build();
+                    nextManager.notify(0, boxTwo);
+                    break;
+                case "new_announcement":
 
-        notificationBuilder.setSmallIcon(R.drawable.ic_home_black_24dp).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(Notification.PRIORITY_HIGH).setAutoCancel(true);
-            NotificationCompat.Action action = new NotificationCompat.Action(R.drawable.ic_message_black_24dp, "Open", pendingIntent);
-        notificationBuilder.addAction(action);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification box = notificationBuilder.build();
-        notificationManager.notify(0, box);
+                    break;
+                case "new_comment":
+
+                    break;
+                case "new_house_member":
+
+                    break;
+                case "membership_approved":
+
+
+                    break;
+                case "membership_declined":
+
+                    break;
+                case "new_message":
+
+                    break;
+                case "message_reply":
+
+                    break;
+
+
+
+            }
+
+
+
         } catch (Exception error) {
 
         }

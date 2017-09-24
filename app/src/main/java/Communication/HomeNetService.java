@@ -59,6 +59,8 @@ import retrofit2.http.Streaming;
 
 public interface HomeNetService {
 
+    @GET("HousePost/GetHousePostData")
+    Call<SingleResponse<HousePostViewModel>> getHousePostData(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @GET("HousePost/GetHousePost")
     Call<SingleResponse<HousePost>> getHousePost(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @GET("HouseMember/GetBannedHouseMembers")

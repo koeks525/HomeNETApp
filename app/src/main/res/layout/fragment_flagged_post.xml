@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="NotificationFragments.FlaggedPostFragment"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        android:id = "@+id/NotificationFlaggedPostItemCardView">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id = "@+id/NotificationFlaggedPostItemProfileImageView"
+                    android:layout_margin="5dp"
+                    android:layout_alignParentStart="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/NotificationFlaggedPostItemNameSurnameTextView"
+                    android:textAlignment="textStart"
+                    android:layout_toEndOf="@id/NotificationFlaggedPostItemProfileImageView"
+                    android:layout_margin="5dp"
+                    android:text="@string/sample_name_string"
+                    android:textStyle="bold"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:id = "@+id/NotificationFlaggedPostNameSurnameView"
+                    android:background="@android:color/black"
+                    android:layout_below="@id/NotificationFlaggedPostItemNameSurnameTextView"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="8"
+                    android:scrollbars="vertical"
+                    android:layout_margin="5dp"
+                    android:id = "@+id/NotificationFlaggedPostDescriptionTextView"
+                    android:layout_below="@id/NotificationFlaggedPostNameSurnameView"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/NotificationFlaggedPostDescriptionTextView"
+                    android:background="@android:color/black"
+                    android:id="@+id/NotificationFlaggedPostItemImageRule"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_thumb_up_black_24dp"
+                    android:id = "@+id/NotificationFlaggedPostItemLikeImageView"
+                    android:layout_below="@id/NotificationFlaggedPostItemImageRule"
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:id ="@+id/NotificationFlaggedPostItemTotalLikesTextView"
+                    android:layout_toEndOf="@id/NotificationFlaggedPostItemLikeImageView"
+                    android:layout_below="@id/NotificationFlaggedPostItemImageRule"
+                    android:layout_margin="5dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/NotificationFlaggedPostItemDislikesImageView"
+                    android:layout_toEndOf="@id/NotificationFlaggedPostItemTotalLikesTextView"
+                    android:layout_below="@id/NotificationFlaggedPostItemImageRule"
+                    android:src="@drawable/ic_thumb_down_black_24dp"
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/NotificationFlaggedPostItemDislikesTextView"
+                    android:textStyle="bold"
+                    android:layout_below="@id/NotificationFlaggedPostItemImageRule"
+                    android:layout_toEndOf="@id/NotificationFlaggedPostItemDislikesImageView"
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/NotificationFlaggedPostItemTotalCommentsTextView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/NotificationFlaggedPostItemImageRule"
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/NotificationFlaggedPostItemViewImageTextView"
+                    android:text="@string/view_image_string"
+                    android:layout_below="@id/NotificationFlaggedPostItemDislikesTextView"
+                    android:layout_margin="5dp"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v7.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/NotificationFlaggedPostDeletePostButton"
+            android:src="@drawable/ic_delete_white_36dp"
+            android:layout_gravity="end"
+            android:layout_margin="5dp"/>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/NotificationFlaggedPostRemovePostButton"
+            android:src="@drawable/ic_send_white_24dp"
+            android:layout_gravity="end"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+</LinearLayout>
