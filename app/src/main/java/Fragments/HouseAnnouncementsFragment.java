@@ -53,7 +53,7 @@ public class HouseAnnouncementsFragment extends Fragment {
     private void initializeComponents(View currentView) {
         announcementsRecyclerView = (RecyclerView) currentView.findViewById(R.id.AnnouncementsRecyclerView);
         announcementsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        announcementsRecyclerView.setAdapter(adapter);
+        //announcementsRecyclerView.setAdapter(adapter);
     }
 
 

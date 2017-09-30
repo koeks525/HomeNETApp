@@ -127,7 +127,7 @@ public class GetHousePostsTask extends AsyncTask<Integer,Integer,Integer> {
                 recyclerView.setAdapter(adapter);
             }
         } else {
-            Snackbar.make(currentActivity.getCurrentFocus(), "No Post data found", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Post data found", Snackbar.LENGTH_LONG).show();
         }
     }
 

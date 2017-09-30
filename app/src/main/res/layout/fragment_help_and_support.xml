@@ -2,119 +2,392 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="HelpAndSupport.HelpAndSupportFragment"
     android:orientation="vertical">
-
-    <TextView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/help_and_support_string"
-        android:layout_margin="5dp"
-        android:textAlignment="center"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="100"
-        android:orientation="vertical">
-        <TableRow
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.CardView
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/whatIsHomeNETButton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="50">
-                <LinearLayout
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="What is HomeNET About"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/whatIsHomeNETExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/whatIsHomeNETButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="500"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical"
+                >
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:id = "@+id/HelpAndSupportAboutHomeNET"
-                        android:src="@drawable/question"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="About HomeNET"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+                    android:text="@string/what_is_homent_string"
+                    android:textAlignment="center"
+                    android:textColor="#fff"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/whatIsHomeNETExpandable"
+                android:id="@+id/howHomeNETWorksButton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="50">
-                <LinearLayout
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="How does HomeNET Work"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/howHomeNETWorksExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/howHomeNETWorksButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:id = "@+id/HelpAndSupportAboutHouses"
-                        android:src="@drawable/ic_home_black_24dp"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="About Houses"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.CardView
+                    android:text="@string/how_homenet_works_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/howHomeNETWorksExpandable"
+                android:id="@+id/howToJoinHouseButton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="50">
-                <LinearLayout
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="How To Join A House"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/howToJoinHouseExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/howToJoinHouseButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:id = "@+id/HelpAndSupportAboutPosts"
-                        android:src="@drawable/post_it"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="About Posts"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+                    android:text="@string/how_to_join_house"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/howToJoinHouseExpandable"
+                android:id="@+id/howToCreateHouseButton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="50">
-                <LinearLayout
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="How To Create a House"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/howToCreateHouseExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/howToCreateHouseButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:id = "@+id/HelpAndSupportFAQ"
-                        android:src="@drawable/help"
-                        android:layout_margin="5dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="FAQ's"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </TableRow>
-    </LinearLayout>
+                    android:text="@string/how_to_create_house_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/howToCreateHouseExpandable"
+                android:id="@+id/usingTheApplicationButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Using HomeNET (General)"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/usingTheApplicationExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/usingTheApplicationButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/using_homenet_general_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/usingTheApplicationExpandable"
+                android:id="@+id/creatingNewPostButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Creating a New Post"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/creatingNewPostExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/creatingNewPostButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/creating_new_post_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/creatingNewPostExpandable"
+                android:id="@+id/viewingPostMetricsButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Who Liked / Disliked a Post"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/viewingPostMetricsExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/viewingPostMetricsButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewing_post_metrics_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/viewingPostMetricsExpandable"
+                android:id="@+id/viewingCommentsButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Viewing / Adding Comments"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/viewingCommentsExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/viewingCommentsButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewing_comments_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/viewingCommentsExpandable"
+                android:id="@+id/creatingAnnouncementsButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Adding / Viewing Announcements"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/creatingAnnouncementsExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/creatingAnnouncementsButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/creating_announcements_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/creatingAnnouncementsExpandable"
+                android:id="@+id/creatingMessagesButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Creating / Viewing Messages (DM's)"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/creatingMessagesExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/creatingMessagesButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/creating_messages_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/creatingAnnouncementsExpandable"
+                android:id="@+id/homeNETPhotoGalleryButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="About HomeNET Photo Gallery"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/homeNETPhotoGalleryExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/homeNETPhotoGalleryButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/photo_gallery_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/homeNETPhotoGalleryExpandable"
+                android:id="@+id/myHouseButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="About The Houses I joined"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/myHouseExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/myHouseButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/photo_joined_houses_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            <Button
+                android:layout_below="@id/homeNETPhotoGalleryExpandable"
+                android:id="@+id/howToManageHouseButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="How Do I Manage My House"
+                android:textAlignment="center"
+                android:textColor="#fff" />
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/howToManageHouseExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/howToManageHouseButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+                <TextView
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_to_manage_house_string"
+                    android:textAlignment="center"/>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

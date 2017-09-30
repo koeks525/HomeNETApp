@@ -90,7 +90,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".NewPostActivity" />
         <activity android:name=".FlaggedPostActivity" />
-        <activity android:name=".NewAnnouncementActivity"></activity>
+        <activity android:name=".NewAnnouncementActivity" />
+        <activity android:name=".NewCommentActivity" />
+        <activity android:name=".NewMessageActivity"></activity>
     </application>
 
 </manifest>

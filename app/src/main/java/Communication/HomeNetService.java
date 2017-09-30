@@ -12,6 +12,7 @@ import Models.Country;
 import Models.HomeData;
 import Models.House;
 import Models.HouseAnnouncement;
+import Models.HouseAnnouncementViewModel;
 import Models.HouseMember;
 import Models.HouseMemberViewModel;
 import Models.HousePost;
@@ -59,6 +60,10 @@ import retrofit2.http.Streaming;
 
 public interface HomeNetService {
 
+    @GET("Announcement/GetAnnouncement")
+    Call<SingleResponse<HouseAnnouncementViewModel>> getHouseAnnouncement(@Header("Authorization") String authCode, @Query("announcementID") int announcementID, @Query("clientCode") String clientCode);
+    @GET("HousePost/ProcessFlaggedPost")
+    Call<SingleResponse<HousePostViewModel>> processFlaggedPost(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("responseMode") int responseMode, @Query("emailAddress") String emailAddress, @Query("clientCode") String clientCode );
     @GET("HousePost/GetHousePostData")
     Call<SingleResponse<HousePostViewModel>> getHousePostData(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @GET("HousePost/GetHousePost")
@@ -77,7 +82,7 @@ public interface HomeNetService {
     @GET("HousePostMetaData/GetPostDetails")
     Call<SingleResponse<PostDetailsViewModel>> getPostDetails(@Header("Authorization") String authCode, @Query("housePostID") int housePostID, @Query("clientCode") String clientCode);
     @GET("HousePost/FlagHousePost")
-    Call<SingleResponse<HousePostFlag>> flagHousePost(@Header("Authorization") String authCode, @Query("clientCode") String clientCode, @Query("housePostID") int housePostID,RequestBody flagReason, RequestBody emailAddress);
+    Call<SingleResponse<HousePostFlag>> flagHousePost(@Header("Authorization") String authCode, @Query("clientCode") String clientCode, @Query("housePostID") int housePostID,@Query("flagReason") String flagReason, @Query("emailAddress") String emailAddress);
     @Streaming
     @GET("House/GetHouseProfileImage")
     Call<ResponseBody> getHouseProfileImage(@Header("Authorization") String authCode, @Query("houseID") int houseID, @Query("clientCode") String clientCode);

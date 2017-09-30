@@ -46,7 +46,7 @@ public class HouseUsersAdapter extends RecyclerView.Adapter<HouseUsersAdapter.Ho
     public void onBindViewHolder(HouseUserAdapter holder, int position) {
         holder.nameSurnameTextView.setText(userList.get(position).getName() + " " + userList.get(position).getSurname());
         holder.emailTextView.setText(userList.get(position).getEmailAddress());
-        holder.countryTextView.setText(helper.getCountryById(userList.get(position).getCountryID()).getName()); //FInd a country name with local list
+        holder.countryTextView.setText(helper.getCountryById(userList.get(position).getCountryID()).getName());
         holder.profileImageView.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
         holder.profileImageView.setScaleType(ImageView.ScaleType.FIT_CENTER); //We will need to find profile picture
         TextDrawable drawable = TextDrawable.builder().buildRound(userList.get(position).getName().substring(0,1).toUpperCase() + userList.get(position).getSurname().substring(0,1).toUpperCase(), Color.BLUE);

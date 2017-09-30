@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import Adapters.EmptyAdapter;
 import Adapters.PendingUsersAdapter;
 import Communication.HomeNetService;
 import Models.House;
@@ -37,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PendingUsersFragment extends Fragment {
+public class PendingUsersFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private House selectedHouse;
     private RecyclerView pendingUsersRecylcerView;
@@ -47,6 +49,7 @@ public class PendingUsersFragment extends Fragment {
     private OkHttpClient client;
     private Retrofit retrofit;
     private List<HouseMemberViewModel> pendingUserList;
+    private SwipeRefreshLayout refreshLayout;
 
     public PendingUsersFragment() {
         // Required empty public constructor
@@ -76,12 +79,15 @@ public class PendingUsersFragment extends Fragment {
         pendingUserList = new ArrayList<>();
         pendingUsersRecylcerView = (RecyclerView)currentView.findViewById(R.id.PendingUsersRecyclerView);
         pendingUsersRecylcerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        pendingUsersRecylcerView.setAdapter(new EmptyAdapter());
+        refreshLayout = (SwipeRefreshLayout) currentView.findViewById(R.id.PendingUsersSwipeLayout);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private void initializeRetrofit() {
         protocolList = new ArrayList<>();
         protocolList.add(Protocol.HTTP_1_1);
-        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).retryOnConnectionFailure(true).build();
         retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).addConverterFactory(GsonConverterFactory.create()).client(client).build();
         service = retrofit.create(HomeNetService.class);
     }
@@ -96,6 +102,7 @@ public class PendingUsersFragment extends Fragment {
         userCall.enqueue(new Callback<ListResponse<HouseMemberViewModel>>() {
             @Override
             public void onResponse(Call<ListResponse<HouseMemberViewModel>> call, Response<ListResponse<HouseMemberViewModel>> response) {
+                refreshLayout.setRefreshing(false);
                 if (dialog.isShowing()) {
                     dialog.cancel();
                 }
@@ -116,6 +123,7 @@ public class PendingUsersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ListResponse<HouseMemberViewModel>> call, Throwable t) {
+                refreshLayout.setRefreshing(false);
                 if (dialog.isShowing()) {
                     dialog.cancel();
                 }
@@ -139,5 +147,11 @@ public class PendingUsersFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title).setMessage(message).setPositiveButton("Okay", listener).setCancelable(false);
         builder.show();
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshLayout.setRefreshing(true);
+        getPendingUsers();
     }
 }

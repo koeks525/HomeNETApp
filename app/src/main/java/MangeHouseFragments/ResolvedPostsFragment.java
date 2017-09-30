@@ -3,6 +3,7 @@ package MangeHouseFragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,12 +24,13 @@ import Tasks.GetHousePostsTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResolvedPostsFragment extends Fragment {
+public class ResolvedPostsFragment extends Fragment implements View.OnClickListener {
 
 
     private House selectedHouse;
     private RecyclerView resolvedRecyclerView;
     private GetHousePostsTask task;
+    private FloatingActionButton refreshButton;
     public ResolvedPostsFragment() {
         // Required empty public constructor
     }
@@ -52,10 +54,19 @@ public class ResolvedPostsFragment extends Fragment {
     private void initializeComponents(View currentView) {
         resolvedRecyclerView = (RecyclerView) currentView.findViewById(R.id.ResolvedPostsRecyclerView);
         resolvedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        refreshButton = (FloatingActionButton) currentView.findViewById(R.id.ResolvedPostsRefreshButton);
+        refreshButton.setOnClickListener(this);
     }
 
     private void getData() {
        task = new GetHousePostsTask(getActivity(), selectedHouse.getHouseID(), 2);
         task.execute();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (selectedHouse != null) {
+            getData();
+        }
     }
 }

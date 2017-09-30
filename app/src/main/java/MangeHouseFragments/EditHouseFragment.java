@@ -91,12 +91,17 @@ public class EditHouseFragment extends Fragment implements View.OnClickListener 
         nameEditText = (EditText) currentView.findViewById(R.id.EditHouseNameEditText);
         descriptionEditText = (EditText) currentView.findViewById(R.id.EditHouseDescriptionEditText);
         dateCreatedEditText = (EditText) currentView.findViewById(R.id.EditHouseHouseDateCreatedEditText);
+        houseImageView = (ImageView) currentView.findViewById(R.id.EditHouseImageView);
         dateCreatedEditText.setEnabled(false);
         totalMembersEditText = (EditText) currentView.findViewById(R.id.EditHouseHouseTotalMembersEditText);
         totalMembersEditText.setEnabled(false);
         saveChangesButton = (FloatingActionButton) currentView.findViewById(R.id.EditHouseSaveChangesButton);
         selectImageButton = (Button) currentView.findViewById(R.id.EditHouseSelectImageButton);
         photoEditText = (EditText) currentView.findViewById(R.id.EditHouseProfileImageView);
+        photoEditText.setEnabled(false);
+        photoEditText.setMaxLines(1);
+        photoEditText.setLines(1);
+
         photoEditText.setText("(No Image Selected)");
         selectImageButton.setOnClickListener(this);
         saveChangesButton.setOnClickListener(this);

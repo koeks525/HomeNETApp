@@ -54,4 +54,6 @@ public class NewPostActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title).setMessage(message).setCancelable(false).setPositiveButton("Okay", listener).show();
     }
+
+
 }

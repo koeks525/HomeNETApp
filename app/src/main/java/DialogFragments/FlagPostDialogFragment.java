@@ -18,6 +18,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.koeksworld.homenet.R;
 
 import Models.HousePostViewModel;
+import Tasks.FlagPostTask;
 
 /**
  * Created by Okuhle on 2017/09/02.
@@ -43,7 +44,13 @@ public class FlagPostDialogFragment extends DialogFragment {
         builder.setPositiveButton("Flag", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                String flagReason = reasonEditText.getText().toString();
+                if (flagReason == "") {
+                    return;
+                }
 
+                FlagPostTask flagTask = new FlagPostTask(getActivity(), selectedPost, flagReason);
+                flagTask.execute();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

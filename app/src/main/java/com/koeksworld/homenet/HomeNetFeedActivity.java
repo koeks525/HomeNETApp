@@ -99,7 +99,7 @@ public class HomeNetFeedActivity extends AppCompatActivity {
     private void initializeRetrofit() {
         protocolList = new ArrayList<>();
         protocolList.add(Protocol.HTTP_1_1);
-        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+        client = new OkHttpClient.Builder().retryOnConnectionFailure(true).connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
         retrofit = new Retrofit.Builder().baseUrl(getResources().getString(R.string.homenet_link)).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(HomeNetService.class);
     }

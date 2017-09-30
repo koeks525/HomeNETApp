@@ -59,6 +59,7 @@ dependencies {
         changing = true // Gradle will then check for updates every 24 hours
     }
 
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'com.android.support:recyclerview-v7:26.0.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:support-v4:26.0.1'

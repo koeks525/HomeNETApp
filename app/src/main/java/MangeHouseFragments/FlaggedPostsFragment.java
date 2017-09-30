@@ -3,6 +3,7 @@ package MangeHouseFragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,11 +24,12 @@ import Tasks.GetHousePostsTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FlaggedPostsFragment extends Fragment {
+public class FlaggedPostsFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView flaggedPostRecyclerView;
     private House selectedHouse;
     private GetHousePostsTask task;
+    private FloatingActionButton refreshButton;
 
     public FlaggedPostsFragment() {
         // Required empty public constructor
@@ -51,6 +53,9 @@ public class FlaggedPostsFragment extends Fragment {
     private void initializeComponents(View currentView) {
         flaggedPostRecyclerView = (RecyclerView) currentView.findViewById(R.id.FlaggedPostsRecyclerView);
         flaggedPostRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        refreshButton = (FloatingActionButton) currentView.findViewById(R.id.FlaggedPostRefreshButton);
+        refreshButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -62,6 +67,13 @@ public class FlaggedPostsFragment extends Fragment {
     private void executeGetFlaggedPosts() {
         task = new GetHousePostsTask(getActivity(), selectedHouse.getHouseID(), 1);
         task.execute();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (selectedHouse != null) {
+            executeGetFlaggedPosts();
+        }
     }
 
     /* private void setFakeData() {

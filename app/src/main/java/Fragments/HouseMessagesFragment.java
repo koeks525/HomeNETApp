@@ -53,7 +53,7 @@ public class HouseMessagesFragment extends Fragment implements View.OnClickListe
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshButton = (FloatingActionButton) currentView.findViewById(R.id.MessagesActionButton);
         newPostButton = (FloatingActionButton) currentView.findViewById(R.id.NewMessageButton);
-        toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeNetFeedToolbarTextView);
+        toolbarTextView = (TextView) getActivity().findViewById(R.id.HomeManagerActivityToolbarTextView);
         toolbarTextView.setText("Messages");
         newPostButton.setOnClickListener(this);
         refreshButton.setOnClickListener(this);

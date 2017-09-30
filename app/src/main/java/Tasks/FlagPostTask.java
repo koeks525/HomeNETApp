@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.koeksworld.homenet.R;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class FlagPostTask extends AsyncTask<Integer, Integer, Integer> {
         postModel = model;
         protocolList = new ArrayList<>();
         protocolList.add(Protocol.HTTP_1_1);
-        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).connectTimeout(2, TimeUnit.MINUTES).protocols(protocolList).build();
+        client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).connectTimeout(2, TimeUnit.MINUTES).protocols(protocolList).retryOnConnectionFailure(true).build();
         retrofit = new Retrofit.Builder().baseUrl(currentActivity.getResources().getString(R.string.homenet_link)).addConverterFactory(GsonConverterFactory.create()).client(client).build();
         service = retrofit.create(HomeNetService.class);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentActivity);
@@ -67,15 +68,20 @@ public class FlagPostTask extends AsyncTask<Integer, Integer, Integer> {
     @Override
     protected Integer doInBackground(Integer... integers) {
         try {
-            RequestBody flagReason = RequestBody.create(MultipartBody.FORM, reason);
-            RequestBody emailAddress = RequestBody.create(MultipartBody.FORM, sharedPreferences.getString("emailAddress", ""));
-            Response<SingleResponse<HousePostFlag>> flagCall = service.flagHousePost("Bearer "+sharedPreferences.getString("authorization_token",""), currentActivity.getResources().getString(R.string.homenet_client_string), postModel.getHousePostID(), flagReason, emailAddress).execute();
-            if (flagCall.isSuccessful()) {
-                flaggedPost = flagCall.body().getModel();
+           Response<SingleResponse<HousePostFlag>> postCall = service.flagHousePost("Bearer "+sharedPreferences.getString("authorization_token", ""), currentActivity.getResources().getString(R.string.homenet_client_string), postModel.getHousePostID(), reason, sharedPreferences.getString("emailAddress", "")).execute();
+            if (postCall.isSuccessful()) {
+                if (postCall.body().getModel() != null) {
+                    flaggedPost = postCall.body().getModel();
+                    return 1;
+                } else {
+                    errorString += "No flagged post data found";
+                    return 1;
+                }
             } else {
-                errorString += flagCall.errorBody().string();
+                errorString += "Unable to flag house post";
+                FirebaseCrash.log(postCall.errorBody().string());
+                return -1;
             }
-            return 1;
         } catch (Exception error) {
             errorString += error.getMessage();
             return -1;
@@ -88,7 +94,7 @@ public class FlagPostTask extends AsyncTask<Integer, Integer, Integer> {
             progressDialog.cancel();
         }
         if (flaggedPost != null) {
-            displayMessage("House Post Flagged", "The selected house post has been flagged. House administrator has been notified, and will repond to the request", new DialogInterface.OnClickListener() {
+            displayMessage("House Post Flagged", "The selected house post has been flagged. House administrator has been notified, and will respond to the request", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 

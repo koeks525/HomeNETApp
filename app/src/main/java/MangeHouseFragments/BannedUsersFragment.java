@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import Adapters.BannedUsersAdapter;
+import Adapters.EmptyAdapter;
 import Communication.HomeNetService;
 import Models.House;
 import Models.HouseMemberViewModel;
@@ -36,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BannedUsersFragment extends Fragment {
+public class BannedUsersFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView bannedUsersRecylcerView;
     private House selectedHouse;
@@ -46,6 +48,7 @@ public class BannedUsersFragment extends Fragment {
     private List<Protocol> protocolList;
     private Retrofit retrofit;
     private SharedPreferences sharedPreferences;
+    private SwipeRefreshLayout refreshLayout;
 
     public BannedUsersFragment() {
         // Required empty public constructor
@@ -71,6 +74,9 @@ public class BannedUsersFragment extends Fragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         bannedUsersRecylcerView = (RecyclerView) currentView.findViewById(R.id.BannedUsersRecyclerView);
         bannedUsersRecylcerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        bannedUsersRecylcerView.setAdapter(new EmptyAdapter());
+        refreshLayout = (SwipeRefreshLayout) currentView.findViewById(R.id.BannedUsersRefreshLayout);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private void executeBannedUsersTask() {
@@ -82,6 +88,7 @@ public class BannedUsersFragment extends Fragment {
         bannedCall.enqueue(new Callback<ListResponse<HouseMemberViewModel>>() {
             @Override
             public void onResponse(Call<ListResponse<HouseMemberViewModel>> call, Response<ListResponse<HouseMemberViewModel>> response) {
+                refreshLayout.setRefreshing(false);
                 if (dialog.isShowing()) {
                     dialog.cancel();
                 }
@@ -99,6 +106,7 @@ public class BannedUsersFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<ListResponse<HouseMemberViewModel>> call, Throwable t) {
+                refreshLayout.setRefreshing(false);
                 if (dialog.isShowing()) {
                     dialog.cancel();
                 }
@@ -131,4 +139,9 @@ public class BannedUsersFragment extends Fragment {
     }
 
 
+    @Override
+    public void onRefresh() {
+        refreshLayout.setRefreshing(true);
+        executeBannedUsersTask();
+    }
 }

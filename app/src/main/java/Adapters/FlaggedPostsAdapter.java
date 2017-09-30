@@ -15,6 +15,7 @@ import com.koeksworld.homenet.R;
 import java.util.List;
 
 import Models.HousePostFlag;
+import Models.HousePostViewModel;
 
 /**
  * Created by Okuhle on 2017/06/15.
@@ -36,7 +37,7 @@ public class FlaggedPostsAdapter extends RecyclerView.Adapter<FlaggedPostsAdapte
     }
 
     @Override
-    public void onBindViewHolder(final FlaggedPostHolder holder, int position) {
+    public void onBindViewHolder(final FlaggedPostHolder holder, final int position) {
         holder.postImageView.setImageResource(R.drawable.ic_description);
         holder.postDescriptionTextView.setText(flaggedPostList.get(position).getMessage());
         holder.optionsImageView.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +50,7 @@ public class FlaggedPostsAdapter extends RecyclerView.Adapter<FlaggedPostsAdapte
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.FlaggedPostViewDetailsOption:
+                                //HousePostViewModel selectedPost = flaggedPostList.get(position);
 
 
                                 break;

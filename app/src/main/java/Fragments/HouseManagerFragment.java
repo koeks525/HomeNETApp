@@ -29,7 +29,7 @@ import Utilities.DeviceUtils;
  */
 public class HouseManagerFragment extends Fragment implements View.OnClickListener {
 
-    private CardView manageFriendsCard, manageContentCard, editHouseCard, settingsCard, messagesCard, nextCard;
+    private CardView manageFriendsCard, manageContentCard, editHouseCard, settingsCard, nextCard;
     private DeviceUtils deviceUtils;
     private MaterialSpinner housesSpinner;
     private HouseManagerTask houseManagerTask;
@@ -67,14 +67,12 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
         manageContentCard = (CardView) currentView.findViewById(R.id.ManageHomePostsCardView);
         editHouseCard = (CardView) currentView.findViewById(R.id.ManageHomeEditHouseCardView);
         settingsCard = (CardView) currentView.findViewById(R.id.ManageHomeHouseSettingsCardView);
-        messagesCard = (CardView) currentView.findViewById(R.id.ManageHomeMessagesCardView);
         nextCard = (CardView) currentView.findViewById(R.id.ManageHomeContinueCardView);
         housesSpinner = (MaterialSpinner) currentView.findViewById(R.id.HouseManagerSpinner);
         manageFriendsCard.setOnClickListener(this);
         manageContentCard.setOnClickListener(this);
         editHouseCard.setOnClickListener(this);
         settingsCard.setOnClickListener(this);
-        messagesCard.setOnClickListener(this);
         nextCard.setOnClickListener(this);
     }
 
@@ -211,49 +209,6 @@ public class HouseManagerFragment extends Fragment implements View.OnClickListen
                     transactionFive.commit();
                 }
                 break;
-            case R.id.ManageHomeMessagesCardView:
-                if (deviceUtils.isTablet()) {
-                    if (deviceUtils.isLandscape()) {
-                        //Landscape mode tablet
-                        FragmentTransaction transactionThree = getFragmentManager().beginTransaction();
-                        HouseManagerEndFragment endFragment = new HouseManagerEndFragment();
-                        Bundle newBundle = new Bundle();
-                        newBundle.putParcelable("SelectedHouse", selectedHouse);
-                        newBundle.putString("mode", "messages");
-                        endFragment.setArguments(newBundle);
-                        transactionThree.replace(R.id.HomeManagerActivityContentViewTabletTwo, endFragment);
-                        transactionThree.commit();
-
-                    } else {
-                        //Portrait tablet mode
-                        FragmentTransaction transactionFour = getFragmentManager().beginTransaction();
-                        HouseManagerEndFragment endFragmentTwo = new HouseManagerEndFragment();
-                        Bundle nextBundle = new Bundle();
-                        nextBundle.putParcelable("SelectedHouse", selectedHouse);
-                        nextBundle.putString("mode", "messages");
-                        endFragmentTwo.setArguments(nextBundle);
-                        transactionFour.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentTwo);
-                        transactionFour.commit();
-                    }
-                } else {
-                    //Mobile phone
-                    FragmentTransaction transactionFive = getFragmentManager().beginTransaction();
-                    HouseManagerEndFragment endFragmentFive = new HouseManagerEndFragment();
-                    Bundle nextBundle = new Bundle();
-                    nextBundle.putParcelable("SelectedHouse", selectedHouse);
-                    nextBundle.putString("mode", "messages");
-                    endFragmentFive.setArguments(nextBundle);
-                    transactionFive.replace(R.id.HomeManagerActivityContentViewTabletLand, endFragmentFive);
-                    transactionFive.addToBackStack(null);
-                    transactionFive.commit();
-                }
-                break;
-            case R.id.ManageHomeContinueCardView:
-                Intent mainIntent = new Intent(getActivity(), HomeNetFeedActivity.class);
-                startActivity(mainIntent);
-                getActivity().finish();
-                break;
-
 
 
         }

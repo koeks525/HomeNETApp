@@ -98,6 +98,7 @@ public class HouseAnnouncementsAdapter extends RecyclerView.Adapter<HouseAnnounc
             messageCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     int index = getAdapterPosition();
                     AnnouncementDetailsFragment detailsFragment = new AnnouncementDetailsFragment();
                     Bundle args = new Bundle();

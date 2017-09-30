@@ -98,10 +98,9 @@ public class GetHouseAnnouncementsTask extends AsyncTask<Integer, Integer, Integ
             HouseAnnouncementsAdapter adapter = new HouseAnnouncementsAdapter(announcementList, currentActivity);
             recyclerView.setAdapter(adapter);
         } else {
-            Snackbar.make(currentActivity.getCurrentFocus(),"No House Announcements found!", BaseTransientBottomBar.LENGTH_SHORT).show();
+            Snackbar.make(currentActivity.findViewById(android.R.id.content),"No House Announcements found!", BaseTransientBottomBar.LENGTH_SHORT).show();
         }
     }
-
     private void displayMessage(final String title, final String message, final DialogInterface.OnClickListener listener) {
         currentActivity.runOnUiThread(new Runnable() {
             @Override

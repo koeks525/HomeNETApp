@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.koeksworld.homenet.FlaggedPostActivity;
 import com.koeksworld.homenet.HomeNetFeedActivity;
+import com.koeksworld.homenet.NewAnnouncementActivity;
 import com.koeksworld.homenet.NewPostActivity;
 import com.koeksworld.homenet.R;
 
@@ -81,7 +82,20 @@ public class HomeNETFirebaseMessagingService extends FirebaseMessagingService {
                     nextManager.notify(0, boxTwo);
                     break;
                 case "new_announcement":
-
+                    Intent announcementIntent = new Intent(this, NewAnnouncementActivity.class);
+                    announcementIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Bundle announcementBundle = new Bundle();
+                    announcementBundle.putString("mode", "new_announcement");
+                    announcementBundle.putInt("announcementID", object.getInt("announcementID"));
+                    announcementIntent.putExtra("notificationBundle", announcementBundle);
+                    PendingIntent announcementPendingFlagIntent = PendingIntent.getActivity(this, requestCode, announcementIntent, PendingIntent.FLAG_ONE_SHOT);
+                    NotificationCompat.Builder announcementPendingBuilder = new NotificationCompat.Builder(this);
+                    announcementPendingBuilder.setSmallIcon(R.drawable.ic_home_black_24dp).setContentTitle(object.getString("title")).setContentText(object.getString("body")).setDefaults(Notification.DEFAULT_ALL).setPriority(Notification.PRIORITY_HIGH).setAutoCancel(true);
+                    NotificationCompat.Action actionThree = new NotificationCompat.Action(R.drawable.ic_message_black_24dp, "Open", announcementPendingFlagIntent);
+                    announcementPendingBuilder.addAction(actionThree);
+                    NotificationManager announcementManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    Notification boxThree = announcementPendingBuilder.build();
+                    announcementManager.notify(0, boxThree);
                     break;
                 case "new_comment":
 
